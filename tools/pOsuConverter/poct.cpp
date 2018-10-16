@@ -1,15 +1,25 @@
-#include<iostream>
-#include<fstream>
-#include<cstring>
+#include <iostream>
+#include <fstream>
+#include <cstring>
 
 using namespace std;
-
-// poct -i <intput> -o <output>
 
 char line[100];
 bool flag = false;
 string cmp;
 int shortnote[9];
+
+enum file_type{
+
+	F_FROM,
+	F_TO
+};
+
+enum note_type{
+
+	NOTE_SHORT = 1,
+	NOTE_LONG
+};
 
 
 void usage(const char program[])
@@ -21,19 +31,27 @@ void usage(const char program[])
 int searchSL(char line[], int len){
 
 	if(line[len-9] == ',')
-		return 1;
+		return NOTE_SHORT;
 	else
-		return 2;
+		return NOTE_LONG;
 }
 
+/**
+ * void pull_s(char line[], int len)
+ * Get the information of a short note from input file
+ *   - line : one line
+ *   - len  : length of a length
+ */
 void pull_s(char line[], int len){
 
-	if(line[0] != NULL){
-		
+	if(line != NULL && line[0] != '\0'){
+
 		printf("s");
 		int count = 0;
 		char *pch;
+
 		pch = strtok(line, ",:");
+
 		while(pch != NULL){
 
 			count++;
@@ -50,12 +68,14 @@ void pull_s(char line[], int len){
 
 void pull_l(char line[], int len){
 
-	if(line[0] != NULL){
+	if(line != NULL && line[0] != '\0'){
 	
 		printf("l");
 		int count = 0;
 		char *pch;
+
 		pch = strtok(line, ",:");
+		
 		while(pch != NULL){
 
 			count++;
@@ -72,69 +92,72 @@ void pull_l(char line[], int len){
 
 int main(int argc, char* argv[])
 {
-	if(argc != 5)
-	{
+	string filename[2];
+	bool fileFlag[2] = {false};
+
+	if(argc != 5){
+
 		usage(argv[0]);
 		return -1;
 	}
 
-	freopen("cvt.txt", "w", stdout);
+	// Parse arguement
+	int i = 1;
+	while(i < argc){
 
+		if(strcmp(argv[i], "-i") == 0){
+
+			if(fileFlag[F_FROM]){
+
+				usage(argv[0]);
+				return -1;
+			}
+			i++;
+			filename[F_FROM] = argv[i];
+			fileFlag[F_FROM] = true;
+		}
+		else if(strcmp(argv[i], "-o") == 0){
+
+			if(fileFlag[F_TO]){
+
+				usage(argv[0]);
+				return -1;
+			}
+			i++;
+			filename[F_TO] = argv[i];
+			fileFlag[F_TO] = true;
+		}
+		i++;
+	}
+
+	// Open fd
 	fstream audio;
-	audio.open("audio.txt", ios::in);
+	audio.open(filename[F_FROM].c_str(), ios::in);
 	
-	if(!audio)
-		printf("file not open!\n");
-	
-	// do{
+	if(!audio){
+		fprintf(stderr, "Failed to open %s.", filename[F_FROM].c_str());
+		return -1;
+	}
 
-		// audio.getline(line, sizeof(line));
+	freopen(filename[F_TO].c_str(), "w", stdout);
 
-		// int len = strlen(line);
-
-		// if(flag){
-
-		// 	int note = searchSL(line, len);
-		// 	//1 = short
-		// 	//2 = long
-
-		// 	switch(note){
-		// 		//pull x y ts
-		// 		case 1:
-		// 			pull_s(line, len);
-		// 			break;
-		// 		//pull x y ts te
-		// 		case 2:
-		// 			pull_l(line, len);
-		// 			break;
-		// 	}
-		// }
-
-		// if(cmp.assign(line) == "[HitObjects]")
-		// 	flag = true;
-
-
-	// }while(!audio.eof());
-
+	// Start to parse the osu 4k fumen
 	while(!audio.eof()){
 
 		audio.getline(line, sizeof(line));
-
 		int len = strlen(line);
 
 		if(flag){
 
 			int note = searchSL(line, len);
-			//1 = short
-			//2 = long
 
 			switch(note){
 				//pull x y ts
-				case 1:
+				case NOTE_SHORT:
 					pull_s(line, len);
 					break;
 				//pull x y ts te
-				case 2:
+				case NOTE_LONG:
 					pull_l(line, len);
 					break;
 			}
