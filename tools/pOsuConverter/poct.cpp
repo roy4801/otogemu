@@ -30,7 +30,7 @@ void pull_s(char line[], int len){
 
 	if(line[0] != NULL){
 		
-		printf("s:");
+		printf("s");
 		int count = 0;
 		char *pch;
 		pch = strtok(line, ",:");
@@ -52,7 +52,7 @@ void pull_l(char line[], int len){
 
 	if(line[0] != NULL){
 	
-		printf("l:");
+		printf("l");
 		int count = 0;
 		char *pch;
 		pch = strtok(line, ",:");
