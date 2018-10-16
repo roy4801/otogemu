@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<cstring>
 
 using namespace std;
 
@@ -19,7 +20,7 @@ void usage(const char program[])
 
 int searchSL(char line[], int len){
 
-	if(line[len-1-9] == ',')
+	if(line[len-9] == ',')
 		return 1;
 	else
 		return 2;
@@ -27,12 +28,45 @@ int searchSL(char line[], int len){
 
 void pull_s(char line[], int len){
 
-	int index = 0;
-	char *pch;
-	pch = strtok(line, ",:");
-	while(pch != NULL){
+	if(line[0] != NULL){
+		
+		printf("s:");
+		int count = 0;
+		char *pch;
+		pch = strtok(line, ",:");
+		while(pch != NULL){
 
-		printf("%s ", pch)
+			count++;
+			if(count <=3)
+				printf(" %s", pch);
+			else
+				break;
+
+			pch = strtok(NULL, ",:");
+		}
+		putchar('\n');
+	}
+}
+
+void pull_l(char line[], int len){
+
+	if(line[0] != NULL){
+	
+		printf("l:");
+		int count = 0;
+		char *pch;
+		pch = strtok(line, ",:");
+		while(pch != NULL){
+
+			count++;
+			if(count <= 3 || count == 6)
+				printf(" %s", pch);
+			else if(count > 6)
+				break;
+
+			pch = strtok(NULL, ",:");
+		}
+		putchar('\n');
 	}
 }
 
@@ -52,10 +86,39 @@ int main(int argc, char* argv[])
 	if(!audio)
 		printf("file not open!\n");
 	
-	do{
+	// do{
+
+		// audio.getline(line, sizeof(line));
+
+		// int len = strlen(line);
+
+		// if(flag){
+
+		// 	int note = searchSL(line, len);
+		// 	//1 = short
+		// 	//2 = long
+
+		// 	switch(note){
+		// 		//pull x y ts
+		// 		case 1:
+		// 			pull_s(line, len);
+		// 			break;
+		// 		//pull x y ts te
+		// 		case 2:
+		// 			pull_l(line, len);
+		// 			break;
+		// 	}
+		// }
+
+		// if(cmp.assign(line) == "[HitObjects]")
+		// 	flag = true;
+
+
+	// }while(!audio.eof());
+
+	while(!audio.eof()){
 
 		audio.getline(line, sizeof(line));
-		printf("%s\n", line);
 
 		int len = strlen(line);
 
@@ -72,16 +135,14 @@ int main(int argc, char* argv[])
 					break;
 				//pull x y ts te
 				case 2:
-					pull_l();
+					pull_l(line, len);
 					break;
 			}
 		}
 
-		if(cmp.assign(line) == '[HitObjects]')
+		if(cmp.assign(line) == "[HitObjects]")
 			flag = true;
-
-
-	}while(!audio.eof());
+	}
 	
 	return 0;
 }
