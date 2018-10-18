@@ -8,6 +8,9 @@ SoundFile file;
 Counter [] ctList;
 Counter c;
 
+//
+KeyHandler keyHandler;
+
 
 // Init
 void setup()
@@ -22,7 +25,14 @@ void setup()
     // println("Channel= " + file.channels());
     // println("Duration= " + file.duration() + " seconds");
     // file.play();
+    //----------------------------------------------
+    // Loading materials
+    loadNoteImage();
 
+    image(noteImg[0], 100, 100, 40, 20);
+    image(noteImg[1], 150, 100, 40, 20);
+
+    keyHandler = new KeyHandler();
     
 
     c = new Counter();
@@ -32,19 +42,34 @@ void setup()
 
 boolean timeCnt = true;
 
+//----------------------------------------------
+// Processing input
+void keyPressed()
+{
+    keyHandler.setKey(key, true);
+}
+void keyReleased()
+{
+    keyHandler.setKey(key, false);
+}
+
 void draw()
 {
     //----------------------------------------------
-    // Processing input
-    
-    // if(keyPressed && key == 'p')
-    // {
-    //     file.play();
-    // }
-    
-    //----------------------------------------------
     // Update Game Logic
     c.update();
+
+    if(keyHandler.getKey(KeyType.KEY_D))
+        print("D");
+    if(keyHandler.getKey(KeyType.KEY_F))
+        print("F");
+    if(keyHandler.getKey(KeyType.KEY_J))
+        print("J");
+    if(keyHandler.getKey(KeyType.KEY_K))
+        print("K");
+
+    println();
+
 
     //----------------------------------------------
     // Draw

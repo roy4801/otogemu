@@ -27,6 +27,9 @@ SoundFile file;
 Counter [] ctList;
 Counter c;
 
+//
+KeyHandler keyHandler;
+
 
 // Init
 public void setup()
@@ -41,17 +44,15 @@ public void setup()
     // println("Channel= " + file.channels());
     // println("Duration= " + file.duration() + " seconds");
     // file.play();
-    KeyHandler kh = new KeyHandler();
+    //----------------------------------------------
+    // Loading materials
+    loadNoteImage();
 
-    kh.setKey(KeyType.KEY_D, true);
+    image(noteImg[0], 100, 100, 40, 20);
+    image(noteImg[1], 150, 100, 40, 20);
 
-    for(int i = 0; i < TotalKeys; i++)
-    {
-        if(kh.getKey(i))
-        {
-            println("Yes");
-        }
-    }
+    keyHandler = new KeyHandler();
+    
 
     c = new Counter();
     c.setDuration(1000);
@@ -60,19 +61,34 @@ public void setup()
 
 boolean timeCnt = true;
 
+//----------------------------------------------
+// Processing input
+public void keyPressed()
+{
+    keyHandler.setKey(key, true);
+}
+public void keyReleased()
+{
+    keyHandler.setKey(key, false);
+}
+
 public void draw()
 {
     //----------------------------------------------
-    // Processing input
-
-    // if(keyPressed && key == 'p')
-    // {
-    //     file.play();
-    // }
-    
-    //----------------------------------------------
     // Update Game Logic
     c.update();
+
+    if(keyHandler.getKey(KeyType.KEY_D))
+        print("D");
+    if(keyHandler.getKey(KeyType.KEY_F))
+        print("F");
+    if(keyHandler.getKey(KeyType.KEY_J))
+        print("J");
+    if(keyHandler.getKey(KeyType.KEY_K))
+        print("K");
+
+    println();
+
 
     //----------------------------------------------
     // Draw
@@ -167,6 +183,17 @@ class KeyHandler
 	{
 		kState[type.ordinal()] = flag;
 	}
+	public void setKey(char c, boolean flag)
+	{
+		if(c == 'd' || c == 'D')
+			setKey(KeyType.KEY_D, flag);
+		if(c == 'f' || c == 'F')
+			setKey(KeyType.KEY_F, flag);
+		if(c == 'j' || c == 'J')
+			setKey(KeyType.KEY_J, flag);
+		if(c == 'k' || c == 'K')
+			setKey(KeyType.KEY_K, flag);
+	}
 	public boolean getKey(KeyType type)
 	{
 		return kState[type.ordinal()];
@@ -177,10 +204,38 @@ class KeyHandler
 	}
 }
 static final float speed = 1.f;
-static final float moveUnit = 1.f / (float)fps;
+static final float unit = 1.f;
+static final float moveUnit = unit / (float)fps;
+
+
+enum noteAppearType
+{
+	NOTE_APP_WHITE,
+	NOTE_APP_RED,
+	NOTE_APP_TOTAL
+}
+
+enum noteType
+{
+	NOTE
+}
+
+PImage [] noteImg = new PImage[2];
+
+public void loadNoteImage()
+{
+	noteImg[noteAppearType.NOTE_APP_WHITE.ordinal()] = new PImage();
+	noteImg[noteAppearType.NOTE_APP_WHITE.ordinal()] = loadImage("data/note_white.png");
+	noteImg[noteAppearType.NOTE_APP_RED.ordinal()] = new PImage();
+	noteImg[noteAppearType.NOTE_APP_RED.ordinal()] = loadImage("data/note_red.png");
+}
+
+static final int TotalNoteType = noteAppearType.NOTE_APP_TOTAL.ordinal();
 
 class Note
 {
+	noteAppearType app_type;
+	noteType type;
 	int x, y;
 	int endX, endY; // end position
 	//

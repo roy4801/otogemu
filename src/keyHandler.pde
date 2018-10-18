@@ -22,14 +22,20 @@ class KeyHandler
 		Arrays.fill(kState, false);
 	}
 
-	void processingInput()
-	{
-		
-	}
-
 	void setKey(KeyType type, boolean flag)
 	{
 		kState[type.ordinal()] = flag;
+	}
+	void setKey(char c, boolean flag)
+	{
+		if(c == 'd' || c == 'D')
+			setKey(KeyType.KEY_D, flag);
+		if(c == 'f' || c == 'F')
+			setKey(KeyType.KEY_F, flag);
+		if(c == 'j' || c == 'J')
+			setKey(KeyType.KEY_J, flag);
+		if(c == 'k' || c == 'K')
+			setKey(KeyType.KEY_K, flag);
 	}
 	boolean getKey(KeyType type)
 	{
