@@ -1,7 +1,7 @@
 import processing.sound.*;
 
 // Constants
-static final int fps = 30;
+static final int fps = 60;
 
 //
 SoundFile file;
@@ -10,6 +10,8 @@ Counter c;
 
 //
 KeyHandler keyHandler;
+
+Game game;
 
 
 // Init
@@ -29,11 +31,8 @@ void setup()
     // Loading materials
     loadNoteImage();
 
-    image(noteImg[0], 100, 100, 40, 20);
-    image(noteImg[1], 150, 100, 40, 20);
-
     keyHandler = new KeyHandler();
-    
+    game = new Game();
 
     c = new Counter();
     c.setDuration(1000);
@@ -53,26 +52,34 @@ void keyReleased()
     keyHandler.setKey(key, false);
 }
 
+
 void draw()
 {
+    // Clear the screen
+    background(128);
+
     //----------------------------------------------
     // Update Game Logic
-    c.update();
-
-    if(keyHandler.getKey(KeyType.KEY_D))
-        print("D");
-    if(keyHandler.getKey(KeyType.KEY_F))
-        print("F");
-    if(keyHandler.getKey(KeyType.KEY_J))
-        print("J");
-    if(keyHandler.getKey(KeyType.KEY_K))
-        print("K");
-
-    println();
+    game.update();
 
 
     //----------------------------------------------
     // Draw
+    // scene.draw(); // background, score, 
+    game.draw(); // game
+
+
+    // if(keyD)
+    // {
+    //     print("D");
+    //     fill(0, 0, 0);
+    //     rect(trackPos[0] + 6, trackPos[1] + 502, 36, 13);
+    // }
+
+
+    // image(noteImg[0], 100, 100, 40, 20);
+    // image(noteImg[1], 150, 100, 40, 20);
+
     if(timeCnt)
         // println(millis());
 
