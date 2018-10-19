@@ -7,13 +7,15 @@ class screen{
   //
   //
   //
-    //store image
+  //store image
   PImage backgroundImg; //background image
   PImage infoImg; // Info image
   PImage startBnImg; //start button image
   PImage infoBnImg; //info button image
   PImage backBnImg; //back button image
   PImage gamebackgroundImg;// game back ground image
+  PImage infotext;//info text
+  PImage illustration;// example image
   //
   //
   //
@@ -45,10 +47,12 @@ class screen{
     //load image
     gamebackgroundImg = loadImage("gamebackground.jpg");
     backgroundImg = loadImage("backgroundImg.jpg");
-      startBnImg = loadImage("start.png");
+    startBnImg = loadImage("start.png");
     infoBnImg = loadImage("info.png");
     backBnImg = loadImage("back.png");
     infoImg = loadImage("infoImg.jpg");
+    infotext = loadImage("infotext.png");
+    illustration = loadImage("illustration.png");
     //initial counters
     combo = 0;
     numOfperfect = 0;
@@ -150,6 +154,8 @@ class screen{
     clickInfo = false;
     clickBack = true;
     image(infoImg, 0, 0, 800, 600);
+    image(infotext, 320, 230, 400, 300);
+    image(illustration, 100, 20, 145, 500);
     setbackBn();
   }
   //build Finish page
@@ -157,6 +163,7 @@ class screen{
 
     String sscore = nf(score, 7);
     initgamebackground();
+    textAlign(CENTER);
     textSize(80);
     fill(255, 255, 0);
     text("Congratulation!", 400, 100);
@@ -267,7 +274,8 @@ class screen{
     textSize(35);
     fill(255, 255, 255);
     textAlign(CENTER);
-    text(str(combo), 150, 150);
+    if(combo != 0)
+      text(str(combo), 150, 150);
     if(highestcombo < combo)
       highestcombo = combo;
   }
