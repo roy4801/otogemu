@@ -1,7 +1,7 @@
 import processing.sound.*;
 
 // Constants
-static final int fps = 60;
+static final int fps = 120;
 
 //
 SoundFile file;
