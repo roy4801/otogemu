@@ -38,6 +38,7 @@ class screen{
   boolean isStart;
   boolean isEnd;
   boolean menu;
+  boolean isleft;
   //
   //
   //
@@ -67,6 +68,7 @@ class screen{
     isStart = false;
     isEnd = false;
     menu = true;
+    isleft = true;
     //
   }
   //
@@ -88,6 +90,7 @@ class screen{
     clickStart = true;
     clickInfo = true;
     clickBack = false;
+    isleft = true;
 
     combo = 0;
     numOfperfect = 0;
@@ -101,10 +104,10 @@ class screen{
 
     image(gamebackgroundImg, 0, 0, 800, 600);
     menu = false;
-    isEnd = false;
     clickStart = false;
     clickInfo = false;
     clickBack = false;
+    isleft = false;
   }
 
   void initscoreboard(){
@@ -150,13 +153,14 @@ class screen{
   //build info page
   void buildInfo(){
 
-    clickStart = false;
-    clickInfo = false;
-    clickBack = true;
     image(infoImg, 0, 0, 800, 600);
     image(infotext, 320, 230, 400, 300);
     image(illustration, 100, 20, 145, 500);
     setbackBn();
+    clickStart = false;
+    clickInfo = false;
+    clickBack = true;
+    isleft = false;
   }
   //build Finish page
   void Finishscreen(int score){
@@ -182,16 +186,8 @@ class screen{
     text("Good:"+str(numOfgood), 280, 400);
     text("Poor:"+str(numOfpoor), 550, 400);
 
-    if(numOfpoor == 0){
-
-      textSize(50);
-      fill(255, 255, 0);
-      text("Full Combo!", 400, 500);
-    }
-
     setbackBn();
     clickBack = true;
-    isEnd = true;
   }
   //
   //
@@ -260,6 +256,21 @@ class screen{
   //
   //
   //
+  //
+  void leavegame(){
+
+    if(keyPressed){
+    
+      if(key == ESC){
+
+        isleft = true;
+      }
+    }
+  }
+  //
+  //
+  //
+  //
   //print 
   void printscore(int score){
 
@@ -286,6 +297,14 @@ class screen{
   //
 }
 
+void keyPressed(){
+
+  if(key == ESC){
+
+    key = 0;
+  }
+}
+
 void setup(){
 
   size(800, 600);
@@ -295,30 +314,30 @@ void setup(){
 
 void draw(){
     
-    if(tmp.menu){
+   if(tmp.menu){
     
-    if(mousePressed){
+      if(mousePressed){
 
-      if(mouseX >= 50 && mouseX <= 300 && mouseY >= 100 && mouseY <= 155){
+        if(mouseX >= 50 && mouseX <= 300 && mouseY >= 100 && mouseY <= 155){
 
-          if(tmp.clickInfo)
-            tmp.buildInfo();
-        }
-        else if(mouseX >= 50 && mouseX <= 300 && mouseY >= 280 && mouseY <= 335){
-
-          if(tmp.clickStart){
-
-            tmp.initgamebackground();
-            tmp.initscoreboard();
-            tmp.isStart = true;
+            if(tmp.clickInfo)
+              tmp.buildInfo();
           }
-        }
-        else if(mouseX >= 270 && mouseX <= 520 && mouseY >= 545 && mouseY <= 600){
+          else if(mouseX >= 50 && mouseX <= 300 && mouseY >= 280 && mouseY <= 335){
 
-          if(tmp.clickBack)
-            tmp.initmenu();
-        }
-    }
+            if(tmp.clickStart){
+
+              tmp.initgamebackground();
+              tmp.initscoreboard();
+              tmp.isStart = true;
+            }
+          }
+          else if(mouseX >= 270 && mouseX <= 520 && mouseY >= 545 && mouseY <= 600){
+
+            if(tmp.clickBack)
+              tmp.initmenu();
+          }
+      }
   }
 
 
@@ -327,6 +346,12 @@ void draw(){
   if(tmp.isStart){
 
     tmp.initgamebackground();
+    // menu = false;
+    // clickStart = false;
+    // clickInfo = false;
+    // clickBack = false;
+    // isleft = false;
+
     int p = (int)random(0, 100);
 
     if(p >= 0 && p < 70){
@@ -357,7 +382,13 @@ void draw(){
     tmp.printscore(s);
     tmp.printcombo(tmp.getcombo());
 
-    if(count == 30){
+    tmp.leavegame();
+    if(tmp.isleft){
+
+      tmp.isEnd = false;
+    }
+
+    if(count == 100){
 
       tmp.isStart = false;
       tmp.isEnd = true;
@@ -365,10 +396,19 @@ void draw(){
     }
   }
 
+
+
   if(tmp.isEnd){
 
     tmp.Finishscreen(s);
-    if(mousePressed){
+    // menu = false;
+    // isEnd = true;
+    // isStart = false;
+    // clickStart = false;
+    // clickInfo = false;
+    // clickBack = true;
+    // isleft = false;
+    if(mousePressed && mouseButton == LEFT){
   
       if(mouseX >= 270 && mouseX <= 520 && mouseY >= 545 && mouseY <= 600){
 
@@ -376,5 +416,11 @@ void draw(){
           tmp.initmenu();
       }
     }
+  }
+
+  if(tmp.isleft){
+
+    tmp.initmenu();
+    count = 0;
   }
 }
