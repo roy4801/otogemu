@@ -6,6 +6,7 @@ enum KeyType
     KEY_F,
     KEY_J,
     KEY_K,
+    KEY_ESC,
     KEY_TOTAL
 }
 
@@ -36,6 +37,8 @@ class KeyHandler
 			setKey(KeyType.KEY_J, flag);
 		if(c == 'k' || c == 'K')
 			setKey(KeyType.KEY_K, flag);
+		if(c == 27)							//ESC ASCII 27
+			setKey(KeyType.KEY_ESC, flag);
 	}
 	boolean getKey(KeyType type)
 	{
