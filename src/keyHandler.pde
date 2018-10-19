@@ -10,6 +10,12 @@ enum KeyType
     KEY_TOTAL
 }
 
+static final int KEY_D = 0;
+static final int KEY_F = 1;
+static final int KEY_J = 2;
+static final int KEY_K = 3;
+static final int KEY_ESC = 4;
+
 static final int TotalKeys = KeyType.KEY_TOTAL.ordinal();
 
 class KeyHandler

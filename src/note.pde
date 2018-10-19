@@ -96,9 +96,9 @@ class Note
         if(!on)
             return;
 
-        println(x, y);
+        // println(x, y);
         int judgeY = y - endPoint[notePos][1];
-        println(judgeY);
+        // println(judgeY);
 
         // the column of the notePos is pressed
         if(!prevKey && keyHandler.getKey(notePos))
