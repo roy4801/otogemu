@@ -20,16 +20,16 @@ static final int JUDGE_GOOD = 3;
 static final int JUDGE_POOR = 4;
 static final int JUDGE_MISS = 5;
 
-static final int [] perfect = {4, 9};
+static final int [] perfect = {-10, -5};//4, 9
 static final int [][] great =
 {
-    {-1, 3},
-    {10, 13}
+    {-16, -10},//-1, 3
+    {-5, 1}//10, 13
 };
 static final int [][] good =
 {
-    {-4, -1},
-    {14, 17},
+    {-21, -16},//-4, -1
+    {1, 6},//14, 17
 };
 
 PImage [] noteImg = new PImage[2];
@@ -88,7 +88,7 @@ class Note
 
         y += moveUnit * speed;
 
-        if(y > endPoint[notePos][1] + 2 * pressedBlockH)
+        if(y > endPoint[notePos][1] + 0.5*pressedBlockH)
             on = false;
     }
     void judge()
@@ -108,14 +108,14 @@ class Note
                 scene.addPerfect();
                 on = false;
             }
-            else if((judgeY >= great[0][0] && judgeY <= great[0][1])
-                 || (judgeY >= great[1][0] && judgeY <= great[1][1]))
+            else if((judgeY >= great[0][0] && judgeY < great[0][1])
+                 || (judgeY > great[1][0] && judgeY <= great[1][1]))
             {
                 scene.addGreat();
                 on = false;
             }
-            else if(judgeY >= good[0][0] && judgeY <= good[0][1]
-                || judgeY >= good[1][1] && judgeY <= good[1][1])
+            else if(judgeY >= good[0][0] && judgeY < good[0][1]
+                || judgeY > good[1][1] && judgeY <= good[1][1])
             {
                 scene.addGood();
                 on = false;
