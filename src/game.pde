@@ -1,5 +1,12 @@
 
 static final int [] trackPos = {100, 0};
+static final int [][] btnPos =
+{
+	{6, 516},
+	{43, 516},
+	{81, 516},
+	{118, 516}
+};
 
 static final int KEY_D = 0;
 static final int KEY_F = 1;
@@ -14,8 +21,8 @@ static final int pressedBlockH = 13;
 
 class Game
 {
-	PImage track;
-	PImage []btn;
+	PImage trackImg;
+	PImage []btnImg;
 	int [][] endPoint;
 
 	boolean keyD;
@@ -26,11 +33,14 @@ class Game
 	{
 		endPoint = new int[TotalKeys][2];
 
-		track = loadImage(getPath(RES_IMG, "4k_layout.png"));
+		trackImg = LoadImage("4k_layout.png");
 
-		btn = new PImage[TotalKeys];
+		btnImg = new PImage[TotalKeys];
 
-		// btn[KEY_D] = loadImage("4k_d");
+		btnImg[KEY_D] = LoadImage("4k_d.png");
+		btnImg[KEY_F] = LoadImage("4k_f.png");
+		btnImg[KEY_J] = LoadImage("4k_j.png");
+		btnImg[KEY_K] = LoadImage("4k_k.png");
 
 		// Init end points
 		endPoint[KEY_D][0] = trackPos[0] + 6;
@@ -59,7 +69,7 @@ class Game
 	void draw()
 	{
 		// Track background
-		image(track, trackPos[0], trackPos[1], track.width, track.height);
+		image(trackImg, trackPos[0], trackPos[1], trackImg.width, trackImg.height);
 
 		// Key
 		fill(255, 255, 255); // Color white
@@ -88,6 +98,7 @@ class Game
 
 
 		// d f j k btns
+		image(btnImg[KEY_D], btnPos[KEY_D][0], btnPos[KEY_D][1]);
 
 	}
 

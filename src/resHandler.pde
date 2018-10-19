@@ -4,7 +4,7 @@ static final int RES_SOUND = 1;
 
 String getPath(int type, String file)
 {
-	String path;
+	String path = new String();;
 	switch(type)
 	{
 		case RES_IMG:
@@ -20,10 +20,10 @@ String getPath(int type, String file)
 			exit();
 		break;
 	}
-	return "";
+	return path;
 }
 
-PImage LoadImage(int type, String file)
+PImage LoadImage(String file)
 {
-	return loadImage(type, getPath(type, file));
+	return loadImage(getPath(RES_IMG, file));
 }

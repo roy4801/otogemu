@@ -17,9 +17,9 @@ PImage [] noteImg = new PImage[2];
 void loadNoteImage()
 {
 	// noteImg[NOTE_APP_WHITE] = new PImage();
-	noteImg[NOTE_APP_WHITE] = loadImage(getPath(RES_IMG, "data/note_white.png"));
+	noteImg[NOTE_APP_WHITE] = LoadImage("note_white.png");
 	// noteImg[NOTE_APP_RED] = new PImage();
-	noteImg[NOTE_APP_RED] = loadImage("data/note_red.png");
+	noteImg[NOTE_APP_RED] = LoadImage("note_red.png");
 }
 
 class Note
@@ -34,7 +34,6 @@ class Note
 	int dur; // Duration in ms
 	//
 	Counter cnter;
-	PImage img; // future
 
 	Note()
 	{

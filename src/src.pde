@@ -5,8 +5,6 @@ static final int fps = 60;
 
 //
 SoundFile file;
-Counter [] ctList;
-Counter c;
 
 //
 KeyHandler keyHandler;
@@ -33,10 +31,6 @@ void setup()
 
     keyHandler = new KeyHandler();
     game = new Game();
-
-    c = new Counter();
-    c.setDuration(1000);
-    c.start();
 }
 
 boolean timeCnt = true;
@@ -80,12 +74,4 @@ void draw()
     // image(noteImg[0], 100, 100, 40, 20);
     // image(noteImg[1], 150, 100, 40, 20);
 
-    if(timeCnt)
-        // println(millis());
-
-    if(timeCnt && c.isOver())
-    {
-        // println("The counter is over");
-        timeCnt = false;
-    }
 }
