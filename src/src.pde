@@ -31,6 +31,7 @@ void setup()
 
     keyHandler = new KeyHandler();
     game = new Game();
+    game.start();
 }
 
 boolean timeCnt = true;
