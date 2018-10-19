@@ -15,6 +15,7 @@ static final int pressedBlockH = 13;
 class Game
 {
 	PImage track;
+	PImage []btn;
 	int [][] endPoint;
 
 	boolean keyD;
@@ -25,7 +26,11 @@ class Game
 	{
 		endPoint = new int[TotalKeys][2];
 
-		track = loadImage("data/4k_layout.png");
+		track = loadImage(getPath(RES_IMG, "4k_layout.png"));
+
+		btn = new PImage[TotalKeys];
+
+		// btn[KEY_D] = loadImage("4k_d");
 
 		// Init end points
 		endPoint[KEY_D][0] = trackPos[0] + 6;
@@ -47,7 +52,7 @@ class Game
 	{
 		tmpNoteD += moveUnit * speed;
 
-		if(tmpNoteD > endPoint[KEY_D][1])
+		if(tmpNoteD > endPoint[KEY_D][1] + pressedBlockH)
 			tmpNoteD = 0;
 	}
 
@@ -80,6 +85,10 @@ class Game
 		image(noteImg[1], endPoint[KEY_F][0], 0, pressedBlockW, pressedBlockH);
 		image(noteImg[1], endPoint[KEY_J][0], 0, pressedBlockW, pressedBlockH);
 		image(noteImg[0], endPoint[KEY_K][0], 0, pressedBlockW, pressedBlockH);
+
+
+		// d f j k btns
+
 	}
 
 }

@@ -16,9 +16,9 @@ PImage [] noteImg = new PImage[2];
 
 void loadNoteImage()
 {
-	noteImg[NOTE_APP_WHITE] = new PImage();
-	noteImg[NOTE_APP_WHITE] = loadImage("data/note_white.png");
-	noteImg[NOTE_APP_RED] = new PImage();
+	// noteImg[NOTE_APP_WHITE] = new PImage();
+	noteImg[NOTE_APP_WHITE] = loadImage(getPath(RES_IMG, "data/note_white.png"));
+	// noteImg[NOTE_APP_RED] = new PImage();
 	noteImg[NOTE_APP_RED] = loadImage("data/note_red.png");
 }
 
