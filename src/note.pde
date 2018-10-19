@@ -13,6 +13,12 @@ static final int NOTE_SHORT = 0;
 static final int NOTE_LONG  = 1;
 static final int NOTE_TOTAL = 2;
 
+static final int JUDGE_NONE = 0;
+static final int JUDGE_PERFECT = 1;
+static final int JUDGE_GREAT = 2;
+static final int JUDGE_GOOD = 3;
+static final int JUDGE_POOR = 4;
+static final int JUDGE_MISS = 5;
 
 PImage [] noteImg = new PImage[2];
 
@@ -61,12 +67,31 @@ class Note
     }
     void update()
     {
-        if(on)
-        {
-            y += moveUnit * speed;
+        if(!on)
+            return;
 
-            if(y > endPoint[notePos][1] + pressedBlockH)
-                on = false;
+        y += moveUnit * speed;
+
+        if(y > endPoint[notePos][1] + pressedBlockH)
+            on = false;
+    }
+    void judge()
+    {
+        if(!on)
+            return;
+
+        int [] perfect = {endPoint[notePos][1]+5, endPoint[notePos][1]+8};
+        int [][] good =
+        {
+            {endPoint[notePos][1], endPoint[notePos][1]+4},
+            {}
+        }
+        
+
+        // the column of the notePos is pressed
+        if(keyHandler.getKey(notePos))
+        {
+            if()
         }
     }
     void draw()

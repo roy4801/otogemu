@@ -30,9 +30,6 @@ class Game
 {
     PImage trackImg;
     PImage []btnImg;
-    
-
-    boolean keyD;
 
     ArrayList<Note> noteList = new ArrayList<Note>();
 
@@ -48,10 +45,18 @@ class Game
         btnImg[KEY_K] = LoadImage("4k_k.png");
 
         // test
-        noteList.add(new Note(NOTE_APP_WHITE, NOTE_SHORT, KEY_D, endPoint[KEY_D][0], 0));
-        noteList.add(new Note(NOTE_APP_WHITE, NOTE_SHORT, KEY_F, endPoint[KEY_F][0], 0));
-        noteList.add(new Note(NOTE_APP_WHITE, NOTE_SHORT, KEY_J, endPoint[KEY_J][0], 0));
-        noteList.add(new Note(NOTE_APP_WHITE, NOTE_SHORT, KEY_K, endPoint[KEY_K][0], 0));
+        boolean flip = false;
+        for(int i = 0; i < 100; i++)
+        {
+            if(i % 4 == 0 && i != 0)
+                flip = !flip;
+
+            if(flip)
+                noteList.add(new Note(NOTE_APP_WHITE, NOTE_SHORT, i % 4, endPoint[i % 4][0], 0 - 100 * i));
+            else
+                noteList.add(new Note(NOTE_APP_WHITE, NOTE_SHORT, 3 - i % 4, endPoint[3 - i % 4][0], 0 - 100 * i));
+        }
+        
     }
 
     void start()
@@ -73,7 +78,10 @@ class Game
         {
             // println("Update " + str(i) + "\n");
             noteList.get(i).update();
+            noteList.get(i).judge();
         }
+
+
     }
 
     void draw()
@@ -101,13 +109,11 @@ class Game
         }
 
         // Note
-        // tmpNoteD.draw();
-
         for(int i = 0; i < noteList.size(); i++)
             noteList.get(i).draw();
 
 
-        // d f j k btns
+        // d f j k buttons overlay
         image(btnImg[KEY_D], btnPos[KEY_D][0], btnPos[KEY_D][1]);
         image(btnImg[KEY_F], btnPos[KEY_F][0], btnPos[KEY_F][1]);
         image(btnImg[KEY_J], btnPos[KEY_J][0], btnPos[KEY_J][1]);
