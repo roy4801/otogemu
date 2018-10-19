@@ -70,6 +70,8 @@ void draw()
     game.draw(); // game
 
 
+    if(keyHandler.getKey(KEY_ESC))
+        println("ESC");
     // if(keyD)
     // {
     //     print("D");

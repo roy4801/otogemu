@@ -15,11 +15,6 @@ static final int [][] endPoint =
     {trackPos[0] + 118, trackPos[1] + 503}  // KEY_K
 };
 
-static final int KEY_D = 0;
-static final int KEY_F = 1;
-static final int KEY_J = 2;
-static final int KEY_K = 3;
-
 static final int POS_X = 0;
 static final int POS_Y = 1;
 
