@@ -22,18 +22,34 @@ class Scene
 	}
 	void addPerfect()
 	{
-		numOfperfect++;
+		hit[HIT_PERFECT]++;
 	}
 	void addGreat()
 	{
-		numOfgreat++;
+		hit[HIT_GREAT]++;
 	}
 	void addGood()
 	{
-		numOfgood++;
+		hit[HIT_GOOD]++;
 	}
 	void addPoor()
 	{
-		numOfpoor++;
+		hit[HIT_POOR]++;
+	}
+
+	void drawTest()
+	{
+		fill(255, 255, 255);
+		textSize(25);
+		textAlign(LEFT);
+		text("Perfect " + str(hit[HIT_PERFECT]), 500, 200);
+		text("Great " + str(hit[HIT_GREAT]), 500, 225);
+		text("Good " + str(hit[HIT_GOOD]), 500, 250);
+	}
+
+	void draw()
+	{
+		drawTest();
+		// drawScore();
 	}
 }

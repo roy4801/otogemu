@@ -8,7 +8,7 @@ SoundFile file;
 
 //
 KeyHandler keyHandler;
-
+Scene scene;
 Game game;
 
 
@@ -30,6 +30,7 @@ void setup()
     loadNoteImage();
 
     keyHandler = new KeyHandler();
+    scene = new Scene();
     game = new Game();
     game.start();
 }
@@ -60,7 +61,7 @@ void draw()
 
     //----------------------------------------------
     // Draw
-    // scene.draw(); // background, score, 
+    scene.draw(); // background, score, 
     game.draw(); // game
 
 

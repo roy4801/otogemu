@@ -20,6 +20,18 @@ static final int JUDGE_GOOD = 3;
 static final int JUDGE_POOR = 4;
 static final int JUDGE_MISS = 5;
 
+static final int [] perfect = {4, 9};
+static final int [][] great =
+{
+    {-1, 3},
+    {10, 13}
+};
+static final int [][] good =
+{
+    {-4, -1},
+    {14, 17},
+};
+
 PImage [] noteImg = new PImage[2];
 
 void loadNoteImage()
@@ -41,8 +53,9 @@ class Note
     //
     // int start;      // Start time in ms
     // int dur;        // Duration in ms
-    //
-    // Counter cnter;
+    
+    // judge
+    boolean prevKey;
 
     Note()
     {
@@ -50,6 +63,8 @@ class Note
         on = true;
         appType = NOTE_APP_NONE;
         noteType = NOTE_NONE;
+        // judge
+        prevKey = false;
     }
     Note(int appType, int noteType, int notePos, int x, int y)
     {
@@ -58,6 +73,7 @@ class Note
         this.notePos = notePos;
         this.x = x;
         this.y = y;
+        prevKey = false;
     }
     //
     // Main functions
@@ -72,7 +88,7 @@ class Note
 
         y += moveUnit * speed;
 
-        if(y > endPoint[notePos][1] + pressedBlockH)
+        if(y > endPoint[notePos][1] + 2 * pressedBlockH)
             on = false;
     }
     void judge()
@@ -80,19 +96,32 @@ class Note
         if(!on)
             return;
 
-        int [] perfect = {endPoint[notePos][1]+5, endPoint[notePos][1]+8};
-        int [][] good =
-        {
-            {endPoint[notePos][1], endPoint[notePos][1]+4},
-            {}
-        }
-        
+        println(x, y);
+        int judgeY = y - endPoint[notePos][1];
+        println(judgeY);
 
         // the column of the notePos is pressed
-        if(keyHandler.getKey(notePos))
+        if(!prevKey && keyHandler.getKey(notePos))
         {
-            if()
+            if(judgeY >= perfect[0] && judgeY <= perfect[1])
+            {
+                scene.addPerfect();
+                on = false;
+            }
+            else if((judgeY >= great[0][0] && judgeY <= great[0][1])
+                 || (judgeY >= great[1][0] && judgeY <= great[1][1]))
+            {
+                scene.addGreat();
+                on = false;
+            }
+            else if(judgeY >= good[0][0] && judgeY <= good[0][1]
+                || judgeY >= good[1][1] && judgeY <= good[1][1])
+            {
+                scene.addGood();
+                on = false;
+            }
         }
+        prevKey = keyHandler.getKey(notePos);
     }
     void draw()
     {
