@@ -41,6 +41,11 @@ boolean timeCnt = true;
 // Processing input
 void keyPressed()
 {
+    if(key == ESC)
+    {
+        key = 0;//clear the "ESC" key
+    }
+    
     keyHandler.setKey(key, true);
 }
 void keyReleased()
