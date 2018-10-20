@@ -1,5 +1,8 @@
 import java.util.*;
 
+static final int PLAY_STOP     = 0;
+static final int PLAY_IGNORE   = 1;
+
 class SoundHandler
 {
 	Map<String, Integer> fileToIdx = new HashMap<String, Integer> ();
@@ -8,9 +11,16 @@ class SoundHandler
 	// ArrayList<Boolean> playStat = new ArrayList<Boolean>();
 
 	int now = 0;
+	int type;
 
 	SoundHandler()
 	{
+		type = PLAY_STOP;
+	}
+
+	SoundHandler(int type)
+	{
+		this.type = type;
 	}
 
 	void addSoundFile(String name, SoundFile s)
@@ -36,14 +46,25 @@ class SoundHandler
 	{
 		SoundFile tar = fileList.get(idx);
 		
-		if(tar.isPlaying())
+		switch(type)
 		{
-			tar.stop();
-			tar.play();
+			case PLAY_STOP:
+				if(tar.isPlaying())
+				{
+					tar.stop();
+					tar.play();
+				}
+				else
+				{
+					tar.play();
+				}
+			break;
+
+			case PLAY_IGNORE:
+				if(!tar.isPlaying())
+					tar.play();
+			break;
 		}
-		else
-		{
-			tar.play();
-		}
+		
 	}
 }

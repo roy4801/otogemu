@@ -1,5 +1,6 @@
 static final int RES_IMG   = 0;
-static final int RES_SE = 1;
+static final int RES_SE    = 1;
+static final int RES_SONG  = 2;
 
 String getPath(int type, String file)
 {
@@ -14,8 +15,12 @@ String getPath(int type, String file)
 			path = "data/se/" + file;
 		break;
 
+		case RES_SONG:
+			path = "song/" + file;
+		break;
+
 		default:
-			println("Failed to load resource: " + type + file);
+			println("getPath(): Wrong type " + type + file);
 			exit();
 		break;
 	}
@@ -30,4 +35,9 @@ PImage LoadImage(String file)
 SoundFile LoadSoundEffect(String file)
 {
 	return new SoundFile(this, getPath(RES_SE, file));
+}
+
+SoundFile LoadSong(String file)
+{
+	return new SoundFile(this, getPath(RES_SONG, file));
 }

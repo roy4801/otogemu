@@ -36,8 +36,12 @@ class Game
 
     SoundHandler se = new SoundHandler();
 
+    SoundFile bm;
+    SoundHandler song = new SoundHandler();
+
     ArrayList<Note> noteList = new ArrayList<Note>();
 
+    // prev key
     boolean [] prev = new boolean[TotalKeys];
 
     Game()
@@ -55,7 +59,12 @@ class Game
         // Loading sound effect
         hitSE = LoadSoundEffect(hitSEList[hitse_type]);
         se.addSoundFile(hitSEList[hitse_type], hitSE);
-        //
+
+        // Loading song
+        // bm = LoadSong("bg1.mp3");
+        // song.addSoundFile("bg1", bm);
+
+        // init
         Arrays.fill(prev, false);
 
         // test
@@ -75,13 +84,14 @@ class Game
 
     void start()
     {
-        // tmpNoteD.start();
-
         for(int i = 0; i < noteList.size(); i++)
         {
             // println("Start " + str(i) + "\n");
             noteList.get(i).start();
         }
+
+        // TESTING
+        // song.play("bg1");
     }
 
     void update()
@@ -94,8 +104,6 @@ class Game
             noteList.get(i).update();
             noteList.get(i).judge();
         }
-
-
     }
 
     void draw()
