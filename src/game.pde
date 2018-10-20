@@ -1,3 +1,6 @@
+import processing.sound.*;
+import java.util.*;
+
 static final int [] trackPos = {100, 0};
 static final int [][] btnPos =
 {
@@ -15,6 +18,8 @@ static final int [][] endPoint =
     {trackPos[0] + 118, trackPos[1] + 503}  // KEY_K
 };
 
+static final String [] hitSEList = {"soft-hitclap.wav", "normal-hitclap.wav"};
+
 static final int POS_X = 0;
 static final int POS_Y = 1;
 
@@ -26,10 +31,18 @@ class Game
     PImage trackImg;
     PImage []btnImg;
 
+    SoundFile hitSE;
+    int hitse_type = 0;
+
+    SoundHandler se = new SoundHandler();
+
     ArrayList<Note> noteList = new ArrayList<Note>();
+
+    boolean [] prev = new boolean[TotalKeys];
 
     Game()
     {
+        // Loading resources
         trackImg = LoadImage("4k_layout.png");
 
         btnImg = new PImage[TotalKeys];
@@ -38,6 +51,12 @@ class Game
         btnImg[KEY_F] = LoadImage("4k_f.png");
         btnImg[KEY_J] = LoadImage("4k_j.png");
         btnImg[KEY_K] = LoadImage("4k_k.png");
+
+        // Loading sound effect
+        hitSE = LoadSoundEffect(hitSEList[hitse_type]);
+        se.addSoundFile(hitSEList[hitse_type], hitSE);
+        //
+        Arrays.fill(prev, false);
 
         // test
         boolean flip = false;
@@ -86,22 +105,37 @@ class Game
 
         // Key
         fill(255, 255, 255); // Color white
-        if(keyHandler.getKey(KeyType.KEY_D))
+        if(keyHandler.getKey(KEY_D))
         {
             rect(endPoint[KEY_D][POS_X], endPoint[KEY_D][POS_Y], pressedBlockW-1, pressedBlockH);
+
+            if(!prev[KEY_D])
+                se.play(hitSEList[hitse_type]);
         }
-        if(keyHandler.getKey(KeyType.KEY_F))
+        if(keyHandler.getKey(KEY_F))
         {
             rect(endPoint[KEY_F][POS_X], endPoint[KEY_F][POS_Y], pressedBlockW, pressedBlockH);
+
+            if(!prev[KEY_F])
+                se.play(hitSEList[hitse_type]);
         }
-        if(keyHandler.getKey(KeyType.KEY_J))
+        if(keyHandler.getKey(KEY_J))
         {
             rect(endPoint[KEY_J][POS_X], endPoint[KEY_J][POS_Y], pressedBlockW-1, pressedBlockH);
+
+            if(!prev[KEY_J])
+                se.play(hitSEList[hitse_type]);
         }
-        if(keyHandler.getKey(KeyType.KEY_K))
+        if(keyHandler.getKey(KEY_K))
         {
             rect(endPoint[KEY_K][POS_X], endPoint[KEY_K][POS_Y], pressedBlockW-1, pressedBlockH);
+
+            if(!prev[KEY_K])
+                se.play(hitSEList[hitse_type]);
         }
+
+        for(int i = 0; i < TotalKeys; i++)
+            prev[i] = keyHandler.getKey(i);
 
         // Note
         for(int i = 0; i < noteList.size(); i++)
@@ -113,6 +147,10 @@ class Game
         image(btnImg[KEY_F], btnPos[KEY_F][0], btnPos[KEY_F][1]);
         image(btnImg[KEY_J], btnPos[KEY_J][0], btnPos[KEY_J][1]);
         image(btnImg[KEY_K], btnPos[KEY_K][0], btnPos[KEY_K][1]);
+
+        // fill(255, 0, 0);
+        // line(100, 100, 800, 600);
+
 
     }
 

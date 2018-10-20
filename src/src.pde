@@ -41,12 +41,13 @@ boolean timeCnt = true;
 // Processing input
 void keyPressed()
 {
+    keyHandler.setKey(key, true);
+    // clear the "ESC" key
     if(key == ESC)
     {
-        key = 0;//clear the "ESC" key
+        exit(); // for testing usage
+        // key = 0;
     }
-    
-    keyHandler.setKey(key, true);
 }
 void keyReleased()
 {
@@ -70,17 +71,7 @@ void draw()
     game.draw(); // game
 
 
+    // TESTING
     if(keyHandler.getKey(KEY_ESC))
         println("ESC");
-    // if(keyD)
-    // {
-    //     print("D");
-    //     fill(0, 0, 0);
-    //     rect(trackPos[0] + 6, trackPos[1] + 502, 36, 13);
-    // }
-
-
-    // image(noteImg[0], 100, 100, 40, 20);
-    // image(noteImg[1], 150, 100, 40, 20);
-
 }
