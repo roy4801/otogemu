@@ -1,118 +1,87 @@
-loadingscrene loading;
-class loadingscrene
+LoadingScene loading;
+
+static final int progressBarWidth = 600;
+
+class LoadingScene
 {
-	//
-	//
-	//
-	//
-	//
-	//
-	PImage loadingbackground;
-	//
-	//
-	//
-	//
+	PImage loading_bg;
 	//
 	int count;
-	int ldrate;
-	int rtjudge;
+	int ldRate;
+	int rtJudge;
 	//
+	int fillX;
+	int fillY;
 	//
-	//
-	//
-	//
-	int fillx;
-	int filly;
-	//
-	//
-	//
-	//
-	//
-	boolean isload;
+	boolean isLoad;
 
-	loadingscrene()
+	LoadingScene()
 	{
+		// loading_bg = loadImage("loading_bg.png");
 		//
-		//
-		//
-		//
-		//
-		loadingbackground = loadImage("loadingbackground.png"); 
-		//
-		//
-		//
-		//
-		//
-		fillx = 0;
-		filly = 20;
-		//
-		//
-		//
-		//
+		fillX = 0;
+		fillY = 20;
 		//
 		count = 0;
-		ldrate = 1;
-		rtjudge = 120;
+		ldRate = 1;
+		rtJudge = 120;
 		//
-		//
-		//
-		//
-		//
-		isload = false;
+		isLoad = false;
 	}
 
-	void setbackgound()
+	void setBackground()
 	{
-		frameRate(240);
-		image(loadingbackground, 0, 0, 800, 600);
+		// image(loading_bg, 0, 0, 800, 600);
 	}
 
-	void loadscrene()
+	void loadScene()
 	{
-		setbackgound();
-		if(fillx >= 600)
-			fillx = 600;
+		setBackground();
+		if(fillX >= progressBarWidth)
+			fillX = progressBarWidth;
 
 		stroke(0, 0, 0);
 		noFill();
 		strokeWeight(2);
-		rect(100, 500, 600, 20);
+		rect(100, 500, progressBarWidth, 20);
 
 		noStroke();
 		fill(255, 255, 255);
-		rect(101, 501, fillx-1, filly-1);
+		rect(101, 501, fillX-1, fillY-1);
 
-		loadnumber(fillx);
+		loadNumber(fillX);
 
 	}
 
-	void loadnumber(int fillx){
-
+	void loadNumber(int fillX)
+	{
 		textSize(30);
 
 		textAlign(RIGHT);
 
 		text("Loading", 215, 490);
-		ldrate++;
+		ldRate++;
 
-		if(ldrate > rtjudge)
-			ldrate = 1;
+		if(ldRate > rtJudge)
+			ldRate = 1;
 
-		printcommon(ldrate);
+		printCommon(ldRate);
 
-		fillx = fillx / 6;
+		fillX = fillX / 6;
 
 		textAlign(CENTER);
-		text(str(fillx) + "%", 285, 491);
+		text(str(fillX) + "%", 285, 491);
 	}
 
-	void printcommon(int ldrate)
+	void printCommon(int ldRate)
 	{
-		if(ldrate % (rtjudge/4) == 0)
+		if(ldRate % (rtJudge/4) == 0)
 		{
 			count++;
 		}
+		
 		textAlign(CENTER);
+
 		if(count > 3)
 			count = 0;
 
@@ -132,19 +101,27 @@ class loadingscrene
 		{
 			text("...", 230, 490);
 		}
-
+	}
+	//
+	// Get/Set functions
+	int getFillX()
+	{
+		return fillX;
 	}
 }
 
 void setup()
 {
 	size(800, 600);
-	loading = new loadingscrene();
-	loading.setbackgound();
+	frameRate(120);
+	loading = new LoadingScene();
+	loading.setBackground();
 }
 
 void draw()
 {
-	loading.loadscrene();
-	loading.fillx += 1;
+	loading.loadScene();
+
+	if(loading.getFillX() < 25)
+		loading.fillX += 1;
 }
