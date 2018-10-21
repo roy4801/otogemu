@@ -1,9 +1,12 @@
 import processing.sound.*;
+import java.io.FilenameFilter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 // Constants
 static final int fps = 120;
+
+static final String proj_path = "/Users/roy4801/Desktop/Program/myProj/otogemu/src/";
 
 //
 KeyHandler keyHandler;
@@ -12,56 +15,14 @@ Game game;
 
 ////////////////////////////////////////
 // TESTING
-// FumenParser fumenParser = new FumenParser();
-void file(String path)
-{
-    BufferedReader br = null;
-    FileReader fr = null;
-
-    try {
-
-        //br = new BufferedReader(new FileReader(FILENAME));
-        fr = new FileReader(path);
-        br = new BufferedReader(fr);
-
-        String sCurrentLine;
-
-        while ((sCurrentLine = br.readLine()) != null) {
-            println(sCurrentLine);
-        }
-
-    } catch (IOException e) {
-
-        e.printStackTrace();
-
-    } finally {
-
-        try {
-
-            if (br != null)
-                br.close();
-
-            if (fr != null)
-                fr.close();
-
-        } catch (IOException ex) {
-
-            ex.printStackTrace();
-
-        }
-
-    }
-}
-
 void test()
 {
-    Path currentRelativePath = Paths.get("");
-    String s = currentRelativePath.toAbsolutePath().toString() + "/src/1.txt";
-    println(s);
+    FumenParser fumenParser = new FumenParser();
+    Fumen f = fumenParser.getFumen("bg1");
 
-    file(s);
+    f.music.play();
 
-    exit();
+    // exit();
 }
 ////////////////////////////////////////
 
@@ -84,10 +45,10 @@ void setup()
     // Loading materials
     loadNoteImage();
 
-    // keyHandler = new KeyHandler();
-    // scene = new Scene();
-    // game = new Game();
-    // game.start();
+    keyHandler = new KeyHandler();
+    scene = new Scene();
+    game = new Game();
+    game.start();
 }
 
 boolean timeCnt = true;

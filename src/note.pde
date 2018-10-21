@@ -44,15 +44,24 @@ void loadNoteImage()
 
 class Note
 {
+    ////////////////////////////////////
+    //// DEBUG only
+    void printDbg()
+    {
+        println(String.format("noteType:%d\nnoteCol: %d\nstartTime: %d\ntouchTime: %d\nendTime: %d\n", noteType, noteCol, startTime, touchTime, endTime));
+    }
+    ////////////////////////////////////
     boolean on;
-    int appType;   // note app type : NOTE_APP_WHITE, NOTE_APP_RED
-    int noteType;  // note type     : NOTE_SHORT, NOTE_LONG
-    //
-    int x, y;       // now position
-    int notePos;    // which column: d, f, j, k
-    //
-    // int start;      // Start time in ms
-    // int dur;        // Duration in ms
+    // Type
+    int appType;       // note app type : NOTE_APP_WHITE, NOTE_APP_RED
+    int noteType;      // note type     : NOTE_SHORT, NOTE_LONG
+    // Pos
+    int x, y;          // now position
+    int noteCol;       // which column: d, f, j, k
+    // Time
+    int startTime;     // startTime in ms    : startTime to move
+    int touchTime;     // touchTime in ms    : touches the judge line
+    int endTime;       // endTime  in ms     : pressing time for a long note
     
     // judge
     boolean prevKey;
@@ -61,18 +70,28 @@ class Note
     {
         // cnter = new Counter(dur);
         on = true;
+        
         appType = NOTE_APP_NONE;
         noteType = NOTE_NONE;
+        //
+        x = y = 0;
+        noteCol = KEY_NONE;
+        // Time
+        startTime = touchTime = endTime = -1;
+
         // judge
         prevKey = false;
     }
-    Note(int appType, int noteType, int notePos, int x, int y)
+    Note(int appType, int noteType, int noteCol, int x, int y, int startTime, int touchTime, int endTime)
     {
         this.appType = appType;
         this.noteType = noteType;
-        this.notePos = notePos;
+        this.noteCol = noteCol;
         this.x = x;
         this.y = y;
+        this.startTime = startTime;
+        this.touchTime = touchTime;
+        this.endTime = endTime;
         prevKey = false;
     }
     //
@@ -88,7 +107,7 @@ class Note
 
         y += moveUnit * speed;
 
-        if(y > endPoint[notePos][1] + 0.5*pressedBlockH)
+        if(y > endPoint[noteCol][1] + 0.5*pressedBlockH)
             on = false;
     }
     void judge()
@@ -97,11 +116,11 @@ class Note
             return;
 
         // println(x, y);
-        int judgeY = y - endPoint[notePos][1];
+        int judgeY = y - endPoint[noteCol][1];
         // println(judgeY);
 
-        // the column of the notePos is pressed
-        if(!prevKey && keyHandler.getKey(notePos))
+        // the column of the noteCol is pressed
+        if(!prevKey && keyHandler.getKey(noteCol))
         {
             if(judgeY >= perfect[0] && judgeY <= perfect[1])
             {
@@ -121,7 +140,7 @@ class Note
                 on = false;
             }
         }
-        prevKey = keyHandler.getKey(notePos);
+        prevKey = keyHandler.getKey(noteCol);
     }
     void draw()
     {
@@ -137,18 +156,37 @@ class Note
         this.x = x;
         this.y = y;
     }
-    void setEndPos(int pos)
+    void setCol(int pos)
     {
-        notePos = pos;
+        noteCol = pos;
+        // Set appType depending on the noteCol (which column)
+        switch(noteCol)
+        {
+            case KEY_D:
+            case KEY_K:
+                appType = NOTE_APP_WHITE;
+            break;
+
+            case KEY_F:
+            case KEY_J:
+                appType = NOTE_APP_RED;
+            break;
+        }
     }
-    void setType(int app, int type)
+    void setType(int type)
     {
-        appType = app;
         noteType = type;
     }
-    // void setTime(int s, int d)
-    // {
-    //     start = s;
-    //     dur = d;
-    // }
+    void setStartTime(int start)
+    {
+        startTime = start;
+    }
+    void setTouchTime(int e)
+    {
+        touchTime = e;
+    }
+    void setEndTime(int end)
+    {
+        endTime = end;
+    }
 }

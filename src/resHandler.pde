@@ -1,10 +1,30 @@
 static final int RES_IMG   = 0;
 static final int RES_SE    = 1;
 static final int RES_SONG  = 2;
+static final int RES_FUMEN = 3;
+
+static final class OsUtils
+{
+	private static String OS = null;
+	public static String getOsName()
+	{
+		if(OS == null) { OS = System.getProperty("os.name"); }
+		return OS;
+	}
+	public static boolean isWindows()
+	{
+  		return getOsName().startsWith("Windows");
+	}
+
+	public static boolean isMacos()
+	{
+		return Objects.equals(getOsName(), "Mac OS X");
+	}
+}
 
 String getPath(int type, String file)
 {
-	String path = new String();;
+	String path = new String();
 	switch(type)
 	{
 		case RES_IMG:
@@ -16,6 +36,7 @@ String getPath(int type, String file)
 		break;
 
 		case RES_SONG:
+		case RES_FUMEN:
 			path = "song/" + file;
 		break;
 
@@ -37,7 +58,12 @@ SoundFile LoadSoundEffect(String file)
 	return new SoundFile(this, getPath(RES_SE, file));
 }
 
-SoundFile LoadSong(String file)
+File LoadFumenFile(String dir)
 {
-	return new SoundFile(this, getPath(RES_SONG, file));
+	return new File(proj_path + getPath(RES_FUMEN, String.format("%s/%s.txt", dir, dir)));
+}
+
+SoundFile LoadFumenSong(String dir)
+{
+	return new SoundFile(this, getPath(RES_SONG, String.format("%s/%s.mp3", dir, dir)));
 }

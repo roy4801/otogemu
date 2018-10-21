@@ -36,8 +36,8 @@ class Game
 
     SoundHandler se = new SoundHandler();
 
-    SoundFile bm;
-    SoundHandler song = new SoundHandler();
+    // SoundFile bm;
+    // SoundHandler song = new SoundHandler();
 
     ArrayList<Note> noteList = new ArrayList<Note>();
 
@@ -60,13 +60,11 @@ class Game
         hitSE = LoadSoundEffect(hitSEList[hitse_type]);
         se.addSoundFile(hitSEList[hitse_type], hitSE);
 
-        // Loading song
-        // bm = LoadSong("bg1.mp3");
-        // song.addSoundFile("bg1", bm);
 
         // init
         Arrays.fill(prev, false);
 
+        ////////
         // test
         boolean flip = false;
         for(int i = 0; i < 100; i++)
@@ -75,9 +73,9 @@ class Game
                 flip = !flip;
 
             if(flip)
-                noteList.add(new Note(NOTE_APP_WHITE, NOTE_SHORT, i % 4, endPoint[i % 4][0], 0 - 100 * i));
+                noteList.add(new Note(NOTE_APP_WHITE, NOTE_SHORT, i % 4, endPoint[i % 4][0], 0 - 100 * i, 0, 0, 0));
             else
-                noteList.add(new Note(NOTE_APP_WHITE, NOTE_SHORT, 3 - i % 4, endPoint[3 - i % 4][0], 0 - 100 * i));
+                noteList.add(new Note(NOTE_APP_WHITE, NOTE_SHORT, 3 - i % 4, endPoint[3 - i % 4][0], 0 - 100 * i, 0, 0, 0));
         }
         
     }
