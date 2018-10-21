@@ -20,16 +20,16 @@ static final int JUDGE_GOOD = 3;
 static final int JUDGE_POOR = 4;
 static final int JUDGE_MISS = 5;
 
-static final int [] perfect = {-10, -2};//4, 9
+static final int [] perfect = {-27, -10};//4, 9
 static final int [][] great =
 {
-    {-16, -10},//-1, 3
-    {-2, 2}//10, 13
+    {-35, -27},//-1, 3
+    {-10, -6}//10, 13
 };
 static final int [][] good =
 {
-    {-21, -16},//-4, -1
-    {2, 6},//14, 17
+    {-45, -35},//-4, -1
+    {-6, 0},//14, 17
 };
 
 PImage [] noteImg = new PImage[2];
@@ -107,7 +107,8 @@ class Note
 
         y += moveUnit * speed;
 
-        if(y > endPoint[noteCol][1] + 0.5*pressedBlockH)
+        if(y > endPoint[notePos][1] + pressedBlockH)
+
             on = false;
     }
     void judge()
@@ -116,8 +117,8 @@ class Note
             return;
 
         // println(x, y);
-        int judgeY = y - endPoint[noteCol][1];
-        // println(judgeY);
+
+        int judgeY = y - (endPoint[notePos][1] + pressedBlockH);
 
         // the column of the noteCol is pressed
         if(!prevKey && keyHandler.getKey(noteCol))

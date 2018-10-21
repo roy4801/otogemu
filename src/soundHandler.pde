@@ -51,6 +51,7 @@ class SoundHandler
 			case PLAY_STOP:
 				if(tar.isPlaying())
 				{
+          tar.amp(0.5);
 					tar.stop();
 					tar.play();
 				}
