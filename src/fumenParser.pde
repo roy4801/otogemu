@@ -11,16 +11,12 @@ class Fumen
 	Fumen()
 	{
 		title = "";
-		music = new SoundHandler();
-	}
-	Fumen(String title)
-	{
-		this.title = title;
+		music = new SoundHandler(PLAY_IGNORE);
 	}
 	Fumen(String title, SoundFile m, ArrayList<Note> noteList)
 	{
 		this.title = title;
-		music = new SoundHandler(title, m);
+		music = new SoundHandler(PLAY_IGNORE, title, m);
 		this.noteList = noteList;
 	}
 	//

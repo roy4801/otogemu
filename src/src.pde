@@ -15,8 +15,6 @@ Game game;
 
 ////////////////////////////////////////
 // TESTING
-// Clock c = new Clock();
-
 void test()
 {
 

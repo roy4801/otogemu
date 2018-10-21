@@ -23,10 +23,15 @@ class SoundHandler
 		this.type = type;
 	}
 
+	SoundHandler(int type, String name, SoundFile file)
+	{
+		this.type = type;
+		addSoundFile(name, file);
+	}
+
 	SoundHandler(String name, SoundFile file)
 	{
-		fileList.add(file);
-		fileToIdx.put(name, now++);
+		addSoundFile(name, file);
 	}
 
 	void addSoundFile(String name, SoundFile s)

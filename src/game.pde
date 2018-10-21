@@ -36,7 +36,7 @@ class Game
     SoundFile hitSE;
     int hitse_type = 0;
 
-    SoundHandler se = new SoundHandler();
+    // SoundHandler se = new SoundHandler();
 
     // fumen
     FumenParser fumenParser = new FumenParser();
@@ -61,8 +61,8 @@ class Game
         btnImg[KEY_K] = LoadImage("4k_k.png");
 
         // Loading sound effect
-        hitSE = LoadSoundEffect(hitSEList[hitse_type]);
-        se.addSoundFile(hitSEList[hitse_type], hitSE);
+        // hitSE = LoadSoundEffect(hitSEList[hitse_type]);
+        // se.addSoundFile(hitSEList[hitse_type], hitSE);
         //
         // Loading fumen
         nowFumen = fumenParser.getFumen("bg1");
@@ -99,29 +99,29 @@ class Game
         {
             rect(endPoint[KEY_D][POS_X], endPoint[KEY_D][POS_Y], pressedBlockW-1, pressedBlockH);
 
-            if(!prev[KEY_D])
-                se.play(hitSEList[hitse_type]);
+            // if(!prev[KEY_D])
+            //     se.play(hitSEList[hitse_type]);
         }
         if(keyHandler.getKey(KEY_F))
         {
             rect(endPoint[KEY_F][POS_X], endPoint[KEY_F][POS_Y], pressedBlockW, pressedBlockH);
 
-            if(!prev[KEY_F])
-                se.play(hitSEList[hitse_type]);
+            // if(!prev[KEY_F])
+            //     se.play(hitSEList[hitse_type]);
         }
         if(keyHandler.getKey(KEY_J))
         {
             rect(endPoint[KEY_J][POS_X], endPoint[KEY_J][POS_Y], pressedBlockW-1, pressedBlockH);
 
-            if(!prev[KEY_J])
-                se.play(hitSEList[hitse_type]);
+            // if(!prev[KEY_J])
+            //     se.play(hitSEList[hitse_type]);
         }
         if(keyHandler.getKey(KEY_K))
         {
             rect(endPoint[KEY_K][POS_X], endPoint[KEY_K][POS_Y], pressedBlockW-1, pressedBlockH);
 
-            if(!prev[KEY_K])
-                se.play(hitSEList[hitse_type]);
+            // if(!prev[KEY_K])
+            //     se.play(hitSEList[hitse_type]);
         }
 
         // Save now key state to prev for next loop
@@ -139,7 +139,7 @@ class Game
         image(btnImg[KEY_J], btnPos[KEY_J][0], btnPos[KEY_J][1]);
         image(btnImg[KEY_K], btnPos[KEY_K][0], btnPos[KEY_K][1]);
 
-        // fill(255, 0, 0);
-        // line(100, 100, 800, 600);
+        // Start play fumen music
+        nowFumen.playMusic();
     }
 }
