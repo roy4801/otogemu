@@ -4,9 +4,6 @@ int count = 0;
 
 class screen{
   //
-  //
-  //
-  //
   //store image
   PImage backgroundImg; //background image
   PImage infoImg; // Info image
@@ -17,19 +14,13 @@ class screen{
   PImage infotext;//info text
   PImage illustration;// example image
   //
-  //
-  //
-  //
   //counters   
   int combo;
   int numOfperfect;
   int numOfgreat;
   int numOfgood;
   int numOfpoor;
-  int highestcombo;
-  //
-  //
-  //
+  int highestCombo;
   //
   //
   boolean clickStart;
@@ -38,10 +29,7 @@ class screen{
   boolean isStart;
   boolean isEnd;
   boolean menu;
-  boolean isleft;
-  //
-  //
-  //
+  boolean isLeft;
   //
   // 
   screen(){
@@ -60,7 +48,7 @@ class screen{
     numOfgreat = 0;
     numOfgood = 0;
     numOfpoor = 0;
-    highestcombo = 0;
+    highestCombo = 0;
     //
     clickStart = true;
     clickInfo = true;
@@ -68,13 +56,9 @@ class screen{
     isStart = false;
     isEnd = false;
     menu = true;
-    isleft = true;
+    isLeft = true;
     //
   }
-  //
-  //
-  //
-  //
   //
   // initial the frame
   // reset the frame  
@@ -90,14 +74,14 @@ class screen{
     clickStart = true;
     clickInfo = true;
     clickBack = false;
-    isleft = true;
+    isLeft = true;
 
     combo = 0;
     numOfperfect = 0;
     numOfgreat = 0;
     numOfgood = 0;
     numOfpoor = 0;
-    highestcombo = 0;
+    highestCombo = 0;
   }
 
   void initgamebackground(){
@@ -107,7 +91,7 @@ class screen{
     clickStart = false;
     clickInfo = false;
     clickBack = false;
-    isleft = false;
+    isLeft = false;
   }
 
   void initscoreboard(){
@@ -117,11 +101,6 @@ class screen{
     text("0000000", 620, 40);
     s = 0;
   }
-  //
-  //
-  //
-  //
-  //
   //
   //buttom set up
   //set start buttom
@@ -146,9 +125,6 @@ class screen{
     //545 <= mouseY <= 600
   }
   //
-  //
-  //
-  //
   //build funtion
   //build info page
   void buildInfo(){
@@ -160,7 +136,7 @@ class screen{
     clickStart = false;
     clickInfo = false;
     clickBack = true;
-    isleft = false;
+    isLeft = false;
   }
   //build Finish page
   void Finishscreen(int score){
@@ -177,7 +153,7 @@ class screen{
     text("score:"+sscore, 400, 200);
 
     textSize(45);
-    text("combo:"+str(highestcombo), 400, 250);
+    text("combo:"+str(highestCombo), 400, 250);
 
     textSize(40);
     fill(255, 255, 255);
@@ -189,9 +165,6 @@ class screen{
     setbackBn();
     clickBack = true;
   }
-  //
-  //
-  //
   //
   //counter add  
   void addcombo(){
@@ -215,17 +188,14 @@ class screen{
     numOfpoor++;
   }
   //
-  //
-  //
-  //
   //get data
   int getcombo(){
 
     return combo;
   }
-  int gethighestcombo(){
+  int gethighestCombo(){
 
-    return highestcombo;
+    return highestCombo;
   }
   int getnumOfperfect(){
 
@@ -244,17 +214,11 @@ class screen{
     return numOfpoor;
   }
   //
-  //
-  //
-  //
   //reset counter
   void resetcombo(){
 
     combo = 0;
   }
-  //
-  //
-  //
   //
   //
   void leavegame(){
@@ -263,13 +227,10 @@ class screen{
     
       if(key == ESC){
 
-        isleft = true;
+        isLeft = true;
       }
     }
   }
-  //
-  //
-  //
   //
   //print 
   void printscore(int score){
@@ -287,14 +248,9 @@ class screen{
     textAlign(CENTER);
     if(combo != 0)
       text(str(combo), 150, 150);
-    if(highestcombo < combo)
-      highestcombo = combo;
+    if(highestCombo < combo)
+      highestCombo = combo;
   }
-  //
-  //
-  //
-  //
-  //
 }
 
 void keyPressed(){
@@ -346,11 +302,6 @@ void draw(){
   if(tmp.isStart){
 
     tmp.initgamebackground();
-    // menu = false;
-    // clickStart = false;
-    // clickInfo = false;
-    // clickBack = false;
-    // isleft = false;
 
     int p = (int)random(0, 100);
 
@@ -383,7 +334,7 @@ void draw(){
     tmp.printcombo(tmp.getcombo());
 
     tmp.leavegame();
-    if(tmp.isleft){
+    if(tmp.isLeft){
 
       tmp.isEnd = false;
     }
@@ -401,13 +352,6 @@ void draw(){
   if(tmp.isEnd){
 
     tmp.Finishscreen(s);
-    // menu = false;
-    // isEnd = true;
-    // isStart = false;
-    // clickStart = false;
-    // clickInfo = false;
-    // clickBack = true;
-    // isleft = false;
     if(mousePressed && mouseButton == LEFT){
   
       if(mouseX >= 270 && mouseX <= 520 && mouseY >= 545 && mouseY <= 600){
@@ -418,7 +362,7 @@ void draw(){
     }
   }
 
-  if(tmp.isleft){
+  if(tmp.isLeft){
 
     tmp.initmenu();
     count = 0;
