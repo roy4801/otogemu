@@ -48,10 +48,11 @@ class Note
     //// DEBUG only
     void printDbg()
     {
-        println(String.format("noteType:%d\nnoteCol: %d\nstartTime: %d\ntouchTime: %d\nendTime: %d\n", noteType, noteCol, startTime, touchTime, endTime));
+        println(String.format("noteType:%d\nnoteCol: %d\nx = %d y = %d\nstartTime: %d\ntouchTime: %d\nendTime: %d\n", noteType, noteCol, x, y, startTime, touchTime, endTime));
     }
     ////////////////////////////////////
     boolean on;
+    boolean end;
     // Type
     int appType;       // note app type : NOTE_APP_WHITE, NOTE_APP_RED
     int noteType;      // note type     : NOTE_SHORT, NOTE_LONG
@@ -69,7 +70,8 @@ class Note
     Note()
     {
         // cnter = new Counter(dur);
-        on = true;
+        on = false;
+        end = false;
         
         appType = NOTE_APP_NONE;
         noteType = NOTE_NONE;
@@ -92,6 +94,7 @@ class Note
         this.startTime = startTime;
         this.touchTime = touchTime;
         this.endTime = endTime;
+        on = end = false;
         prevKey = false;
     }
     //
@@ -100,6 +103,17 @@ class Note
     {
         on = true;
     }
+    void check(Clock clk)
+    {
+        // If a note is ended, then don't check
+        if(end)
+            return;
+
+        if(clk.getPassed() >= startTime)
+        {
+            on = true;
+        }
+    }
     void update()
     {
         if(!on)
@@ -107,8 +121,8 @@ class Note
 
         y += moveUnit * speed;
 
-        if(y > endPoint[notePos][1] + pressedBlockH)
-
+        // If the y of a note is excess of the judge line of its column
+        if(y > endPoint[noteCol][1] + pressedBlockH)
             on = false;
     }
     void judge()
@@ -116,9 +130,7 @@ class Note
         if(!on)
             return;
 
-        // println(x, y);
-
-        int judgeY = y - (endPoint[notePos][1] + pressedBlockH);
+        int judgeY = y - (endPoint[noteCol][1] + pressedBlockH);
 
         // the column of the noteCol is pressed
         if(!prevKey && keyHandler.getKey(noteCol))
@@ -127,20 +139,24 @@ class Note
             {
                 scene.addPerfect();
                 on = false;
+                end = true;
             }
             else if((judgeY >= great[0][0] && judgeY < great[0][1])
                  || (judgeY > great[1][0] && judgeY <= great[1][1]))
             {
                 scene.addGreat();
                 on = false;
+                end = true;
             }
             else if(judgeY >= good[0][0] && judgeY < good[0][1]
                 || judgeY > good[1][1] && judgeY <= good[1][1])
             {
                 scene.addGood();
                 on = false;
+                end = true;
             }
         }
+        // save the now key state to prevKey for next round
         prevKey = keyHandler.getKey(noteCol);
     }
     void draw()
@@ -189,5 +205,10 @@ class Note
     void setEndTime(int end)
     {
         endTime = end;
+    }
+
+    int getTouchTime()
+    {
+        return touchTime;
     }
 }

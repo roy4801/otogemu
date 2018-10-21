@@ -28,18 +28,22 @@ static final int pressedBlockH = 13;
 
 class Game
 {
+    // imgs
     PImage trackImg;
     PImage []btnImg;
 
+    // sound effect
     SoundFile hitSE;
     int hitse_type = 0;
 
     SoundHandler se = new SoundHandler();
 
-    // SoundFile bm;
-    // SoundHandler song = new SoundHandler();
+    // fumen
+    FumenParser fumenParser = new FumenParser();
+    Fumen nowFumen = null;
+    ArrayList<Note> noteList = null;
 
-    ArrayList<Note> noteList = new ArrayList<Note>();
+    Clock clk = new Clock();
 
     // prev key
     boolean [] prev = new boolean[TotalKeys];
@@ -59,46 +63,26 @@ class Game
         // Loading sound effect
         hitSE = LoadSoundEffect(hitSEList[hitse_type]);
         se.addSoundFile(hitSEList[hitse_type], hitSE);
-
+        //
+        // Loading fumen
+        nowFumen = fumenParser.getFumen("bg1");
+        noteList = nowFumen.getNoteList();
 
         // init
         Arrays.fill(prev, false);
-
-        ////////
-        // test
-        boolean flip = false;
-        for(int i = 0; i < 100; i++)
-        {
-            if(i % 4 == 0 && i != 0)
-                flip = !flip;
-
-            if(flip)
-                noteList.add(new Note(NOTE_APP_WHITE, NOTE_SHORT, i % 4, endPoint[i % 4][0], 0 - 100 * i, 0, 0, 0));
-            else
-                noteList.add(new Note(NOTE_APP_WHITE, NOTE_SHORT, 3 - i % 4, endPoint[3 - i % 4][0], 0 - 100 * i, 0, 0, 0));
-        }
-        
     }
 
     void start()
     {
-        for(int i = 0; i < noteList.size(); i++)
-        {
-            // println("Start " + str(i) + "\n");
-            noteList.get(i).start();
-        }
-
-        // TESTING
-        // song.play("bg1");
+        clk.start();
     }
 
     void update()
     {
-        // tmpNoteD.update();
-
         for(int i = 0; i < noteList.size(); i++)
         {
             // println("Update " + str(i) + "\n");
+            noteList.get(i).check(clk);
             noteList.get(i).update();
             noteList.get(i).judge();
         }
@@ -140,6 +124,7 @@ class Game
                 se.play(hitSEList[hitse_type]);
         }
 
+        // Save now key state to prev for next loop
         for(int i = 0; i < TotalKeys; i++)
             prev[i] = keyHandler.getKey(i);
 
@@ -156,8 +141,5 @@ class Game
 
         // fill(255, 0, 0);
         // line(100, 100, 800, 600);
-
-
     }
-
 }

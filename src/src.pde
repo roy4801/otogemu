@@ -15,14 +15,12 @@ Game game;
 
 ////////////////////////////////////////
 // TESTING
+// Clock c = new Clock();
+
 void test()
 {
-    FumenParser fumenParser = new FumenParser();
-    Fumen f = fumenParser.getFumen("bg1");
 
-    f.music.play();
-
-    // exit();
+    exit();
 }
 ////////////////////////////////////////
 
@@ -38,7 +36,7 @@ void setup()
 
     ////////////////////////////////////////
     // TESTING
-    //test();
+    // test();
     ////////////////////////////////////////
 
     //----------------------------------------------
@@ -70,6 +68,8 @@ void keyReleased()
     keyHandler.setKey(key, false);
 }
 
+boolean print = true;
+int now = 1;
 
 void draw()
 {
@@ -86,7 +86,7 @@ void draw()
     scene.draw(); // background, score, 
     game.draw(); // game
 
-
+    ////////////////////////////////////////
     // TESTING
     if(keyHandler.getKey(KEY_ESC))
         println("ESC");

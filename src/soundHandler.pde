@@ -23,6 +23,12 @@ class SoundHandler
 		this.type = type;
 	}
 
+	SoundHandler(String name, SoundFile file)
+	{
+		fileList.add(file);
+		fileToIdx.put(name, now++);
+	}
+
 	void addSoundFile(String name, SoundFile s)
 	{
 		if(fileToIdx.containsKey(name))
@@ -51,8 +57,8 @@ class SoundHandler
 			case PLAY_STOP:
 				if(tar.isPlaying())
 				{
-          tar.amp(0.5);
 					tar.stop();
+          			tar.amp(0.5);
 					tar.play();
 				}
 				else

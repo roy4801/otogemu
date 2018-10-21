@@ -5,21 +5,22 @@ import java.io.FileNotFoundException;
 class Fumen
 {
 	String title = null;
-	SoundFile music = null;
+	SoundHandler music = null;
 	ArrayList<Note> noteList = null;
 
 	Fumen()
 	{
 		title = "";
+		music = new SoundHandler();
 	}
 	Fumen(String title)
 	{
 		this.title = title;
 	}
-	Fumen(String title, SoundFile music, ArrayList<Note> noteList)
+	Fumen(String title, SoundFile m, ArrayList<Note> noteList)
 	{
 		this.title = title;
-		this.music = music;
+		music = new SoundHandler(title, m);
 		this.noteList = noteList;
 	}
 	//
@@ -28,15 +29,22 @@ class Fumen
 	{
 		noteList.add(note);
 	}
+	void playMusic()
+	{
+		if(music != null)
+			music.play(title);
+		else
+		{
+			println("Fumen.play(): music is null");
+			exit();
+		}
+	}
 	//
 	// Get/Set functions
-	void setTitle(String s)
+	void setSong(String title, SoundFile song)
 	{
-		title = s;
-	}
-	void setSong(SoundFile song)
-	{
-		music = song;
+		this.title = title;
+		music.addSoundFile(title, song);
 	}
 	void setNoteList(ArrayList<Note> list)
 	{
@@ -47,7 +55,7 @@ class Fumen
 	{
 		return title;
 	}
-	SoundFile getSong()
+	SoundHandler getSong()
 	{
 		return music;
 	}
@@ -101,6 +109,7 @@ class FumenParser
 
             while(tokenizer.hasMoreTokens())
             {
+            	int keyCol = -1;
             	token = tokenizer.nextToken();
 
                 if(Objects.equals("s", token))
@@ -109,7 +118,9 @@ class FumenParser
 
                 	// Get notePos(KEY_X)
                 	token = tokenizer.nextToken();
-                	now.setCol(getKeyType(token.charAt(0)));
+                	keyCol = getKeyType(token.charAt(0));
+                	now.setCol(keyCol);
+                	now.setInitPos(endPoint[getKeyType(token.charAt(0))][POS_X], 0);
 
                 	// Get touchTime
                 	token = tokenizer.nextToken();
@@ -121,8 +132,9 @@ class FumenParser
 
                 	// Get notCol(KEY_X): which column
                 	token = tokenizer.nextToken();
-                	now.setCol(getKeyType(token.charAt(0)));
-                	
+                	keyCol = getKeyType(token.charAt(0));
+                	now.setCol(keyCol);
+                	now.setInitPos(endPoint[getKeyType(token.charAt(0))][POS_X], 0);
 
                 	// Get touchTime
                 	token = tokenizer.nextToken();
@@ -132,6 +144,8 @@ class FumenParser
                 	token = tokenizer.nextToken();
                 	now.setEndTime(Integer.parseInt(token));
                 }
+                // Calculating the startTime = touchTime - time form 0 to endPoint (ms)
+                now.setStartTime((int)(now.getTouchTime() - (endPoint[keyCol][POS_Y] + pressedBlockH) / unit * 1000.f));
 
                 noteList.add(now);
                 // now.printDbg();

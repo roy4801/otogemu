@@ -25,18 +25,22 @@ int getKeyType(char c)
 	switch(c)
 	{
 		case 'd':
+		case 'D':
 			keyType = KEY_D;
 		break;
 
 		case 'f':
+		case 'F':
 			keyType = KEY_F;
 		break;
 
 		case 'j':
+		case 'J':
 			keyType = KEY_J;
 		break;
 
 		case 'k':
+		case 'K':
 			keyType = KEY_K;
 		break;
 	}
