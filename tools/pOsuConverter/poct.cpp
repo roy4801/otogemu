@@ -1,4 +1,5 @@
 #include <iostream>
+#include <map>
 #include <fstream>
 #include <cstring>
 
@@ -8,6 +9,8 @@ char line[100];
 bool flag = false;
 string cmp;
 int shortnote[9];
+
+map<int, char> xToBtn;
 
 enum file_type{
 
@@ -21,9 +24,18 @@ enum note_type{
 	NOTE_LONG
 };
 
+void init(){
 
-void usage(const char program[])
-{
+	xToBtn.insert(make_pair(64, 'd'));
+	xToBtn.insert(make_pair(192, 'f'));
+	xToBtn.insert(make_pair(320, 'j'));
+	xToBtn.insert(make_pair(448, 'k'));
+
+}
+
+
+void usage(const char program[]){
+
 	printf("Usage: ");
 	printf("%s -i <intput> -o <output>", program);
 }
@@ -49,14 +61,27 @@ void pull_s(char line[], int len){
 		printf("s");
 		int count = 0;
 		char *pch;
+		bool noteXFlag = false;
+		bool noteYFlag = false;
 
 		pch = strtok(line, ",:");
 
 		while(pch != NULL){
 
 			count++;
-			if(count <=3)
-				printf(" %s", pch);
+
+			if(count <=3){
+				if(!noteXFlag){
+					printf(" %c", xToBtn[atoi(pch)]);
+					noteXFlag = true;
+				}
+				else if(!noteYFlag){
+					noteYFlag = true;
+					// skip y data
+				}
+				else
+					printf(" %s", pch);
+			}
 			else
 				break;
 
@@ -73,6 +98,8 @@ void pull_l(char line[], int len){
 		printf("l");
 		int count = 0;
 		char *pch;
+		bool noteXFlag = false;
+		bool noteYFlag = false;
 
 		pch = strtok(line, ",:");
 		
@@ -80,7 +107,18 @@ void pull_l(char line[], int len){
 
 			count++;
 			if(count <= 3 || count == 6)
-				printf(" %s", pch);
+			{
+				if(!noteXFlag){
+					printf(" %c", xToBtn[atoi(pch)]);
+					noteXFlag = true;
+				}
+				else if(!noteYFlag){
+					noteYFlag = true;
+					// skip y data
+				}
+				else
+					printf(" %s", pch);
+			}
 			else if(count > 6)
 				break;
 
@@ -92,6 +130,7 @@ void pull_l(char line[], int len){
 
 int main(int argc, char* argv[])
 {
+	init();
 	string filename[2];
 	bool fileFlag[2] = {false};
 
