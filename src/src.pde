@@ -77,17 +77,17 @@ void setup()
 
     ////////////////////////////////////////
     // TESTING
-    test();
+    //test();
     ////////////////////////////////////////
 
     //----------------------------------------------
     // Loading materials
     loadNoteImage();
 
-    // keyHandler = new KeyHandler();
-    // scene = new Scene();
-    // game = new Game();
-    // game.start();
+     keyHandler = new KeyHandler();
+     scene = new Scene();
+     game = new Game();
+     game.start();
 }
 
 boolean timeCnt = true;
