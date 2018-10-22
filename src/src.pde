@@ -23,11 +23,12 @@ void path()
 
 ////////////////////////////
 /// Global variables
+loadingScene loading;
 KeyHandler keyHandler;
 Scene scene;
 Game game;
 
-int globalState = GLOBAL_MENU;
+int globalState = GLOBAL_LOADING;
 
 ////////////////////////////////////////
 // TESTING
@@ -59,7 +60,9 @@ void setup()
     keyHandler = new KeyHandler();
     scene = new Scene();
     game = new Game();
-    scene.initmenu();
+    loading = new loadingScene();
+    loading.loadScene();
+    //scene.initmenu();
 }
 
 //----------------------------------------------
@@ -108,7 +111,20 @@ void draw()
     switch(globalState)
     {
         case GLOBAL_LOADING:
+        {
+            // if(loading.fillx == 180)
+            // {
+            //     //scene.initmenu();
+            // }
 
+            loading.loadScene();
+            loading.addfillx();
+            if(loading.fillx == 651)
+            {
+                scene.initmenu();
+                globalState = GLOBAL_MENU;
+            }
+        }
         break;
 
         case GLOBAL_MENU:
