@@ -20,11 +20,11 @@ static final int JUDGE_GOOD = 3;
 static final int JUDGE_POOR = 4;
 static final int JUDGE_MISS = 5;
 
-static final int [] perfect = {-27, -10};//4, 9
+static final int [] perfect = {-25, -12};//4, 9
 static final int [][] great =
 {
-    {-35, -27},//-1, 3
-    {-10, -6}//10, 13
+    {-35, -25},//-1, 3
+    {-12, -6}//10, 13
 };
 static final int [][] good =
 {
