@@ -153,6 +153,11 @@ void draw()
             scene.printscore(123+i);
             i++;
             scene.printcombo(scene.getcombo());
+
+            if(game.isEnd())
+            {
+                globalState = GLOBAL_END;
+            }
         }
         break;
 
@@ -166,7 +171,7 @@ void draw()
             if(click_type == CLICK_BACK){
 
                 if(scene.clickBack)
-                    scene.initmenu();
+                    globalState = GLOBAL_MENU;
             }
         }
         break;

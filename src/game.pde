@@ -99,8 +99,10 @@ class Game
                 noteList.get(i).judge();
             }
 
-            // if(nowFumen.isMusicEnd())
-            //     gameState = GAME_STOP;
+            if(nowFumen.isMusicEnd())
+            {
+                gameState = GAME_STOP;
+            }
         }
     }
 
