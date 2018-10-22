@@ -92,7 +92,7 @@ void draw()
     {
         case GLOBAL_LOADING:
         {
-            if(loading.fillx == 185)
+            if(loading.fillx == 184)
             {
                 loadNoteImage();
                 game.loadResource();
@@ -101,7 +101,7 @@ void draw()
 
             loading.loadScene();
             loading.addfillx();
-            if(loading.fillx == 656)
+            if(loading.fillx == 654)
             {
                 scene.initmenu();
                 globalState = GLOBAL_MENU;

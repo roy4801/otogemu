@@ -117,13 +117,13 @@ class LoadingScene
 
     void addfillx()
     {
-        if(fillx == 185)
+        if(fillx == 184)
             choosCase++;
 
         if(choosCase == loadingCase[0])
-            fillx += 1;
+            fillx += 4;
         else if(choosCase == loadingCase[1])
-            fillx += 3;
+            fillx += 10;
     }
 }
 
