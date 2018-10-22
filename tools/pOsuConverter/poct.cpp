@@ -10,7 +10,7 @@ char line[100];
 bool flag = false;
 string cmp;
 int shortnote[9];
-bool longTOshort = true;
+bool longTOshort = false;
 
 map<int, char> xToBtn;
 
@@ -39,7 +39,8 @@ void init(){
 void usage(const char program[]){
 
 	printf("Usage: ");
-	printf("%s -i <intput> -o <output>", program);
+	printf("%s [-c] -i <intput> -o <output>\n", program);
+	printf("\t-c, --convert  Converts long notes to short notes\n");
 }
 
 int searchSL(char line[], int len){
@@ -187,7 +188,7 @@ int main(int argc, char* argv[])
 	string filename[2];
 	bool fileFlag[2] = {false};
 
-	if(argc != 5){
+	if(argc < 5){
 
 		usage(argv[0]);
 		return -1;
@@ -217,6 +218,10 @@ int main(int argc, char* argv[])
 			i++;
 			filename[F_TO] = argv[i];
 			fileFlag[F_TO] = true;
+		}
+		else if(strcmp(argv[i], "-c") == 0 || strcmp(argv[i], "--convert") == 0)
+		{
+			longTOshort = true;
 		}
 		i++;
 	}
