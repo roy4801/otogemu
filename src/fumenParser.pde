@@ -25,6 +25,7 @@ class Fumen
 	{
 		noteList.add(note);
 	}
+	//
 	void playMusic()
 	{
 		if(music != null)
@@ -34,6 +35,10 @@ class Fumen
 			println("Fumen.play(): music is null");
 			exit();
 		}
+	}
+	boolean isMusicEnd()
+	{
+		return music.isStopped(title); // this is return true once the music was stopped and played before.
 	}
 	//
 	// Get/Set functions
@@ -46,7 +51,6 @@ class Fumen
 	{
 		noteList = list;
 	}
-
 	String getTitle()
 	{
 		return title;

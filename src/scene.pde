@@ -1,8 +1,3 @@
-/*
- * Notice: This file is only for testing
- * Waiting for merging screen_pde.pde
- */
-
 static final int HIT_PERFECT = 0;
 static final int HIT_GREAT   = 1;
 static final int HIT_GOOD 	 = 2;
@@ -48,15 +43,6 @@ class Scene{
 	//
 	//
 	Scene(){
-		//load image
-		gamebackgroundImg = LoadUI("gameBackGround_resize.jpg");
-		backgroundImg 	  = LoadUI("backgroundImg.jpg");
-		startBnImg 		  = LoadUI("start.png");
-		infoBnImg 		  = LoadUI("info.png");
-		backBnImg		  = LoadUI("back.png");
-		infoImg  		  = LoadUI("infoImg.jpg");
-		infotext 		  = LoadUI("infotext.png");
-		illustration 	  = LoadUI("illustration.png");
 		//initial counters
 		combo 		 = 0;
 		numOfperfect = 0;
@@ -72,11 +58,22 @@ class Scene{
 		isEnd 	   = false;
 		menu 	   = true;
 		isLeft 	   = true;
-		//
 	}
-	  //
-	  // initial the frame
-	  // reset the frame
+	void loadResource()
+	{
+		// Load image
+		gamebackgroundImg   = LoadUI("gameBackGround_resize.jpg");
+		backgroundImg 	    = LoadUI("backgroundImg.jpg");
+		startBnImg 		    = LoadUI("start.png");
+		infoBnImg 		    = LoadUI("info.png");
+		backBnImg		    = LoadUI("back.png");
+		infoImg  		    = LoadUI("infoImg.jpg");
+		infotext 		    = LoadUI("infotext.png");
+		illustration 	    = LoadUI("illustration.png");
+	}
+	//
+	// initial the frame
+	// reset the frame
 	void initmenu(){
 
 		image(backgroundImg, 0, 0, 800, 600);

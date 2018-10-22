@@ -33,7 +33,7 @@ class Counter
         }
         else
         {
-            println("Sound: The duration or start is -1");    
+            println("Sound: The duration or start is -1");
         }
     }
     void update()

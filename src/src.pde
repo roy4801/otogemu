@@ -23,9 +23,9 @@ void path()
 
 ////////////////////////////
 /// Global variables
-KeyHandler keyHandler;
-Scene scene;
-Game game;
+KeyHandler keyHandler = new KeyHandler();
+Scene scene = new Scene();
+Game game = new Game();
 
 int globalState = GLOBAL_MENU;
 
@@ -56,9 +56,8 @@ void setup()
     //----------------------------------------------
     // Loading materials
     loadNoteImage();
-    keyHandler = new KeyHandler();
-    scene = new Scene();
-    game = new Game();
+    game.loadResource();
+    scene.loadResource();
     scene.initmenu();
 }
 
@@ -78,30 +77,6 @@ void keyReleased()
 {
     keyHandler.setKey(key, false);
 }
-
-// void Menu(){
-
-//     if(scene.menu)
-//     {
-        
-//     }
-// }
-
-// void gamePlay(){
-
-//     if(scene.isStart){
-
-        
-//     }
-// }
-
-// void endGame(){
-
-//     if(scene.isEnd)
-//     {
-        
-//     }
-// }
 
 void draw()
 {
@@ -123,6 +98,7 @@ void draw()
                     if(scene.clickInfo)
                         scene.buildInfo();
                 break;
+
                 case CLICK_START:
                     if(scene.clickStart)
                     {
@@ -133,6 +109,7 @@ void draw()
                         game.start();
                     }
                 break;
+
                 case CLICK_BACK:
                     if(scene.clickBack)
                         scene.initmenu();
@@ -147,7 +124,7 @@ void draw()
             game.update();
 
             // Draw
-            scene.initgamebackground();
+            // scene.initgamebackground();
             game.draw();
             scene.printscore(123);
             scene.printcombo(scene.getcombo());

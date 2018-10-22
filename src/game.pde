@@ -26,6 +26,10 @@ static final int POS_Y = 1;
 static final int pressedBlockW = 37;
 static final int pressedBlockH = 13;
 
+static final int GAME_NONE    = 0;
+static final int GAME_PLAYING = 1;
+static final int GAME_STOP    = 2;
+
 class Game
 {
     // imgs
@@ -35,7 +39,6 @@ class Game
     // sound effect
     SoundFile hitSE;
     int hitse_type = 0;
-
     // SoundHandler se = new SoundHandler();
 
     // fumen
@@ -48,7 +51,15 @@ class Game
     // prev key
     boolean [] prev = new boolean[TotalKeys];
 
+    // game state
+    int gameState = GAME_NONE;
+
     Game()
+    {
+        // init
+        Arrays.fill(prev, false);
+    }
+    void loadResource()
     {
         // Loading resources
         trackImg = LoadImage("4k_layout.png");
@@ -67,24 +78,29 @@ class Game
         // Loading fumen
         nowFumen = fumenParser.getFumen("bg1");
         noteList = nowFumen.getNoteList();
-
-        // init
-        Arrays.fill(prev, false);
     }
-
+    /////////////////////////////////////
+    /// main function
     void start()
     {
         clk.start();
+        gameState = GAME_PLAYING;
     }
 
     void update()
     {
-        for(int i = 0; i < noteList.size(); i++)
+        if(gameState == GAME_PLAYING)
         {
-            // println("Update " + str(i) + "\n");
-            noteList.get(i).check(clk);
-            noteList.get(i).update();
-            noteList.get(i).judge();
+            for(int i = 0; i < noteList.size(); i++)
+            {
+                // println("Update " + str(i) + "\n");
+                noteList.get(i).check(clk);
+                noteList.get(i).update();
+                noteList.get(i).judge();
+            }
+
+            // if(nowFumen.isMusicEnd())
+            //     gameState = GAME_STOP;
         }
     }
 
@@ -141,5 +157,11 @@ class Game
 
         // Start play fumen music
         nowFumen.playMusic();
+    }
+    /////////////////////////////////////
+    /// Get/Set function
+    boolean isEnd()
+    {
+        return gameState == GAME_STOP && gameState != GAME_NONE ? true : false;
     }
 }

@@ -13,6 +13,10 @@ class SoundHandler
 	int now = 0;
 	int type;
 
+	ArrayList<Boolean> played = new ArrayList<Boolean>(); // for PLAY_IGNORE
+
+	//////////////////////
+	/// Constructor
 	SoundHandler()
 	{
 		type = PLAY_STOP;
@@ -34,6 +38,8 @@ class SoundHandler
 		addSoundFile(name, file);
 	}
 
+	//////////////////////
+	/// Main functions
 	void addSoundFile(String name, SoundFile s)
 	{
 		if(fileToIdx.containsKey(name))
@@ -44,6 +50,7 @@ class SoundHandler
 
 		fileToIdx.put(name, now++);
 		fileList.add(s);
+		played.add(false);
 		// playStat.add(false);
 	}
 
@@ -52,7 +59,6 @@ class SoundHandler
 		int idx = fileToIdx.get(name);
 		play(idx);
 	}
-
 	void play(int idx)
 	{
 		SoundFile tar = fileList.get(idx);
@@ -73,10 +79,46 @@ class SoundHandler
 			break;
 
 			case PLAY_IGNORE:
-				if(!tar.isPlaying())
+				if(!played.get(idx) && !tar.isPlaying())
+				{
 					tar.play();
+				}
 			break;
 		}
-		
+
+		played.set(idx, true);
+	}
+
+	boolean isPlaying(String name)
+	{
+		int idx = fileToIdx.get(name);
+		return isPlaying(idx);
+	}
+	boolean isPlaying(int idx)
+	{
+		SoundFile tar = fileList.get(idx);
+		return tar.isPlaying();
+	}
+
+	boolean isPlayed(String name)
+	{
+		int idx = fileToIdx.get(name);
+		return isPlayed(idx);
+	}
+	boolean isPlayed(int idx)
+	{
+		return played.get(idx);
+	}
+
+	boolean isStopped(String name)
+	{
+		int idx = fileToIdx.get(name);
+		return isStopped(idx);
+	}
+	boolean isStopped(int idx)
+	{
+		SoundFile tar = fileList.get(idx);
+
+		return played.get(idx) && !tar.isPlaying();
 	}
 }
