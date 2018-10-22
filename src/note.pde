@@ -1,5 +1,5 @@
 static final float speed = 1.f;
-static final float unit = 261.f;
+static final float unit = 400.f;
 static final float moveUnit = unit / (float)fps;
 
 

@@ -6,7 +6,16 @@ import java.nio.file.Paths;
 // Constants
 static final int fps = 120;
 
-static final String proj_path = "/Users/roy4801/Desktop/Program/myProj/otogemu/src/";
+
+static String proj_path = "";
+
+void path()
+{
+    if(OsUtils.isWindows())
+        proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
+    else if(OsUtils.isMacos())
+        proj_path = "/Users/roy4801/Desktop/Program/myProj/otogemu/src/";
+}
 
 //
 KeyHandler keyHandler;
@@ -31,7 +40,7 @@ void setup()
     frameRate(fps);
     randomSeed(0);
 
-
+    path();
     ////////////////////////////////////////
     // TESTING
     // test();
