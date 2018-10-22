@@ -26,7 +26,7 @@ class Scene{
 	int numOfperfect;
 	int numOfgreat;
 	int numOfgood;
-	int numOfpoor;
+	int numOfmiss;
 	int highestCombo;
 	//
 	//
@@ -48,7 +48,7 @@ class Scene{
 		numOfperfect = 0;
 		numOfgreat 	 = 0;
 		numOfgood 	 = 0;
-		numOfpoor 	 = 0;
+		numOfmiss 	 = 0;
 		highestCombo = 0;
 		//
 		clickStart = true;
@@ -92,14 +92,14 @@ class Scene{
 		numOfperfect = 0;
 		numOfgreat   = 0;
 		numOfgood 	 = 0;
-		numOfpoor 	 = 0;
+		numOfmiss 	 = 0;
 		highestCombo = 0;
 	}
 
 	void initgamebackground(){
 
-		frameRate(fps);
-		//image(gamebackgroundImg, 0, 0, 800, 600);
+		//frameRate(fps);
+		image(gamebackgroundImg, 0, 0, 800, 600);
 		menu 	   = false;
 		clickStart = false;
 		clickInfo  = false;
@@ -173,7 +173,7 @@ class Scene{
 		text("Perfect:"+str(numOfperfect), 280, 300);
 		text("Great:"+str(numOfgreat), 550, 300);
 		text("Good:"+str(numOfgood), 280, 400);
-		//text("Poor:"+str(numOfpoor), 550, 400);
+		//text("Poor:"+str(numOfmiss), 550, 400);
 
 		setbackBn();
 		clickBack = true;
@@ -196,9 +196,9 @@ class Scene{
 
 		numOfgood++;
 	}
-	void addPoor(){
+	void addMiss(){
 
-		numOfpoor++;
+		numOfmiss++;
 	}
 	//
 	//get data
@@ -222,9 +222,9 @@ class Scene{
 
 		return numOfgood;
 	}
-	int getnumOfpoor(){
+	int getnumOfmiss(){
 
-		return numOfpoor;
+		return numOfmiss;
 	}
 	//
 	//reset counter
@@ -248,9 +248,11 @@ class Scene{
 	//print
 	void printscore(int score){
 
+		fill(255, 255, 230);
+		rect(620, 5, 200, 40);
 		String sprintscore = nf(score, 7);
 		textSize(40);
-		fill(255, 255, 255);
+		fill(0, 0, 0);
 		textAlign(LEFT);
 		text(sprintscore, 620, 40);
 	}
@@ -260,7 +262,7 @@ class Scene{
 		fill(255, 255, 255);
 		textAlign(CENTER);
 		if(combo != 0)
-		  text(str(combo), 150, 150);
+		  text(str(combo), 180, 200);
 		if(highestCombo < combo)
 		  highestCombo = combo;
 	}
@@ -363,7 +365,7 @@ class Scene{
 //     else{
 
 //       tmp.resetcombo();
-//       tmp.addpoor();
+//       tmp.addMiss();
 //     }
 //     count++;
 

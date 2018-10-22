@@ -1,6 +1,6 @@
 int [] loadingCase = {1, 2, 3};
 
-class loadingScene
+class LoadingScene
 {
     PImage loadingbackground;
     //
@@ -14,7 +14,7 @@ class loadingScene
     //
     boolean isLoad;
 
-    loadingScene()
+    LoadingScene()
     {
         loadingbackground = LoadUI("loadingbackground.png");
         //
@@ -117,7 +117,7 @@ class loadingScene
 
     void addfillx()
     {
-        if(fillx == 180)
+        if(fillx == 185)
             choosCase++;
 
         if(choosCase == loadingCase[0])
@@ -130,7 +130,7 @@ class loadingScene
 // void setup()
 // {
 //     size(800, 600);
-//     loading = new loadingScene();
+//     loading = new LoadingScene();
 //     loading.setbackgound();
 // }
 

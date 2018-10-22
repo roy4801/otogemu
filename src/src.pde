@@ -23,9 +23,10 @@ void path()
 
 ////////////////////////////
 /// Global variables
-KeyHandler keyHandler = new KeyHandler();
-Scene scene = new Scene();
-Game game = new Game();
+KeyHandler keyHandler;
+LoadingScene loading;
+Scene scene;
+Game game;
 
 int globalState = GLOBAL_LOADING;
 
@@ -54,11 +55,18 @@ void setup()
     ////////////////////////////////////////
 
     //----------------------------------------------
+    keyHandler = new KeyHandler();
+    loading = new LoadingScene();
+    scene = new Scene();
+    game = new Game();
+
+    loading.loadScene();
+
     // Loading materials
-    loadNoteImage();
-    game.loadResource();
-    scene.loadResource();
-    scene.initmenu();
+    // loadNoteImage();
+    // game.loadResource();
+    // scene.loadResource();
+    // scene.initmenu();
 }
 
 //----------------------------------------------
@@ -77,21 +85,23 @@ void keyReleased()
 {
     keyHandler.setKey(key, false);
 }
-
+int i = 0;
 void draw()
 {
     switch(globalState)
     {
         case GLOBAL_LOADING:
         {
-            // if(loading.fillx == 180)
-            // {
-            //     //scene.initmenu();
-            // }
+            if(loading.fillx == 185)
+            {
+                loadNoteImage();
+                game.loadResource();
+                scene.loadResource();
+            }
 
             loading.loadScene();
             loading.addfillx();
-            if(loading.fillx == 651)
+            if(loading.fillx == 656)
             {
                 scene.initmenu();
                 globalState = GLOBAL_MENU;
@@ -116,7 +126,7 @@ void draw()
                     if(scene.clickStart)
                     {
                         scene.initgamebackground();
-                        scene.initscoreboard();
+                        //scene.initscoreboard();
                         // scene.isStart = true;
                         globalState = GLOBAL_GAME;
                         game.start();
@@ -137,9 +147,11 @@ void draw()
             game.update();
 
             // Draw
-            // scene.initgamebackground();
+            //scene.initgamebackground();
+
             game.draw();
-            scene.printscore(123);
+            scene.printscore(123+i);
+            i++;
             scene.printcombo(scene.getcombo());
         }
         break;
