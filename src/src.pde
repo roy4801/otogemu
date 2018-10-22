@@ -61,12 +61,6 @@ void setup()
     game = new Game();
 
     loading.loadScene();
-
-    // Loading materials
-    // loadNoteImage();
-    // game.loadResource();
-    // scene.loadResource();
-    // scene.initmenu();
 }
 
 //----------------------------------------------
@@ -150,7 +144,7 @@ void draw()
             //scene.initgamebackground();
 
             game.draw();
-            scene.printscore(123+i);
+            scene.printscore();
             i++;
             scene.printcombo(scene.getcombo());
 
@@ -163,7 +157,7 @@ void draw()
 
         case GLOBAL_END:
         {
-            scene.FinishScene(1);
+            scene.FinishScene();
             int click_type = -1;
             if(mousePressed && mouseButton == LEFT)
                 click_type = scene.click();

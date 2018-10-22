@@ -63,6 +63,10 @@ class Fumen
 	{
 		return noteList;
 	}
+	int getNoteListSize()
+	{
+		return noteList.size();
+	}
 }
 
 class FumenParser

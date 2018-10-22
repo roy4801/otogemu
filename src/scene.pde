@@ -9,6 +9,8 @@ static final int CLICK_INFO  = 0;
 static final int CLICK_START = 1;
 static final int CLICK_BACK  = 2;
 
+static final int MAX_SCORE = 1000000;
+
 class Scene{
 	//
 	//store image
@@ -22,6 +24,7 @@ class Scene{
 	PImage illustration;// example image
 	//
 	//counters
+	int nowScore;
 	int combo;
 	int numOfperfect;
 	int numOfgreat;
@@ -44,6 +47,7 @@ class Scene{
 	//
 	Scene(){
 		//initial counters
+		nowScore     = 0;
 		combo 		 = 0;
 		numOfperfect = 0;
 		numOfgreat 	 = 0;
@@ -88,6 +92,7 @@ class Scene{
 		clickBack  = false;
 		isLeft 	   = true;
 
+		nowScore     = 0;
 		combo 		 = 0;
 		numOfperfect = 0;
 		numOfgreat   = 0;
@@ -136,9 +141,9 @@ class Scene{
 		//270 <= mouseX <= 520
 		//545 <= mouseY <= 600
 	}
-	  //
-	  //build funtion
-	  //build info page
+	//
+	//build funtion
+	//build info page
 	void buildInfo(){
 
 		image(infoImg, 0, 0, 800, 600);
@@ -151,10 +156,9 @@ class Scene{
 		isLeft 	   = false;
 	}
   	//build Finish page
-	void FinishScene(int score){
-
-		frameRate(fps);
-		String sscore = nf(score, 7);
+	void FinishScene(){
+		// frameRate(fps);
+		String sscore = nf(nowScore, 7);
 		initgamebackground();
 		textAlign(CENTER);
 		textSize(80);
@@ -177,6 +181,13 @@ class Scene{
 
 		setbackBn();
 		clickBack = true;
+	}
+	// Calculating the total score after playing a fumen
+	void calcScore()
+	{
+		int total = game.getNowFumenTotalNote();
+
+		nowScore = (int)(MAX_SCORE * (numOfperfect + 0.8 * numOfgreat + 0.2 * numOfgood) / total);
 	}
 	//
 	//counter add
@@ -246,11 +257,11 @@ class Scene{
 	}
 	//
 	//print
-	void printscore(int score){
-
+	void printscore(){
+		calcScore();
 		fill(255, 255, 230);
 		rect(620, 5, 200, 40);
-		String sprintscore = nf(score, 7);
+		String sprintscore = nf(nowScore, 7);
 		textSize(40);
 		fill(0, 0, 0);
 		textAlign(LEFT);

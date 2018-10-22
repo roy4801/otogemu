@@ -133,13 +133,13 @@ class Note
         if(noteType == NOTE_SHORT)
             if(y > endPoint[noteCol][1] + pressedBlockH)
             {
-                on = false;
+                // on = false;
                 end = true;
             }
         else if(noteType == NOTE_LONG)
             if(y + pressedBlockH - longBarH > endPoint[noteCol][1] + pressedBlockH)
             {
-                on = false;
+                // on = false;
                 end = true;
             }
     }
@@ -251,6 +251,13 @@ class Note
         }
         // if pass then turn off, however it's not end (touch the end)
         if(pass)
+        {
+            on = false;
+        }
+
+        // if a note is end, then it's off
+        // end flag may turn off by Game.update()
+        if(end)
         {
             on = false;
         }

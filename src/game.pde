@@ -166,4 +166,9 @@ class Game
     {
         return gameState == GAME_STOP && gameState != GAME_NONE ? true : false;
     }
+
+    int getNowFumenTotalNote()
+    {
+        return nowFumen.getNoteListSize();
+    }
 }
