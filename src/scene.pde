@@ -239,7 +239,7 @@ class Scene{
 	}
 	//
 	//reset counter
-	void resetcombo(){
+	void resetCombo(){
 
 		combo = 0;
 	}
