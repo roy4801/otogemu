@@ -99,7 +99,7 @@ class Scene{
 	void initgamebackground(){
 
 		frameRate(fps);
-		image(gamebackgroundImg, 0, 0, 800, 600);
+		//image(gamebackgroundImg, 0, 0, 800, 600);
 		menu 	   = false;
 		clickStart = false;
 		clickInfo  = false;

@@ -27,7 +27,7 @@ KeyHandler keyHandler = new KeyHandler();
 Scene scene = new Scene();
 Game game = new Game();
 
-int globalState = GLOBAL_MENU;
+int globalState = GLOBAL_LOADING;
 
 ////////////////////////////////////////
 // TESTING
@@ -83,7 +83,20 @@ void draw()
     switch(globalState)
     {
         case GLOBAL_LOADING:
+        {
+            // if(loading.fillx == 180)
+            // {
+            //     //scene.initmenu();
+            // }
 
+            loading.loadScene();
+            loading.addfillx();
+            if(loading.fillx == 651)
+            {
+                scene.initmenu();
+                globalState = GLOBAL_MENU;
+            }
+        }
         break;
 
         case GLOBAL_MENU:
