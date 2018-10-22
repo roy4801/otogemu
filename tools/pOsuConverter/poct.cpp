@@ -2,6 +2,7 @@
 #include <map>
 #include <fstream>
 #include <cstring>
+#include <cstdlib>
 
 using namespace std;
 
@@ -9,6 +10,7 @@ char line[100];
 bool flag = false;
 string cmp;
 int shortnote[9];
+bool longTOshort = true;
 
 map<int, char> xToBtn;
 
@@ -128,6 +130,57 @@ void pull_l(char line[], int len){
 	}
 }
 
+void cvtLongToShort(char line[], int len){
+
+	char tmp_KEY;
+	int tmp_ENDTIME;
+
+	if(line != NULL && line[0] != '\0'){
+	
+		printf("s");
+		int count = 0;
+		char *pch;
+		bool noteXFlag = false;
+		bool noteYFlag = false;
+
+		pch = strtok(line, ",:");
+		
+		while(pch != NULL){
+
+			count++;
+			if(count <= 3 || count == 6)
+			{
+				if(!noteXFlag){
+					
+					printf(" %c", xToBtn[atoi(pch)]);
+					tmp_KEY = xToBtn[atoi(pch)];
+					noteXFlag = true;
+				}
+				else if(!noteYFlag){
+					
+					noteYFlag = true;
+					// skip y data
+				}
+				else if(count == 6){
+
+					tmp_ENDTIME = atoi(pch);
+				}
+				else
+					printf(" %s", pch);
+			}
+			else if(count > 6)
+				break;
+
+			pch = strtok(NULL, ",:");
+		}
+		putchar('\n');
+
+		printf("s");
+		printf(" %c", tmp_KEY);
+		printf(" %d\n", tmp_ENDTIME);
+	}
+}
+
 int main(int argc, char* argv[])
 {
 	init();
@@ -139,7 +192,6 @@ int main(int argc, char* argv[])
 		usage(argv[0]);
 		return -1;
 	}
-
 	// Parse arguement
 	int i = 1;
 	while(i < argc){
@@ -168,7 +220,6 @@ int main(int argc, char* argv[])
 		}
 		i++;
 	}
-
 	// Open fd
 	fstream audio;
 	audio.open(filename[F_FROM].c_str(), ios::in);
@@ -179,7 +230,6 @@ int main(int argc, char* argv[])
 	}
 
 	freopen(filename[F_TO].c_str(), "w", stdout);
-
 	// Start to parse the osu 4k fumen
 	while(!audio.eof()){
 
@@ -197,7 +247,12 @@ int main(int argc, char* argv[])
 					break;
 				//pull x y ts te
 				case NOTE_LONG:
-					pull_l(line, len);
+					if(!longTOshort){
+
+						pull_l(line, len);
+					}
+					else
+						cvtLongToShort(line, len);
 					break;
 			}
 		}
