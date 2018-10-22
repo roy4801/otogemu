@@ -2,6 +2,7 @@ static final int RES_IMG   = 0;
 static final int RES_SE    = 1;
 static final int RES_SONG  = 2;
 static final int RES_FUMEN = 3;
+static final int RES_UI    = 4;
 
 static final class OsUtils
 {
@@ -39,6 +40,9 @@ String getPath(int type, String file)
 		case RES_FUMEN:
 			path = "song/" + file;
 		break;
+		case RES_UI:
+			path = "data/img/UI/" + file;
+		break;
 
 		default:
 			println("getPath(): Wrong type " + type + file);
@@ -48,6 +52,10 @@ String getPath(int type, String file)
 	return path;
 }
 
+PImage LoadUI(String file)
+{
+	return loadImage(getPath(RES_UI, file));
+}
 PImage LoadImage(String file)
 {
 	return loadImage(getPath(RES_IMG, file));
