@@ -111,10 +111,6 @@ class Note
     }
     //
     // Main functions
-    void start()
-    {
-        on = true;
-    }
     void check(Clock clk)
     {
         // If a note is ended, then don't check
