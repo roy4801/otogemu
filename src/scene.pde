@@ -177,7 +177,7 @@ class Scene{
 		text("Perfect:"+str(numOfperfect), 280, 300);
 		text("Great:"+str(numOfgreat), 550, 300);
 		text("Good:"+str(numOfgood), 280, 400);
-		//text("Poor:"+str(numOfmiss), 550, 400);
+		text("Miss:"+str(numOfmiss), 550, 400);
 
 		setbackBn();
 		clickBack = true;
