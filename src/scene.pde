@@ -261,8 +261,8 @@ class Scene{
 		textSize(35);
 		fill(255, 255, 255);
 		textAlign(CENTER);
-		if(combo != 0)
-		  text(str(combo), 180, 200);
+		//if(combo != 0)
+		text(str(combo), 180, 180);
 		if(highestCombo < combo)
 		  highestCombo = combo;
 	}

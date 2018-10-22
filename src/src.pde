@@ -85,7 +85,6 @@ void keyReleased()
 {
     keyHandler.setKey(key, false);
 }
-int i = 0;
 void draw()
 {
     switch(globalState)
@@ -150,8 +149,7 @@ void draw()
             //scene.initgamebackground();
 
             game.draw();
-            scene.printscore(123+i);
-            i++;
+            scene.printscore(123);
             scene.printcombo(scene.getcombo());
 
             if(game.isEnd())
