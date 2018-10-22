@@ -136,10 +136,16 @@ class Note
         // If the y of a note is excess of the judge line of its column
         if(noteType == NOTE_SHORT)
             if(y > endPoint[noteCol][1] + pressedBlockH)
+            {
                 on = false;
+                end = true;
+            }
         else if(noteType == NOTE_LONG)
             if(y + pressedBlockH - longBarH > endPoint[noteCol][1] + pressedBlockH)
+            {
                 on = false;
+                end = true;
+            }
     }
     //
     // judgement
@@ -247,11 +253,10 @@ class Note
                 break;
             }
         }
-        // if pass then turn off
+        // if pass then turn off, however it's not end (touch the end)
         if(pass)
         {
             on = false;
-            end = true;
         }
 
 
@@ -263,7 +268,6 @@ class Note
     {
         if(on)
         {
-            
             // Long bar for NOTE_LONG
             if(noteType == NOTE_LONG)
             {
