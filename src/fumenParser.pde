@@ -141,7 +141,15 @@ class FumenParser
                 	now.setEndTime(Integer.parseInt(token));
                 }
                 // Calculating the startTime = touchTime - time form 0 to endPoint (ms)
-                now.setStartTime((int)(now.getTouchTime() - (endPoint[keyCol][POS_Y] + pressedBlockH) / unit * 1000.f));
+                now.setStartTime((int)(now.getTouchTime() - offsetToStartTime));
+
+            	// init notes
+                if(now.getStartTime() < 0)
+                {
+                	now.setY((int)(endPoint[keyCol][1] - (now.getTouchTime() * unit / 1000.f)));
+                }
+
+                // println(offsetToStartTime);
 
                 noteList.add(now);
                 // now.printDbg();

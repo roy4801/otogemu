@@ -26,7 +26,7 @@ class Scene{
 	PImage infotext;//info text
 	PImage illustration;// example image
 	//
-	//counters   
+	//counters
 	int combo;
 	int numOfperfect;
 	int numOfgreat;
@@ -43,13 +43,13 @@ class Scene{
 	boolean menu;
 	boolean isLeft;
 	//
-	// 
+	//
 	int [] hit = new int[HIT_TOTAL];
 	//
 	//
 	Scene(){
 		//load image
-		gamebackgroundImg = LoadUI("gamebackground.jpg");
+		gamebackgroundImg = LoadUI("gameBackGround_resize.jpg");
 		backgroundImg 	  = LoadUI("backgroundImg.jpg");
 		startBnImg 		  = LoadUI("start.png");
 		infoBnImg 		  = LoadUI("info.png");
@@ -76,7 +76,7 @@ class Scene{
 	}
 	  //
 	  // initial the frame
-	  // reset the frame  
+	  // reset the frame
 	void initmenu(){
 
 		image(backgroundImg, 0, 0, 800, 600);
@@ -182,8 +182,8 @@ class Scene{
 		clickBack = true;
 	}
 	//
-	//counter add  
-	void addcombo(){
+	//counter add
+	void addCombo(){
 
 		combo++;
 	}
@@ -248,7 +248,7 @@ class Scene{
 		}
 	}
 	//
-	//print 
+	//print
 	void printscore(int score){
 
 		String sprintscore = nf(score, 7);
@@ -274,7 +274,7 @@ class Scene{
 		if(mouseX >= 50 && mouseX <= 300 && mouseY >= 100 && mouseY <= 155){
 
 			if(clickInfo)
-				click_type = CLICK_INFO;			
+				click_type = CLICK_INFO;
 		}
 		else if(mouseX >= 50 && mouseX <= 300 && mouseY >= 280 && mouseY <= 335){
 

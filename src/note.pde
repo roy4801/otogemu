@@ -1,7 +1,11 @@
 static final float speed = 1.f;
-static final float unit = 400.f;
+static final float unit = 400.f; // pixel per sec
 static final float moveUnit = unit / (float)fps;
 
+static final float longBarW = 17;
+float longBarH = 0;
+
+static final float offsetToStartTime = (endPoint[0][POS_Y] + pressedBlockH) / unit * 1000.f;
 
 static final int NOTE_APP_NONE  = -1;
 static final int NOTE_APP_WHITE = 0;
@@ -19,6 +23,9 @@ static final int JUDGE_GREAT = 2;
 static final int JUDGE_GOOD = 3;
 static final int JUDGE_POOR = 4;
 static final int JUDGE_MISS = 5;
+
+static final int JUDGE_LONG_START = 0;
+static final int JUDGE_LONG_PRESS = 1;
 
 static final int [] perfect = {-25, -12};//4, 9
 static final int [][] great =
@@ -62,7 +69,9 @@ class Note
     // Time
     int startTime;     // startTime in ms    : startTime to move
     int touchTime;     // touchTime in ms    : touches the judge line
+    // For NOTE_LONG
     int endTime;       // endTime  in ms     : pressing time for a long note
+    int judgeStat;
     
     // judge
     boolean prevKey;
@@ -83,6 +92,8 @@ class Note
 
         // judge
         prevKey = false;
+
+        judgeStat = JUDGE_LONG_START;
     }
     Note(int appType, int noteType, int noteCol, int x, int y, int startTime, int touchTime, int endTime)
     {
@@ -96,6 +107,7 @@ class Note
         this.endTime = endTime;
         on = end = false;
         prevKey = false;
+        judgeStat = JUDGE_LONG_START;
     }
     //
     // Main functions
@@ -109,7 +121,7 @@ class Note
         if(end)
             return;
 
-        if(clk.getPassed() >= startTime)
+        if(startTime <= 0 || clk.getPassed() >= startTime)
         {
             on = true;
         }
@@ -122,47 +134,146 @@ class Note
         y += moveUnit * speed;
 
         // If the y of a note is excess of the judge line of its column
-        if(y > endPoint[noteCol][1] + pressedBlockH)
-            on = false;
+        if(noteType == NOTE_SHORT)
+            if(y > endPoint[noteCol][1] + pressedBlockH)
+                on = false;
+        else if(noteType == NOTE_LONG)
+            if(y + pressedBlockH - longBarH > endPoint[noteCol][1] + pressedBlockH)
+                on = false;
     }
-    void judge()
+    //
+    // judgement
+    boolean judgePress(int nowY)
     {
-        if(!on)
-            return;
-
-        int judgeY = y - (endPoint[noteCol][1] + pressedBlockH);
-
+        boolean pass = false;
+        int judgeY = nowY - (endPoint[noteCol][1] + pressedBlockH);
         // the column of the noteCol is pressed
         if(!prevKey && keyHandler.getKey(noteCol))
         {
             if(judgeY >= perfect[0] && judgeY <= perfect[1])
             {
                 scene.addPerfect();
-                on = false;
-                end = true;
+                pass = true;
             }
             else if((judgeY >= great[0][0] && judgeY < great[0][1])
                  || (judgeY > great[1][0] && judgeY <= great[1][1]))
             {
                 scene.addGreat();
-                on = false;
-                end = true;
+                pass = true;
             }
             else if(judgeY >= good[0][0] && judgeY < good[0][1]
                 || judgeY > good[1][1] && judgeY <= good[1][1])
             {
                 scene.addGood();
-                on = false;
-                end = true;
+                pass = true;
             }
         }
+
+        if(pass)
+            scene.addCombo();
+
+        return pass;
+    }
+    boolean judgeRelease(int nowY)
+    {
+        boolean pass = false;
+        int judgeY = nowY - (endPoint[noteCol][1] + pressedBlockH);
+        // the column of the noteCol is pressed
+        if(prevKey && !keyHandler.getKey(noteCol))
+        {
+            if(judgeY >= perfect[0] && judgeY <= perfect[1])
+            {
+                scene.addPerfect();
+                pass = true;
+            }
+            else if((judgeY >= great[0][0] && judgeY < great[0][1])
+                 || (judgeY > great[1][0] && judgeY <= great[1][1]))
+            {
+                scene.addGreat();
+                pass = true;
+            }
+            else if(judgeY >= good[0][0] && judgeY < good[0][1]
+                || judgeY > good[1][1] && judgeY <= good[1][1])
+            {
+                scene.addGood();
+                pass = true;
+            }
+        }
+
+        if(pass)
+            scene.addCombo();
+
+        return pass;
+    }
+    void judge()
+    {
+        if(!on)
+            return;
+
+        boolean pass = false;
+
+        if(noteType == NOTE_SHORT)
+        {
+            if(judgePress(y))
+            {
+                pass = true;
+            }
+        }
+        else if(noteType == NOTE_LONG)
+        {
+            switch(judgeStat)
+            {
+                case JUDGE_LONG_START:
+                    if(judgePress(y))
+                    {
+                        judgeStat = JUDGE_LONG_PRESS;
+                    }
+                    else
+                    {
+                        pass = false;
+                    }
+                break;
+
+                case JUDGE_LONG_PRESS:
+                    if(prevKey)
+                    {
+                        if(judgeRelease((int)(y + pressedBlockH - longBarH)))
+                            pass = true;
+                        else
+                            pass = false;
+                    }
+                    else
+                        pass = true;
+                break;
+            }
+        }
+        // if pass then turn off
+        if(pass)
+        {
+            on = false;
+            end = true;
+        }
+
+
         // save the now key state to prevKey for next round
         prevKey = keyHandler.getKey(noteCol);
     }
+    //
     void draw()
     {
         if(on)
         {
+            
+            // Long bar for NOTE_LONG
+            if(noteType == NOTE_LONG)
+            {
+                longBarH = (endTime - touchTime) * unit / 1000.f;
+
+                fill(232, 159, 197);
+                rect(x + (pressedBlockW - longBarW) / 2, y + pressedBlockH - longBarH, longBarW, longBarH);
+                image(noteImg[appType], x, y + pressedBlockH - longBarH, pressedBlockW, pressedBlockH);
+            }
+
             image(noteImg[appType], x, y, pressedBlockW, pressedBlockH);
         }
     }
@@ -171,6 +282,10 @@ class Note
     void setInitPos(int x, int y)
     {
         this.x = x;
+        this.y = y;
+    }
+    void setY(int y)
+    {
         this.y = y;
     }
     void setCol(int pos)
@@ -210,5 +325,9 @@ class Note
     int getTouchTime()
     {
         return touchTime;
+    }
+    int getStartTime()
+    {
+        return startTime;
     }
 }
