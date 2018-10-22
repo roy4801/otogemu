@@ -122,6 +122,7 @@ void draw()
                         //scene.initscoreboard();
                         // scene.isStart = true;
                         globalState = GLOBAL_GAME;
+                        //game.loadBGM();
                         game.start();
                     }
                 break;
