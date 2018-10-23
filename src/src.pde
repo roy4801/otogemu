@@ -16,7 +16,7 @@ static String proj_path = "";
 void path()
 {
     if(OsUtils.isWindows())
-        proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
+        proj_path = "C:\\Users\\NT2018\\Desktop\\otogemu\\src\\";
     else if(OsUtils.isMacos())
         proj_path = "/Users/roy4801/Desktop/Program/myProj/otogemu/src/";
 }
@@ -166,6 +166,7 @@ void draw()
                 if(scene.clickBack)
                 {
                     game.reloadCurrentFumen(); // for replay
+                    scene.nowScore = 0;
                     globalState = GLOBAL_MENU;
                 }
             }

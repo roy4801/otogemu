@@ -27,22 +27,22 @@ static final int JUDGE_MISS = 5;
 static final int JUDGE_LONG_START = 0;
 static final int JUDGE_LONG_PRESS = 1;
 
-static final int [] perfect = {-25, -12};//4, 9
+static final int [] perfect = {-23, 0};//4, 9
 static final int [][] great =
 {
-    {-35, -25},//-1, 3
-    {-12, -6}//10, 13
+    {-35, -23},//-1, 3
+    {0, 7}//10, 13
 };
 static final int [][] good =
 {
     {-42, -35},//-4, -1
-    {-6, 3},//14, 17
+    {7, 12},//14, 17
 };
 
 static final int [][] miss =
 {
     {-45, -42},
-    {-3, 0}
+    {12, 13}
 };
 
 PImage [] noteImg = new PImage[2];
@@ -150,7 +150,7 @@ class Note
 
         // If the y of a note is excess of the judge line of its column
         if(noteType == NOTE_SHORT)
-            if(y > endPoint[noteCol][1] + 1.5*pressedBlockH)
+            if(y > endPoint[noteCol][1] + 2*pressedBlockH)
             {
                 // on = false;
                 end = true;
