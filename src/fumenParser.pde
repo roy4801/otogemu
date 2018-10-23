@@ -40,6 +40,16 @@ class Fumen
 	{
 		return music.isStopped(title); // this is return true once the music was stopped and played before.
 	}
+
+	void resetFumen()
+	{
+		music.reset(title);
+
+		for(int i = 0; i < noteList.size(); i++)
+		{
+			noteList.get(i).reset();
+		}
+	}
 	//
 	// Get/Set functions
 	void setSong(String title, SoundFile song)

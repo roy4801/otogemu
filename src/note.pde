@@ -117,6 +117,19 @@ class Note
     }
     //
     // Main functions
+    void reset()
+    {
+        on = end = false;
+        x = endPoint[noteCol][0];
+        y = 0;
+
+        // Need refactoring (copy from fumenParser Line 162)
+        setStartTime((int)(getTouchTime() - offsetToStartTime));
+        if(getStartTime() < 0)
+        {
+            setY((int)(endPoint[noteCol][1] - (getTouchTime() * unit / 1000.f)));
+        }
+    }
     void check(Clock clk)
     {
         // If a note is ended, then don't check

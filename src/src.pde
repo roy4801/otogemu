@@ -164,7 +164,10 @@ void draw()
             if(click_type == CLICK_BACK){
 
                 if(scene.clickBack)
+                {
+                    game.reloadCurrentFumen(); // for replay
                     globalState = GLOBAL_MENU;
+                }
             }
         }
         break;

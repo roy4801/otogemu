@@ -54,10 +54,14 @@ class SoundHandler
 		// playStat.add(false);
 	}
 
+	int getIdx(String name)
+	{
+		return fileToIdx.get(name); // may have bug here
+	}
+
 	void play(String name)
 	{
-		int idx = fileToIdx.get(name);
-		play(idx);
+		play(getIdx(name));
 	}
 	void play(int idx)
 	{
@@ -89,10 +93,19 @@ class SoundHandler
 		played.set(idx, true);
 	}
 
+	void reset(String name)
+	{
+		reset(getIdx(name));
+	}
+	void reset(int idx)
+	{
+		for(int i = 0; i < played.size(); i++)
+			played.set(i, false);
+	}
+
 	boolean isPlaying(String name)
 	{
-		int idx = fileToIdx.get(name);
-		return isPlaying(idx);
+		return isPlaying(getIdx(name));
 	}
 	boolean isPlaying(int idx)
 	{
@@ -102,8 +115,7 @@ class SoundHandler
 
 	boolean isPlayed(String name)
 	{
-		int idx = fileToIdx.get(name);
-		return isPlayed(idx);
+		return isPlayed(getIdx(name));
 	}
 	boolean isPlayed(int idx)
 	{
@@ -112,8 +124,7 @@ class SoundHandler
 
 	boolean isStopped(String name)
 	{
-		int idx = fileToIdx.get(name);
-		return isStopped(idx);
+		return isStopped(getIdx(name));
 	}
 	boolean isStopped(int idx)
 	{
