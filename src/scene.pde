@@ -187,7 +187,7 @@ class Scene{
 	{
 		int total = game.getNowFumenTotalNote();
 
-		nowScore = (int)(MAX_SCORE * (numOfperfect + 0.8 * numOfgreat + 0.2 * numOfgood) / total);
+		nowScore = (int)(MAX_SCORE * (numOfperfect + 0.8 * numOfgreat + 0.4 * numOfgood) / total);
 	}
 	//
 	//counter add
