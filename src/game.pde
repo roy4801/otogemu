@@ -78,7 +78,13 @@ class Game
         // Loading fumen
         nowFumen = fumenParser.getFumen("bg1");
         noteList = nowFumen.getNoteList();
+        
     }
+    // void loadBGM()
+    // {
+    //     nowFumen = fumenParser.getFumen("bg1");
+    //     noteList = nowFumen.getNoteList();
+    // }
     /////////////////////////////////////
     /// main function
     void start()

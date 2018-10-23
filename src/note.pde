@@ -35,8 +35,14 @@ static final int [][] great =
 };
 static final int [][] good =
 {
-    {-45, -35},//-4, -1
-    {-6, 0},//14, 17
+    {-42, -35},//-4, -1
+    {-6, 3},//14, 17
+};
+
+static final int [][] miss =
+{
+    {-45, -42},
+    {-3, 0}
 };
 
 PImage [] noteImg = new PImage[2];
@@ -131,7 +137,7 @@ class Note
 
         // If the y of a note is excess of the judge line of its column
         if(noteType == NOTE_SHORT)
-            if(y > endPoint[noteCol][1] + pressedBlockH)
+            if(y > endPoint[noteCol][1] + 1.5*pressedBlockH)
             {
                 // on = false;
                 end = true;
@@ -164,10 +170,17 @@ class Note
                 pass = true;
             }
             else if(judgeY >= good[0][0] && judgeY < good[0][1]
-                || judgeY > good[1][1] && judgeY <= good[1][1])
+                || judgeY > good[1][0] && judgeY <= good[1][1])
             {
                 scene.addGood();
                 pass = true;
+            }
+            else if(judgeY >= miss[0][0] && judgeY < miss[0][1]
+                || judgeY > miss[1][0] && judgeY <= miss[1][1])
+            {
+                scene.addMiss();
+                scene.resetCombo();
+                pass = false;
             }
         }
 
@@ -199,6 +212,13 @@ class Note
             {
                 scene.addGood();
                 pass = true;
+            }
+            else if(judgeY >= miss[0][0] && judgeY < miss[0][1]
+                || judgeY > miss[1][0] && judgeY <= miss[1][1])
+            {
+                scene.addMiss();
+                scene.resetCombo();
+                pass = false;
             }
         }
 
@@ -253,12 +273,17 @@ class Note
         if(pass)
         {
             on = false;
+            end = true;
         }
-
         // if a note is end, then it's off
         // end flag may turn off by Game.update()
         if(end)
         {
+            if(on)
+            {
+                scene.addMiss();
+                scene.resetCombo();
+            }
             on = false;
         }
 
