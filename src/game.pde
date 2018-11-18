@@ -26,9 +26,12 @@ static final int POS_Y = 1;
 static final int pressedBlockW = 37;
 static final int pressedBlockH = 13;
 
+static final int waitSeconds = 3;
+
 static final int GAME_NONE    = 0;
 static final int GAME_PLAYING = 1;
 static final int GAME_STOP    = 2;
+static final int GAME_WAITING = 3; // for waiting secs in the begining
 
 class Game
 {
@@ -74,17 +77,13 @@ class Game
         // Loading sound effect
         // hitSE = LoadSoundEffect(hitSEList[hitse_type]);
         // se.addSoundFile(hitSEList[hitse_type], hitSE);
-        //
+
         // Loading fumen
         nowFumen = fumenParser.getFumen("bg1");
         noteList = nowFumen.getNoteList();
         
     }
-    // void loadBGM()
-    // {
-    //     nowFumen = fumenParser.getFumen("bg1");
-    //     noteList = nowFumen.getNoteList();
-    // }
+
     void reloadCurrentFumen()
     {
         nowFumen.resetFumen();

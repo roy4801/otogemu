@@ -19,6 +19,8 @@ void path()
         proj_path = "C:\\Users\\NT2018\\Desktop\\otogemu\\src\\";
     else if(OsUtils.isMacos())
         proj_path = "/Users/roy4801/Desktop/Program/myProj/otogemu/src/";
+    else
+        proj_path = "/home/roy4801/Desktop/project/otogemu/src/";
 }
 
 ////////////////////////////
@@ -134,7 +136,7 @@ void draw()
             }
         }
         break;
-
+        // Game playing
         case GLOBAL_GAME:
         {
             // Update
@@ -153,7 +155,7 @@ void draw()
             }
         }
         break;
-
+        // score screen
         case GLOBAL_END:
         {
             scene.FinishScene();
