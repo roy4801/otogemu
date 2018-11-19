@@ -16,7 +16,7 @@ static String proj_path = "";
 void path()
 {
     if(OsUtils.isWindows())
-        proj_path = "C:\\Users\\NT2018\\Desktop\\otogemu\\src\\";
+        proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
     else if(OsUtils.isMacos())
         proj_path = "/Users/roy4801/Desktop/Program/myProj/otogemu/src/";
     else
@@ -87,7 +87,7 @@ void draw()
     {
         case GLOBAL_LOADING:
         {
-            if(loading.fillx == 184)
+            if(loading.fillx == 190)
             {
                 loadNoteImage();
                 game.loadResource();
@@ -96,7 +96,7 @@ void draw()
 
             loading.loadScene();
             loading.addfillx();
-            if(loading.fillx == 654)
+            if(loading.fillx == 710)
             {
                 scene.initmenu();
                 globalState = GLOBAL_MENU;
