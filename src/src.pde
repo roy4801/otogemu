@@ -11,6 +11,10 @@ static final int GLOBAL_LOADING = 3;
 static final int GLOBAL_SELECT_SONG = 4;
 static final int GLOBAL_SETTING_SCR = 5;
 
+// testing //////////////////////////////////
+static final int GLOBAL_PAUSE = 6;
+// testing //////////////////////////////////
+
 
 // Constants
 static final int fps = 120;
@@ -74,11 +78,27 @@ void keyPressed()
 {
     keyHandler.setKey(key, true);
     // clear the "ESC" key
-    if(key == ESC)
+    // if(key == ESC)
+    // {
+    //     exit(); // for testing usage
+    //     // key = 0;
+    // }
+
+    // testing //////////////////////////////////
+
+    if(key == ESC && globalState == GLOBAL_GAME)
     {
-        exit(); // for testing usage
-        // key = 0;
+        key = 0;
+        globalState = GLOBAL_PAUSE;
+        tint(38, 38, 38, 100);
+        scene.initgamebackground();
+        game.draw();
+        scene.printscore();
+        scene.printcombo(scene.getcombo());
+        tint(255, 255, 255, 255);
+        scene.pauseScrene();
     }
+    // testing //////////////////////////////////
 }
 void keyReleased()
 {
@@ -168,8 +188,8 @@ void draw()
             if(mousePressed && mouseButton == LEFT)
                 click_type = scene.click();
 
-            if(click_type == CLICK_BACK){
-
+            if(click_type == CLICK_BACK)
+            {
                 if(scene.clickBack)
                 {
                     game.reloadCurrentFumen(); // for replay
@@ -179,7 +199,42 @@ void draw()
             }
         }
         break;
+        // testing //////////////////////////////////
+        case GLOBAL_PAUSE:
+        {
+            int click_type = -1;
+            if(mousePressed && mouseButton == LEFT)
+                click_type = scene.click();
+
+            switch(click_type)
+            {
+                case CLICK_PSTART:
+                    if(scene.clickPStart)
+                    {
+                        scene.initgamebackground();
+                        //scene.initscoreboard();
+                        // scene.isStart = true;
+                        globalState = GLOBAL_GAME;
+                        //game.loadBGM();
+                        game.update();
+                        game.draw();
+                        scene.printscore();
+                        scene.printcombo(scene.getcombo());
+                    }
+                break;
+
+                case CLICK_BACK:
+                    if(scene.clickBack)
+                    {     
+                        scene.initmenu();
+                        globalState = GLOBAL_MENU;
+                    }
+                break;
+            }
+        }
+        // testing //////////////////////////////////
     }
+
 
     ////////////////////////////////////////
     // TESTING
