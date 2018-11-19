@@ -7,6 +7,9 @@ static final int GLOBAL_MENU    = 0;
 static final int GLOBAL_GAME    = 1;
 static final int GLOBAL_END     = 2;
 static final int GLOBAL_LOADING = 3;
+// future
+static final int GLOBAL_SELECT_SONG = 4;
+static final int GLOBAL_SETTING_SCR = 5;
 
 
 // Constants
@@ -89,11 +92,11 @@ void draw()
         {
             if(loading.fillx == 190)
             {
+
                 loadNoteImage();
                 game.loadResource();
                 scene.loadResource();
             }
-
             loading.loadScene();
             loading.addfillx();
             if(loading.fillx == 710)
@@ -142,6 +145,8 @@ void draw()
             // Update
             game.update();
 
+            println("gameState: "+game.gameState);
+
             // Draw
             //scene.initgamebackground();
 
@@ -178,6 +183,4 @@ void draw()
 
     ////////////////////////////////////////
     // TESTING
-    //if(keyHandler.getKey(KEY_ESC))
-    //    println("ESC");
 }
