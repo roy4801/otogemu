@@ -26,12 +26,15 @@ static final int POS_Y = 1;
 static final int pressedBlockW = 37;
 static final int pressedBlockH = 13;
 
+// For GAME_WAITING
 static final int waitSeconds = 3;
 
 static final int GAME_NONE    = 0;
 static final int GAME_PLAYING = 1;
 static final int GAME_STOP    = 2;
 static final int GAME_WAITING = 3; // for waiting secs in the begining
+
+static final int GAME_ENTRY = GAME_WAITING;
 
 class Game
 {
@@ -50,6 +53,7 @@ class Game
     ArrayList<Note> noteList = null;
 
     Clock clk = new Clock();
+    CountDownClock wait = new CountDownClock(waitSeconds);
 
     // prev key
     boolean [] prev = new boolean[TotalKeys];
@@ -62,6 +66,7 @@ class Game
         // init
         Arrays.fill(prev, false);
     }
+    //
     void loadResource()
     {
         // Loading resources
@@ -94,8 +99,10 @@ class Game
     /// main function
     void start()
     {
+        println("Game.start()");
         clk.start();
-        gameState = GAME_PLAYING;
+        gameState = GAME_ENTRY;
+        println("gameState: "+gameState);
     }
 
     void update()
@@ -110,66 +117,97 @@ class Game
                 noteList.get(i).judge();
             }
 
+            println("nowFumen.isMusicEnd() ? : "+(nowFumen.isMusicEnd() ? "True" : "False"));
             if(nowFumen.isMusicEnd())
             {
                 gameState = GAME_STOP;
+            }
+        }
+        else if(gameState == GAME_WAITING)
+        {
+            if(wait.isEnd())
+            {
+                gameState = GAME_PLAYING;
             }
         }
     }
 
     void draw()
     {
-        // Track background
-        image(trackImg, trackPos[0], trackPos[1], trackImg.width, trackImg.height);
-
-        // Key
-        fill(255, 255, 255); // Color white
-        if(keyHandler.getKey(KEY_D))
+        switch(gameState)
         {
-            rect(endPoint[KEY_D][POS_X], endPoint[KEY_D][POS_Y], pressedBlockW-1, pressedBlockH);
+            case GAME_WAITING:
+            {
+                println("GAME_WAITING");
+                float s = wait.getPassedSec();
 
-            // if(!prev[KEY_D])
-            //     se.play(hitSEList[hitse_type]);
+                if(s >= 3.f)
+                    text("Start", 350, 250);
+                else if(s >= 2.f)
+                    text("1", 350, 250);
+                else if(s >= 1.f)
+                    text("2", 350, 250);
+            }
+            break;
+
+            case GAME_PLAYING:
+            {
+                // Track background
+                image(trackImg, trackPos[0], trackPos[1], trackImg.width, trackImg.height);
+
+                // Key
+                fill(255, 255, 255); // Color white
+                if(keyHandler.getKey(KEY_D))
+                {
+                    rect(endPoint[KEY_D][POS_X], endPoint[KEY_D][POS_Y], pressedBlockW-1, pressedBlockH);
+
+                    // if(!prev[KEY_D])
+                    //     se.play(hitSEList[hitse_type]);
+                }
+                if(keyHandler.getKey(KEY_F))
+                {
+                    rect(endPoint[KEY_F][POS_X], endPoint[KEY_F][POS_Y], pressedBlockW, pressedBlockH);
+
+                    // if(!prev[KEY_F])
+                    //     se.play(hitSEList[hitse_type]);
+                }
+                if(keyHandler.getKey(KEY_J))
+                {
+                    rect(endPoint[KEY_J][POS_X], endPoint[KEY_J][POS_Y], pressedBlockW-1, pressedBlockH);
+
+                    // if(!prev[KEY_J])
+                    //     se.play(hitSEList[hitse_type]);
+                }
+                if(keyHandler.getKey(KEY_K))
+                {
+                    rect(endPoint[KEY_K][POS_X], endPoint[KEY_K][POS_Y], pressedBlockW-1, pressedBlockH);
+
+                    // if(!prev[KEY_K])
+                    //     se.play(hitSEList[hitse_type]);
+                }
+
+                // Save now key state to prev for next loop
+                for(int i = 0; i < TotalKeys; i++)
+                    prev[i] = keyHandler.getKey(i);
+
+                // Note
+                for(int i = 0; i < noteList.size(); i++)
+                    noteList.get(i).draw();
+
+
+                // d f j k buttons overlay
+                image(btnImg[KEY_D], btnPos[KEY_D][0], btnPos[KEY_D][1]);
+                image(btnImg[KEY_F], btnPos[KEY_F][0], btnPos[KEY_F][1]);
+                image(btnImg[KEY_J], btnPos[KEY_J][0], btnPos[KEY_J][1]);
+                image(btnImg[KEY_K], btnPos[KEY_K][0], btnPos[KEY_K][1]);
+
+                // Start play fumen music
+                nowFumen.playMusic();
+            }
+            break;
         }
-        if(keyHandler.getKey(KEY_F))
-        {
-            rect(endPoint[KEY_F][POS_X], endPoint[KEY_F][POS_Y], pressedBlockW, pressedBlockH);
 
-            // if(!prev[KEY_F])
-            //     se.play(hitSEList[hitse_type]);
-        }
-        if(keyHandler.getKey(KEY_J))
-        {
-            rect(endPoint[KEY_J][POS_X], endPoint[KEY_J][POS_Y], pressedBlockW-1, pressedBlockH);
-
-            // if(!prev[KEY_J])
-            //     se.play(hitSEList[hitse_type]);
-        }
-        if(keyHandler.getKey(KEY_K))
-        {
-            rect(endPoint[KEY_K][POS_X], endPoint[KEY_K][POS_Y], pressedBlockW-1, pressedBlockH);
-
-            // if(!prev[KEY_K])
-            //     se.play(hitSEList[hitse_type]);
-        }
-
-        // Save now key state to prev for next loop
-        for(int i = 0; i < TotalKeys; i++)
-            prev[i] = keyHandler.getKey(i);
-
-        // Note
-        for(int i = 0; i < noteList.size(); i++)
-            noteList.get(i).draw();
-
-
-        // d f j k buttons overlay
-        image(btnImg[KEY_D], btnPos[KEY_D][0], btnPos[KEY_D][1]);
-        image(btnImg[KEY_F], btnPos[KEY_F][0], btnPos[KEY_F][1]);
-        image(btnImg[KEY_J], btnPos[KEY_J][0], btnPos[KEY_J][1]);
-        image(btnImg[KEY_K], btnPos[KEY_K][0], btnPos[KEY_K][1]);
-
-        // Start play fumen music
-        nowFumen.playMusic();
+        
     }
     /////////////////////////////////////
     /// Get/Set function
