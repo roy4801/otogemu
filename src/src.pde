@@ -3,6 +3,8 @@ import java.io.FilenameFilter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+static PApplet application = null;
+
 static final int GLOBAL_MENU    = 0;
 static final int GLOBAL_GAME    = 1;
 static final int GLOBAL_END     = 2;
@@ -12,13 +14,22 @@ static final int GLOBAL_LOADING = 3;
 // Constants
 static final int fps = 120;
 static String proj_path = "";
+static String serial_port = "";
 
 void path()
 {
     if(OsUtils.isWindows())
+    {
         proj_path = "C:\\Users\\NT2018\\Desktop\\otogemu\\src\\";
+        serial_port = "";
+    }
     else if(OsUtils.isMacos())
         proj_path = "/Users/roy4801/Desktop/Program/myProj/otogemu/src/";
+    else
+    {
+        proj_path = "/home/roy4801/Desktop/project/otogemu/src/";
+        serial_port = "/dev/ttyACM0";
+    }
 }
 
 ////////////////////////////
@@ -42,6 +53,7 @@ void test()
 // Init
 void setup()
 {
+    application = this;
     size(800, 600);
     noStroke();
     smooth();
@@ -79,6 +91,12 @@ void keyReleased()
 {
     keyHandler.setKey(key, false);
 }
+void serialEvent(Serial p)
+{
+    keyHandler.serialEvent(p);
+}
+//----------------------------------------------
+// Draw frames
 void draw()
 {
     switch(globalState)
