@@ -10,13 +10,13 @@ static final int GLOBAL_GAME    = 1;
 static final int GLOBAL_END     = 2;
 static final int GLOBAL_LOADING = 3;
 
-
 // Constants
 static final int fps = 120;
 static String proj_path = "";
 static String serial_port = "";
+static boolean serial_valid = false;
 
-void path()
+void setInfo()
 {
     if(OsUtils.isWindows())
     {
@@ -29,6 +29,16 @@ void path()
     {
         proj_path = "/home/roy4801/Desktop/project/otogemu/src/";
         serial_port = "/dev/ttyACM0";
+    }
+    // Check if a serial port is valid
+    String[] list = Serial.list();
+    for(int i = 0; i < list.length; i++)
+    {
+        if(Objects.equals(list[i], serial_port))
+        {
+            serial_valid = true;
+            break;
+        }
     }
 }
 
@@ -58,7 +68,7 @@ void setup()
     frameRate(fps);
     randomSeed(0);
 
-    path();
+    setInfo();
     ////////////////////////////////////////
     // TESTING
     // test();

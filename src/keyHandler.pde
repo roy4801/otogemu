@@ -60,8 +60,11 @@ class KeyHandler
 
 		Arrays.fill(kState, false);
 
-		port = new Serial(application, serial_port, 9600);
-		port.clear();
+		if(serial_valid)
+		{
+			port = new Serial(application, serial_port, 9600);
+			port.clear();
+		}
 	}
 	//
 	void serialEvent(Serial p)
