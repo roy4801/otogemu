@@ -102,7 +102,7 @@ class Game
         println("Game.start()");
         clk.start();
         gameState = GAME_ENTRY;
-        println("gameState: "+gameState);
+        println("void start(): gameState = " + gameState);
     }
 
     void update()
@@ -117,7 +117,8 @@ class Game
                 noteList.get(i).judge();
             }
 
-            println("nowFumen.isMusicEnd() ? : "+(nowFumen.isMusicEnd() ? "True" : "False"));
+            println("nowFumen.isMusicEnd() = "+(nowFumen.isMusicEnd() ? "True" : "False"));
+            // Possibily bugged out
             if(nowFumen.isMusicEnd())
             {
                 gameState = GAME_STOP;

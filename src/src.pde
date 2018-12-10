@@ -145,7 +145,7 @@ void draw()
             // Update
             game.update();
 
-            println("gameState: "+game.gameState);
+            println("void draw(): gameState = " + game.gameState);
 
             // Draw
             //scene.initgamebackground();
@@ -180,7 +180,4 @@ void draw()
         }
         break;
     }
-
-    ////////////////////////////////////////
-    // TESTING
 }
