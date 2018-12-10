@@ -45,8 +45,6 @@ int globalState = GLOBAL_LOADING;
 // TESTING
 void test()
 {
-
-    exit();
 }
 ////////////////////////////////////////
 
@@ -99,6 +97,11 @@ void serialEvent(Serial p)
 // Draw frames
 void draw()
 {
+    ////////////////////////////////////////
+    // TESTING
+    // test();
+    ////////////////////////////////////////
+
     switch(globalState)
     {
         case GLOBAL_LOADING:

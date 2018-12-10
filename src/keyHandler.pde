@@ -61,6 +61,7 @@ class KeyHandler
 		Arrays.fill(kState, false);
 
 		port = new Serial(application, serial_port, 9600);
+		port.clear();
 	}
 	//
 	void serialEvent(Serial p)
@@ -68,7 +69,7 @@ class KeyHandler
 	    int pRead = p.read();
 	    for(int i = 0; i < 4; i++)
 		{
-			kState[i] = pRead % 2 != 0 ? true : false;
+			kState[i] = (pRead % 2 != 0) ? true : false;
 			pRead /= 2;
 		}
 	}
