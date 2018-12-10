@@ -205,12 +205,14 @@ void draw()
             int click_type = -1;
             if(mousePressed && mouseButton == LEFT)
                 click_type = scene.click();
+            game.pause();
 
             switch(click_type)
             {
                 case CLICK_PSTART:
                     if(scene.clickPStart)
                     {
+                        game.Pplay();
                         scene.initgamebackground();
                         //scene.initscoreboard();
                         // scene.isStart = true;
@@ -225,7 +227,9 @@ void draw()
 
                 case CLICK_BACK:
                     if(scene.clickBack)
-                    {     
+                    {   
+                        game.stop();
+                        game.reloadCurrentFumen();
                         scene.initmenu();
                         globalState = GLOBAL_MENU;
                     }

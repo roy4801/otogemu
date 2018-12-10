@@ -105,6 +105,23 @@ class Game
         println("gameState: "+gameState);
     }
 
+    ///////////////test////////////////////////////////
+    void stop()
+    {
+        nowFumen.stop();
+    }
+
+    void pause()
+    {
+        nowFumen.pause();
+    }
+
+    void Pplay()
+    {
+        nowFumen.Pplay();
+    }
+    ///////////////test////////////////////////////////
+
     void update()
     {
         if(gameState == GAME_PLAYING)
