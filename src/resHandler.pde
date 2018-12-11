@@ -73,5 +73,7 @@ File LoadFumenFile(String dir)
 
 SoundFile LoadFumenSong(String dir)
 {
+	println("LoadFumenSong(): dir = " + dir);
+	println("LoadFumenSong():     " + getPath(RES_SONG, String.format("%s/%s.mp3", dir, dir)));
 	return new SoundFile(this, getPath(RES_SONG, String.format("%s/%s.mp3", dir, dir)));
 }
