@@ -183,6 +183,7 @@ void draw()
             scene.printscore();
             scene.printcombo(scene.getcombo());
 
+            println("src.draw(): game.isEnd() = " + (game.isEnd()?"True":"False"));
             if(game.isEnd())
             {
                 globalState = GLOBAL_END;
