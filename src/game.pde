@@ -129,7 +129,7 @@ class Game
         {
             if(wait.isEnd())
             {
-                println("Game.update(): Game died");
+                println("Game.update(): wait ended");
                 gameState = GAME_PLAYING;
                 clk.start();
                 println("Game.update(): Start the clk");
@@ -148,7 +148,7 @@ class Game
 
                 // Note
                 for(int i = 0; i < noteList.size(); i++)
-                    noteList.get(i).draw();
+                    noteList.get(i).draw(true);
                 /////
 
                 println("GAME_WAITING");
@@ -204,7 +204,7 @@ class Game
 
                 // Note
                 for(int i = 0; i < noteList.size(); i++)
-                    noteList.get(i).draw();
+                    noteList.get(i).draw(false);
 
 
                 // d f j k buttons overlay
