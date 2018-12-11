@@ -9,6 +9,9 @@ static final int GLOBAL_MENU    = 0;
 static final int GLOBAL_GAME    = 1;
 static final int GLOBAL_END     = 2;
 static final int GLOBAL_LOADING = 3;
+// future
+static final int GLOBAL_SELECT_SONG = 4;
+static final int GLOBAL_SETTING_SCR = 5;
 
 // Constants
 static final int fps = 120;
@@ -20,7 +23,7 @@ void setInfo()
 {
     if(OsUtils.isWindows())
     {
-        proj_path = "C:\\Users\\NT2018\\Desktop\\otogemu\\src\\";
+        proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
         serial_port = "";
     }
     else if(OsUtils.isMacos())
@@ -71,7 +74,7 @@ void setup()
     setInfo();
     ////////////////////////////////////////
     // TESTING
-    // test();
+    test();
     ////////////////////////////////////////
 
     //----------------------------------------------
@@ -116,16 +119,16 @@ void draw()
     {
         case GLOBAL_LOADING:
         {
-            if(loading.fillx == 184)
+            if(loading.fillx == 190)
             {
+
                 loadNoteImage();
                 game.loadResource();
                 scene.loadResource();
             }
-
             loading.loadScene();
             loading.addfillx();
-            if(loading.fillx == 654)
+            if(loading.fillx == 710)
             {
                 scene.initmenu();
                 globalState = GLOBAL_MENU;
@@ -165,11 +168,13 @@ void draw()
             }
         }
         break;
-
+        // Game playing
         case GLOBAL_GAME:
         {
             // Update
             game.update();
+
+            println("src.draw(): gameState = " + game.gameState);
 
             // Draw
             //scene.initgamebackground();
@@ -184,7 +189,7 @@ void draw()
             }
         }
         break;
-
+        // score screen
         case GLOBAL_END:
         {
             scene.FinishScene();
@@ -204,9 +209,4 @@ void draw()
         }
         break;
     }
-
-    ////////////////////////////////////////
-    // TESTING
-    //if(keyHandler.getKey(KEY_ESC))
-    //    println("ESC");
 }

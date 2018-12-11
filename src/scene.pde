@@ -36,10 +36,10 @@ class Scene{
 	boolean clickStart;
 	boolean clickInfo;
 	boolean clickBack;
-	boolean isStart;
-	boolean isEnd;
-	boolean menu;
-	boolean isLeft;
+	// boolean isStart;
+	// boolean isEnd;
+	// boolean menu;
+	// boolean isLeft;
 	//
 	//
 	int [] hit = new int[HIT_TOTAL];
@@ -58,10 +58,10 @@ class Scene{
 		clickStart = true;
 		clickInfo  = true;
 		clickBack  = false;
-		isStart	   = false;
-		isEnd 	   = false;
-		menu 	   = true;
-		isLeft 	   = true;
+		// isStart	   = false;
+		// isEnd 	   = false;
+		// menu 	   = true;
+		// isLeft 	   = true;
 	}
 	void loadResource()
 	{
@@ -84,13 +84,13 @@ class Scene{
 		setStBn();
 		setInfoBn();
 
-		menu 	   = true;
-		isEnd 	   = false;
-		isStart    = false;
+		//menu 	   = true;
+		//isEnd 	   = false;
+		//isStart    = false;
 		clickStart = true;
 		clickInfo  = true;
 		clickBack  = false;
-		isLeft 	   = true;
+		//isLeft 	   = true;
 
 		nowScore     = 0;
 		combo 		 = 0;
@@ -105,11 +105,11 @@ class Scene{
 
 		//frameRate(fps);
 		image(gamebackgroundImg, 0, 0, 800, 600);
-		menu 	   = false;
+		//menu 	   = false;
 		clickStart = false;
 		clickInfo  = false;
 		clickBack  = false;
-		isLeft 	   = false;
+		//isLeft 	   = false;
 	}
 
 	void initscoreboard(){
@@ -153,7 +153,7 @@ class Scene{
 		clickStart = false;
 		clickInfo  = false;
 		clickBack  = true;
-		isLeft 	   = false;
+		//isLeft 	   = false;
 	}
   	//build Finish page
 	void FinishScene(){
@@ -245,16 +245,16 @@ class Scene{
 	}
 	//
 	//
-	void leavegame(){
+	// void leavegame(){
 
-		if(keyPressed){
+	// 	if(keyPressed){
 
-			if(key == ESC){
+	// 		if(key == ESC){
 
-				isLeft = true;
-			}
-		}
-	}
+	// 			isLeft = true;
+	// 		}
+	// 	}
+	// }
 	//
 	//print
 	void printscore(){
@@ -290,7 +290,7 @@ class Scene{
 
 			if(clickStart){
 
-				isStart = true;
+				//isStart = true;
 				click_type = CLICK_START;
 			}
 		}
