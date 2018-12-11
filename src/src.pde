@@ -39,8 +39,6 @@ int globalState = GLOBAL_LOADING;
 // TESTING
 void test()
 {
-
-    exit();
 }
 ////////////////////////////////////////
 
@@ -56,7 +54,7 @@ void setup()
     path();
     ////////////////////////////////////////
     // TESTING
-    // test();
+    test();
     ////////////////////////////////////////
 
     //----------------------------------------------
@@ -145,7 +143,7 @@ void draw()
             // Update
             game.update();
 
-            println("void draw(): gameState = " + game.gameState);
+            println("src.draw(): gameState = " + game.gameState);
 
             // Draw
             //scene.initgamebackground();

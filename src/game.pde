@@ -27,7 +27,7 @@ static final int pressedBlockW = 37;
 static final int pressedBlockH = 13;
 
 // For GAME_WAITING
-static final int waitSeconds = 3;
+static final float waitSeconds = 10.0f;
 
 static final int GAME_NONE    = 0;
 static final int GAME_PLAYING = 1;
@@ -52,8 +52,9 @@ class Game
     Fumen nowFumen = null;
     ArrayList<Note> noteList = null;
 
+    // Time related
     Clock clk = new Clock();
-    CountDownClock wait = new CountDownClock(waitSeconds);
+    CountDownClock wait = new CountDownClock(waitSeconds); // for GAME_WAITING
 
     // prev key
     boolean [] prev = new boolean[TotalKeys];
@@ -86,7 +87,6 @@ class Game
         // Loading fumen
         nowFumen = fumenParser.getFumen("bg1");
         noteList = nowFumen.getNoteList();
-        
     }
 
     void reloadCurrentFumen()
@@ -100,11 +100,12 @@ class Game
     void start()
     {
         println("Game.start()");
-        clk.start();
+        wait.start();
         gameState = GAME_ENTRY;
-        println("void start(): gameState = " + gameState);
+        println("Game.start(): gameState = " + gameState);
     }
 
+    // Need to refactoring
     void update()
     {
         if(gameState == GAME_PLAYING)
@@ -128,7 +129,10 @@ class Game
         {
             if(wait.isEnd())
             {
+                println("Game.update(): Game died");
                 gameState = GAME_PLAYING;
+                clk.start();
+                println("Game.update(): Start the clk");
             }
         }
     }
@@ -139,15 +143,22 @@ class Game
         {
             case GAME_WAITING:
             {
-                println("GAME_WAITING");
-                float s = wait.getPassedSec();
+                // Track background
+                image(trackImg, trackPos[0], trackPos[1], trackImg.width, trackImg.height);
 
-                if(s >= 3.f)
-                    text("Start", 350, 250);
-                else if(s >= 2.f)
-                    text("1", 350, 250);
-                else if(s >= 1.f)
-                    text("2", 350, 250);
+                // Note
+                for(int i = 0; i < noteList.size(); i++)
+                    noteList.get(i).draw();
+                /////
+
+                println("GAME_WAITING");
+                float s = waitSeconds - wait.getPassedSec();
+                final int[] textReg = {trackPos[0] + 80, trackPos[1] + 100};
+
+                if(s >= 1.f)
+                    text((int)s, textReg[0], textReg[1]);
+                else
+                    text("Start", textReg[0], textReg[1]);
             }
             break;
 

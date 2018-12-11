@@ -26,47 +26,36 @@ class CountDownClock
 {
 	Clock clk;
 	int lim;
-	boolean init;
 
 	CountDownClock()
 	{
-		clk = null;
-		init = false;
+		clk = new Clock();
 	}
 	CountDownClock(int l)
 	{
-		clk = null;
+		clk = new Clock();
 		lim = l;
-		init = false;
+	}
+	CountDownClock(float sec)
+	{
+		clk = new Clock();
+		lim = (int)(sec * 1000);
 	}
 	//
 	void start()
 	{
-		if(!init)
-		{
-			clk = new Clock();
-			init = true;
-		}
 		clk.start();
 	}
 	// judge
 	boolean isEnd()
 	{
-		if(!init)
-			start();
-
 		if(clk.getPassed() >= lim)
 		{
-			println("CountDownClock.clk.getPassed()= " + clk.getPassed());
-			init = false;
+			println(">> End");
 			return true;
 		}
 		else
 			return false;
-	}
-	boolean isInit()
-	{
-		return init;
 	}
 	// get
 	float getPassedSec()
@@ -81,5 +70,9 @@ class CountDownClock
 	void setLimit(int l)
 	{
 		lim = l;
+	}
+	void setLimitSec(float s)
+	{
+		lim = (int)(s * 1000);
 	}
 }
