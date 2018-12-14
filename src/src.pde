@@ -1,7 +1,7 @@
-import processing.sound.*;
 import java.io.FilenameFilter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import ddf.minim.*;
 
 static PApplet application = null;
 
@@ -24,7 +24,8 @@ void setInfo()
 {
     if(OsUtils.isWindows())
     {
-        proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
+        // proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
+        proj_path = "C:\\Users\\sf643\\Desktop\\otogemu\\src\\";
         serial_port = "COM5";
     }
     else if(OsUtils.isMacos())
@@ -68,7 +69,7 @@ void test()
 void setup()
 {
     application = this;
-    size(800, 600);
+    size(800, 600, P3D);
     noStroke();
     smooth();
     frameRate(fps);
@@ -146,7 +147,6 @@ void draw()
         {
             if(loading.fillx == 190)
             {
-
                 loadNoteImage();
                 game.loadResource();
                 scene.loadResource();

@@ -43,7 +43,7 @@ class Game
     PImage []btnImg;
 
     // sound effect
-    SoundFile hitSE;
+    // AudioSample hitSE;
     int hitse_type = 0;
     // SoundHandler se = new SoundHandler();
 
@@ -85,7 +85,7 @@ class Game
         // se.addSoundFile(hitSEList[hitse_type], hitSE);
 
         // Loading fumen
-        nowFumen = fumenParser.getFumen("bg1");
+        nowFumen = fumenParser.getFumen("bg3");
         noteList = nowFumen.getNoteList();
     }
 

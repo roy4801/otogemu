@@ -1,19 +1,21 @@
 import java.util.*;
+import ddf.minim.*;
 
 static final int PLAY_STOP     = 0;
 static final int PLAY_IGNORE   = 1;
 
+// Minim object
+Minim minim = new Minim(this);
+
 class SoundHandler
 {
 	Map<String, Integer> fileToIdx = new HashMap<String, Integer> ();
-
-	ArrayList<SoundFile> fileList = new ArrayList<SoundFile>();
-	// ArrayList<Boolean> playStat = new ArrayList<Boolean>();
+	ArrayList<AudioPlayer> fileList = new ArrayList<AudioPlayer>();
 
 	int now = 0;
 	int type;
-
-	ArrayList<Boolean> played = new ArrayList<Boolean>(); // for PLAY_IGNORE
+	// for PLAY_IGNORE
+	ArrayList<Boolean> played = new ArrayList<Boolean>();
 
 	//////////////////////
 	/// Constructor
@@ -21,26 +23,23 @@ class SoundHandler
 	{
 		type = PLAY_STOP;
 	}
-
 	SoundHandler(int type)
 	{
 		this.type = type;
 	}
-
-	SoundHandler(int type, String name, SoundFile file)
+	SoundHandler(int type, String name, AudioPlayer file)
 	{
 		this.type = type;
 		addSoundFile(name, file);
 	}
-
-	SoundHandler(String name, SoundFile file)
+	SoundHandler(String name, AudioPlayer file)
 	{
 		addSoundFile(name, file);
 	}
 
 	//////////////////////
 	/// Main functions
-	void addSoundFile(String name, SoundFile s)
+	void addSoundFile(String name, AudioPlayer s)
 	{
 		if(fileToIdx.containsKey(name))
 		{
@@ -51,29 +50,29 @@ class SoundHandler
 		fileToIdx.put(name, now++);
 		fileList.add(s);
 		played.add(false);
-		// playStat.add(false);
 	}
-
+	// helper function
 	int getIdx(String name)
 	{
-		return fileToIdx.get(name); // may have bug here
+		// may have bug here
+		return fileToIdx.get(name);
 	}
-
+ 	// Play the music
 	void play(String name)
 	{
 		play(getIdx(name));
 	}
 	void play(int idx)
 	{
-		SoundFile tar = fileList.get(idx);
-		
+		AudioPlayer tar = fileList.get(idx);
+		// TODO(roy4801): Need refactoring
 		switch(type)
 		{
 			case PLAY_STOP:
 				if(tar.isPlaying())
 				{
-					tar.stop();
-          			tar.amp(0.5);
+					tar.pause();
+          			tar.rewind();
 					tar.play();
 				}
 				else
@@ -92,42 +91,40 @@ class SoundHandler
 
 		played.set(idx, true);
 	}
-	///////////////test///////////////////////////////
+	// Stop the music
 	void stop(String name)
 	{
 		stop(getIdx(name));
 	}
-
 	void stop(int idx)
 	{
-		SoundFile tar = fileList.get(idx);
-		tar.stop();
-		tar.jump(0.0);
-		tar.stop();
+		AudioPlayer tar = fileList.get(idx);
+		tar.pause();
+		tar.rewind();
 	}
 
+//// WTF is this by roy4801 ///////////////////////
 	void Pplay(String name)
 	{
 		Pplay(getIdx(name));
 	}
 	void Pplay(int idx)
 	{
-		SoundFile tar = fileList.get(idx);
+		AudioPlayer tar = fileList.get(idx);
 		tar.play();
 	}
-
+//// WTF is this by roy4801 ///////////////////////
+	// Pause the music
 	void pause(String name)
 	{	
 		pause(getIdx(name));
 	}
-
 	void pause(int idx)
 	{
-		SoundFile tar = fileList.get(idx);
+		AudioPlayer tar = fileList.get(idx);
 		tar.pause();
 	}
-	///////////////test///////////////////////////////
-
+	// 
 	void reset(String name)
 	{
 		reset(getIdx(name));
@@ -144,7 +141,7 @@ class SoundHandler
 	}
 	boolean isPlaying(int idx)
 	{
-		SoundFile tar = fileList.get(idx);
+		AudioPlayer tar = fileList.get(idx);
 		return tar.isPlaying();
 	}
 
@@ -163,8 +160,19 @@ class SoundHandler
 	}
 	boolean isStopped(int idx)
 	{
-		SoundFile tar = fileList.get(idx);
+		AudioPlayer tar = fileList.get(idx);
 
 		return played.get(idx) && !tar.isPlaying(); // 1 && !0
+	}
+	// Get the current pos of a music, if a music is not playing
+	// then it returns -1
+	int getPos(String name)
+	{
+		return getPos(getIdx(name));
+	}
+	int getPos(int idx)
+	{
+		AudioPlayer tar = fileList.get(idx);
+		return tar.isPlaying() ? tar.position() : -1;
 	}
 }
