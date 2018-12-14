@@ -146,15 +146,15 @@ void draw()
     {
         case GLOBAL_LOADING:
         {
-            if(loading.fillx == 190)
+            if(loading.fillX == 190)
             {
                 loadNoteImage();
                 game.loadResource();
                 scene.loadResource();
             }
             loading.loadScene();
-            loading.addfillx();
-            if(loading.fillx == 710)
+            loading.addFillX();
+            if(loading.fillX == 710)
             {
                 scene.initmenu();
                 globalState = GLOBAL_MENU;
@@ -200,16 +200,16 @@ void draw()
             // Update
             game.update();
 
-            println("src.draw(): gameState = " + game.gameState);
+            // println("src.draw(): gameState = " + game.gameState);
 
             // Draw
-            //scene.initgamebackground();
+            scene.initgamebackground();
 
             game.draw();
             scene.printscore();
             scene.printcombo(scene.getcombo());
 
-            println("src.draw(): game.isEnd() = " + (game.isEnd()?"True":"False"));
+            // println("src.draw(): game.isEnd() = " + (game.isEnd()?"True":"False"));
             if(game.isEnd())
             {
                 globalState = GLOBAL_END;
@@ -263,7 +263,7 @@ void draw()
 
                 case CLICK_BACK:
                     if(scene.clickBack)
-                    {   
+                    {
                         game.stop();
                         game.reloadCurrentFumen();
                         scene.initmenu();

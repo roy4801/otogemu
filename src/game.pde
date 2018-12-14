@@ -43,7 +43,7 @@ class Game
 
     // sound effect
     ddf.minim.AudioSample hitSE; // TODO(roy4801): fix this
-    int hitse_type = 1;
+    int hitse_type = 0;
 
     // fumen
     FumenParser fumenParser = new FumenParser();
@@ -82,7 +82,7 @@ class Game
         hitSE = LoadSoundEffect(hitSEList[hitse_type]);
 
         // Loading fumen
-        nowFumen = fumenParser.getFumen("test");
+        nowFumen = fumenParser.getFumen("heavenly_moon");
         noteList = nowFumen.getNoteList();
     }
 
@@ -96,10 +96,10 @@ class Game
     /// main function
     void start()
     {
-        println("Game.start()");
+        // println("Game.start()");
         wait.start();
         gameState = GAME_ENTRY;
-        println("Game.start(): gameState = " + gameState);
+        // println("Game.start(): gameState = " + gameState);
     }
 
     ///////////////test////////////////////////////////
@@ -132,7 +132,7 @@ class Game
                 noteList.get(i).judge();
             }
 
-            println("Game.update(): nowFumen.isMusicEnd() = "+(nowFumen.isMusicEnd() ? "True" : "False"));
+            // println("Game.update(): nowFumen.isMusicEnd() = "+(nowFumen.isMusicEnd() ? "True" : "False"));
             // Possibily bugged out
             if(nowFumen.isMusicEnd())
             {
@@ -143,10 +143,10 @@ class Game
         {
             if(wait.isEnd())
             {
-                println("Game.update(): wait ended");
+                // println("Game.update(): wait ended");
                 gameState = GAME_PLAYING;
                 clk.start();
-                println("Game.update(): Start the clk");
+                // println("Game.update(): Start the clk");
             }
         }
     }
@@ -165,7 +165,7 @@ class Game
                     noteList.get(i).draw(true);
                 /////
 
-                println("GAME_WAITING");
+                // println("GAME_WAITING");
                 float s = waitSeconds - wait.getPassedSec();
                 final int[] textReg = {trackPos[0] + 80, trackPos[1] + 100};
 
