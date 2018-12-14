@@ -165,6 +165,6 @@ class SoundHandler
 	{
 		SoundFile tar = fileList.get(idx);
 
-		return played.get(idx) && !tar.isPlaying();
+		return played.get(idx) && !tar.isPlaying(); // 1 && !0
 	}
 }

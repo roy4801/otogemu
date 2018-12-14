@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import processing.serial.*;
 
 enum KeyType
 {
@@ -51,14 +52,30 @@ int getKeyType(char c)
 class KeyHandler
 {
 	boolean [] kState;
+	Serial port = null;
 
 	KeyHandler()
 	{
 		kState = new boolean[TotalKeys];
 
 		Arrays.fill(kState, false);
-	}
 
+		if(serial_valid)
+		{
+			port = new Serial(application, serial_port, 9600);
+			port.clear();
+		}
+	}
+	//
+	void serialEvent(Serial p)
+	{
+	    int pRead = p.read();
+	    for(int i = 0; i < 4; i++)
+		{
+			kState[i] = (pRead % 2 != 0) ? true : false;
+			pRead /= 2;
+		}
+	}
 	void setKey(KeyType type, boolean flag)
 	{
 		kState[type.ordinal()] = flag;

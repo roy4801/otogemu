@@ -3,6 +3,8 @@ import java.io.FilenameFilter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+static PApplet application = null;
+
 static final int GLOBAL_MENU    = 0;
 static final int GLOBAL_GAME    = 1;
 static final int GLOBAL_END     = 2;
@@ -10,24 +12,38 @@ static final int GLOBAL_LOADING = 3;
 // future
 static final int GLOBAL_SELECT_SONG = 4;
 static final int GLOBAL_SETTING_SCR = 5;
-
-// testing //////////////////////////////////
 static final int GLOBAL_PAUSE = 6;
-// testing //////////////////////////////////
-
 
 // Constants
 static final int fps = 120;
 static String proj_path = "";
+static String serial_port = "";
+static boolean serial_valid = false;
 
-void path()
+void setInfo()
 {
     if(OsUtils.isWindows())
+    {
         proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
+        serial_port = "";
+    }
     else if(OsUtils.isMacos())
         proj_path = "/Users/roy4801/Desktop/Program/myProj/otogemu/src/";
     else
+    {
         proj_path = "/home/roy4801/Desktop/project/otogemu/src/";
+        serial_port = "/dev/ttyACM0";
+    }
+    // Check if a serial port is valid
+    String[] list = Serial.list();
+    for(int i = 0; i < list.length; i++)
+    {
+        if(Objects.equals(list[i], serial_port))
+        {
+            serial_valid = true;
+            break;
+        }
+    }
 }
 
 ////////////////////////////
@@ -43,24 +59,23 @@ int globalState = GLOBAL_LOADING;
 // TESTING
 void test()
 {
-
-    exit();
 }
 ////////////////////////////////////////
 
 // Init
 void setup()
 {
+    application = this;
     size(800, 600);
     noStroke();
     smooth();
     frameRate(fps);
     randomSeed(0);
 
-    path();
+    setInfo();
     ////////////////////////////////////////
     // TESTING
-    // test();
+    test();
     ////////////////////////////////////////
 
     //----------------------------------------------
@@ -110,8 +125,19 @@ void keyReleased()
 {
     keyHandler.setKey(key, false);
 }
+void serialEvent(Serial p)
+{
+    keyHandler.serialEvent(p);
+}
+//----------------------------------------------
+// Draw frames
 void draw()
 {
+    ////////////////////////////////////////
+    // TESTING
+    // test();
+    ////////////////////////////////////////
+
     switch(globalState)
     {
         case GLOBAL_LOADING:
@@ -171,7 +197,7 @@ void draw()
             // Update
             game.update();
 
-            println("gameState: "+game.gameState);
+            println("src.draw(): gameState = " + game.gameState);
 
             // Draw
             //scene.initgamebackground();
@@ -244,8 +270,11 @@ void draw()
         }
         // testing //////////////////////////////////
     }
+<<<<<<< HEAD
 
 
     ////////////////////////////////////////
     // TESTING
+=======
+>>>>>>> 7c4c3533d0cd71fd43780478a3923d79552ddbe5
 }
