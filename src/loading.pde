@@ -37,10 +37,6 @@ class LoadingScene
     void loadScene()
     {
         setbackgound();
-        // if(fillx >= 600)
-        // {
-        //     fillx = 600;
-        // }
 
         stroke(0, 0, 0);
         noFill();
@@ -87,7 +83,7 @@ class LoadingScene
 
     void printcommon(int ldRate)
     {
-        if(ldRate % (rtJudge/4) == 0)
+        if(ldRate % (rtJudge/10) == 0)
         {
             count++;
         }
@@ -117,13 +113,13 @@ class LoadingScene
 
     void addfillx()
     {
-        if(fillx == 184)
+        if(fillx == 190)
             choosCase++;
 
         if(choosCase == loadingCase[0])
-            fillx += 4;
-        else if(choosCase == loadingCase[1])
             fillx += 10;
+        else if(choosCase == loadingCase[1])
+            fillx += 20;
     }
 }
 

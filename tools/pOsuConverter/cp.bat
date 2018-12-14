@@ -10,5 +10,5 @@ echo FINISH
 
 if %ERRORLEVEL% EQU 0 (
 
-	%1 -i %1 -o %1
+	%1 -i test2.txt -o t2.txt
 )

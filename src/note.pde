@@ -1,5 +1,5 @@
 static final float speed = 1.f;
-static final float unit = 400.f; // pixel per sec
+static final float unit = 800.f; // pixel per sec
 static final float moveUnit = unit / (float)fps;
 
 static final float longBarW = 17;
@@ -27,22 +27,22 @@ static final int JUDGE_MISS = 5;
 static final int JUDGE_LONG_START = 0;
 static final int JUDGE_LONG_PRESS = 1;
 
-static final int [] perfect = {-23, 0};//4, 9
+static final int [] perfect = {-13, 13};//4, 9
 static final int [][] great =
 {
-    {-35, -23},//-1, 3
-    {0, 7}//10, 13
+    {-26, -13},//-1, 3
+    {13, 22}//10, 13
 };
 static final int [][] good =
 {
-    {-42, -35},//-4, -1
-    {7, 12},//14, 17
+    {-39, -26},//-4, -1
+    {22, 29},//14, 17
 };
 
 static final int [][] miss =
 {
-    {-45, -42},
-    {12, 13}
+    {-45, -39},
+    {29, 31}
 };
 
 PImage [] noteImg = new PImage[2];

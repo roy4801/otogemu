@@ -36,10 +36,25 @@ class Fumen
 			exit();
 		}
 	}
-	boolean isMusicEnd()
+
+	////////////////////////test////////////////////////////
+	void stop()
 	{
-		return music.isStopped(title); // this is return true once the music was stopped and played before.
+		if(music != null)
+			music.stop(title);
 	}
+
+	void pause()
+	{
+		if(music != null)
+			music.pause(title);
+	}
+	void Pplay()
+	{
+		if(music != null)
+			music.Pplay(title);
+	}
+	////////////////////////test////////////////////////////
 
 	void resetFumen()
 	{
@@ -49,6 +64,11 @@ class Fumen
 		{
 			noteList.get(i).reset();
 		}
+	}
+	// judge
+	boolean isMusicEnd()
+	{
+		return music.isStopped(title); // this is return true once the music was stopped and played before.
 	}
 	//
 	// Get/Set functions
