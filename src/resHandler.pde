@@ -65,8 +65,9 @@ PImage LoadImage(String file)
 // TODO(roy4801): fix this
 ddf.minim.AudioSample LoadSoundEffect(String file)
 {
+	println("LoadSoundEffect(): file = " + file);
+	println("LoadSoundEffect(): path = " + getPath(RES_SE, file));
 	return minim.loadSample(getPath(RES_SE, file));
-	// return new SoundFile(this, getPath(RES_SE, file));
 }
 
 File LoadFumenFile(String dir)
@@ -79,5 +80,4 @@ AudioPlayer LoadFumenSong(String dir)
 	println("LoadFumenSong(): dir = " + dir);
 	println("LoadFumenSong():     " + getPath(RES_SONG, String.format("%s/%s.mp3", dir, dir)));
 	return minim.loadFile(getPath(RES_SONG, String.format("%s/%s.mp3", dir, dir)));
-	// return new SoundFile(this, getPath(RES_SONG, String.format("%s/%s.mp3", dir, dir)));
 }

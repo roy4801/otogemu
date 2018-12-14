@@ -16,6 +16,7 @@ static final int GLOBAL_PAUSE = 6;
 
 // Constants
 static final int fps = 120;
+//
 static String proj_path = "";
 static String serial_port = "";
 static boolean serial_valid = false;
@@ -49,8 +50,8 @@ void setInfo()
     }
 }
 
-////////////////////////////
-/// Global variables
+
+/// Global objects
 KeyHandler keyHandler;
 LoadingScene loading;
 Scene scene;
@@ -103,7 +104,8 @@ void keyPressed()
     // }
 
     // testing //////////////////////////////////
-
+    // TODO: Move the out (to game?)
+    // A key mus all handled by a keyHandler
     if(key == ESC && globalState == GLOBAL_GAME)
     {
         key = 0;
@@ -116,7 +118,6 @@ void keyPressed()
         tint(255, 255, 255, 255);
         scene.pauseScrene();
     }
-
     else if(key == ESC && globalState != GLOBAL_GAME)
     {
         key = 0;

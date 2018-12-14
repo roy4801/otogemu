@@ -18,7 +18,7 @@ static final int [][] endPoint =
     {trackPos[0] + 118, trackPos[1] + 503}  // KEY_K
 };
 
-static final String [] hitSEList = {"soft-hitclap.wav", "normal-hitclap.wav"};
+static final String [] hitSEList = {"soft-hitclap.wav", "normal-hitclap.mp3"};
 
 static final int POS_X = 0;
 static final int POS_Y = 1;
@@ -43,9 +43,8 @@ class Game
     PImage []btnImg;
 
     // sound effect
-    // AudioSample hitSE;
-    int hitse_type = 0;
-    // SoundHandler se = new SoundHandler();
+    ddf.minim.AudioSample hitSE; // TODO(roy4801): fix this
+    int hitse_type = 1;
 
     // fumen
     FumenParser fumenParser = new FumenParser();
@@ -81,8 +80,7 @@ class Game
         btnImg[KEY_K] = LoadImage("4k_k.png");
 
         // Loading sound effect
-        // hitSE = LoadSoundEffect(hitSEList[hitse_type]);
-        // se.addSoundFile(hitSEList[hitse_type], hitSE);
+        hitSE = LoadSoundEffect(hitSEList[hitse_type]);
 
         // Loading fumen
         nowFumen = fumenParser.getFumen("bg3");
@@ -190,29 +188,29 @@ class Game
                 {
                     rect(endPoint[KEY_D][POS_X], endPoint[KEY_D][POS_Y], pressedBlockW-1, pressedBlockH);
 
-                    // if(!prev[KEY_D])
-                    //     se.play(hitSEList[hitse_type]);
+                    if(!prev[KEY_D])
+                        hitSE.trigger();
                 }
                 if(keyHandler.getKey(KEY_F))
                 {
                     rect(endPoint[KEY_F][POS_X], endPoint[KEY_F][POS_Y], pressedBlockW, pressedBlockH);
 
-                    // if(!prev[KEY_F])
-                    //     se.play(hitSEList[hitse_type]);
+                    if(!prev[KEY_F])
+                        hitSE.trigger();
                 }
                 if(keyHandler.getKey(KEY_J))
                 {
                     rect(endPoint[KEY_J][POS_X], endPoint[KEY_J][POS_Y], pressedBlockW-1, pressedBlockH);
 
-                    // if(!prev[KEY_J])
-                    //     se.play(hitSEList[hitse_type]);
+                    if(!prev[KEY_J])
+                        hitSE.trigger();
                 }
                 if(keyHandler.getKey(KEY_K))
                 {
                     rect(endPoint[KEY_K][POS_X], endPoint[KEY_K][POS_Y], pressedBlockW-1, pressedBlockH);
 
-                    // if(!prev[KEY_K])
-                    //     se.play(hitSEList[hitse_type]);
+                    if(!prev[KEY_K])
+                        hitSE.trigger();
                 }
 
                 // Save now key state to prev for next loop

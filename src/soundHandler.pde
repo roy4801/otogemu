@@ -175,4 +175,14 @@ class SoundHandler
 		AudioPlayer tar = fileList.get(idx);
 		return tar.isPlaying() ? tar.position() : -1;
 	}
+	// Get full length of a music (ms)
+	int getLength(String name)
+	{
+		return getLength(getIdx(name));
+	}
+	int getLength(int idx)
+	{
+		AudioPlayer tar = fileList.get(idx);
+		return tar.length();
+	}
 }
