@@ -1,4 +1,3 @@
-import processing.sound.*;
 import java.util.*;
 
 static final int [] trackPos = {100, 0};
@@ -83,7 +82,7 @@ class Game
         hitSE = LoadSoundEffect(hitSEList[hitse_type]);
 
         // Loading fumen
-        nowFumen = fumenParser.getFumen("bg3");
+        nowFumen = fumenParser.getFumen("test");
         noteList = nowFumen.getNoteList();
     }
 

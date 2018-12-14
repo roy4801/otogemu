@@ -116,7 +116,7 @@ class SoundHandler
 //// WTF is this by roy4801 ///////////////////////
 	// Pause the music
 	void pause(String name)
-	{	
+	{
 		pause(getIdx(name));
 	}
 	void pause(int idx)
@@ -124,13 +124,14 @@ class SoundHandler
 		AudioPlayer tar = fileList.get(idx);
 		tar.pause();
 	}
-	// 
+	//
 	void reset(String name)
 	{
 		reset(getIdx(name));
 	}
 	void reset(int idx)
 	{
+		fileList.get(idx).rewind();
 		for(int i = 0; i < played.size(); i++)
 			played.set(i, false);
 	}
