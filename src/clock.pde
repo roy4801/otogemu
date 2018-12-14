@@ -1,20 +1,34 @@
 class Clock
 {
 	int origin;
+	boolean paused;
+	int offset;
 
 	Clock()
 	{
-		origin = 0;
+		origin = offset = 0;
+		paused = false;
 	}
 	//
 	void start()
 	{
 		origin = millis();
 	}
-
+	void pause()
+	{
+		paused = true;
+	}
+	void resume()
+	{
+		if(paused)
+		{
+			paused = false;
+			offset = getNow() - origin;
+		}
+	}
 	int getPassed()
 	{
-		return millis() - origin;
+		return millis() - origin + offset;
 	}
 	int getNow()
 	{

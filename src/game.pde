@@ -60,6 +60,9 @@ class Game
     // game state
     int gameState = GAME_NONE;
 
+    // Flags
+    boolean seEnable = false;
+
     Game()
     {
         // init
@@ -79,7 +82,8 @@ class Game
         btnImg[KEY_K] = LoadImage("4k_k.png");
 
         // Loading sound effect
-        hitSE = LoadSoundEffect(hitSEList[hitse_type]);
+        if(seEnable)
+            hitSE = LoadSoundEffect(hitSEList[hitse_type]);
 
         // Loading fumen
         nowFumen = fumenParser.getFumen("heavenly_moon");
@@ -111,11 +115,13 @@ class Game
     void pause()
     {
         nowFumen.pause();
+        clk.pause();
     }
 
     void Pplay()
     {
         nowFumen.Pplay();
+        clk.resume();
     }
     ///////////////test////////////////////////////////
 
@@ -187,28 +193,28 @@ class Game
                 {
                     rect(endPoint[KEY_D][POS_X], endPoint[KEY_D][POS_Y], pressedBlockW-1, pressedBlockH);
 
-                    if(!prev[KEY_D])
+                    if(seEnable && !prev[KEY_D])
                         hitSE.trigger();
                 }
                 if(keyHandler.getKey(KEY_F))
                 {
                     rect(endPoint[KEY_F][POS_X], endPoint[KEY_F][POS_Y], pressedBlockW, pressedBlockH);
 
-                    if(!prev[KEY_F])
+                    if(seEnable && !prev[KEY_F])
                         hitSE.trigger();
                 }
                 if(keyHandler.getKey(KEY_J))
                 {
                     rect(endPoint[KEY_J][POS_X], endPoint[KEY_J][POS_Y], pressedBlockW-1, pressedBlockH);
 
-                    if(!prev[KEY_J])
+                    if(seEnable && !prev[KEY_J])
                         hitSE.trigger();
                 }
                 if(keyHandler.getKey(KEY_K))
                 {
                     rect(endPoint[KEY_K][POS_X], endPoint[KEY_K][POS_Y], pressedBlockW-1, pressedBlockH);
 
-                    if(!prev[KEY_K])
+                    if(seEnable && !prev[KEY_K])
                         hitSE.trigger();
                 }
 
