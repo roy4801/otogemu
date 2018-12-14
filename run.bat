@@ -1,7 +1,7 @@
 @echo off
 
 cls
-set PROCESSING="C:\processing3.4\processing-3.4\processing-java.exe"
+set PROCESSING="D:\processing-3.4\processing-java.exe"
 
 rem del /s output/
 

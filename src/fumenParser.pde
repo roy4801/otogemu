@@ -13,7 +13,7 @@ class Fumen
 		title = "";
 		music = new SoundHandler(PLAY_IGNORE);
 	}
-	Fumen(String title, SoundFile m, ArrayList<Note> noteList)
+	Fumen(String title, AudioPlayer m, ArrayList<Note> noteList)
 	{
 		this.title = title;
 		music = new SoundHandler(PLAY_IGNORE, title, m);
@@ -37,6 +37,25 @@ class Fumen
 		}
 	}
 
+	////////////////////////test////////////////////////////
+	void stop()
+	{
+		if(music != null)
+			music.stop(title);
+	}
+
+	void pause()
+	{
+		if(music != null)
+			music.pause(title);
+	}
+	void Pplay()
+	{
+		if(music != null)
+			music.Pplay(title);
+	}
+	////////////////////////test////////////////////////////
+
 	void resetFumen()
 	{
 		music.reset(title);
@@ -53,7 +72,7 @@ class Fumen
 	}
 	//
 	// Get/Set functions
-	void setSong(String title, SoundFile song)
+	void setSong(String title, AudioPlayer song)
 	{
 		this.title = title;
 		music.addSoundFile(title, song);
@@ -91,7 +110,7 @@ class FumenParser
 
 	Fumen getFumen(String dir)
 	{
-		SoundFile music = LoadFumenSong(dir);
+		AudioPlayer music = LoadFumenSong(dir);
 		ArrayList<Note> noteList = this.parse(dir);
 		
 		return new Fumen(dir, music, noteList);

@@ -1,7 +1,7 @@
-import processing.sound.*;
 import java.io.FilenameFilter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import ddf.minim.*;
 
 static PApplet application = null;
 
@@ -12,9 +12,11 @@ static final int GLOBAL_LOADING = 3;
 // future
 static final int GLOBAL_SELECT_SONG = 4;
 static final int GLOBAL_SETTING_SCR = 5;
+static final int GLOBAL_PAUSE = 6;
 
 // Constants
 static final int fps = 120;
+//
 static String proj_path = "";
 static String serial_port = "";
 static boolean serial_valid = false;
@@ -23,8 +25,9 @@ void setInfo()
 {
     if(OsUtils.isWindows())
     {
-        proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
-        serial_port = "";
+        // proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
+        proj_path = "C:\\Users\\sf643\\Desktop\\otogemu\\src\\";
+        serial_port = "COM5";
     }
     else if(OsUtils.isMacos())
         proj_path = "/Users/roy4801/Desktop/Program/myProj/otogemu/src/";
@@ -34,9 +37,11 @@ void setInfo()
         serial_port = "/dev/ttyACM0";
     }
     // Check if a serial port is valid
+    println("Serial List:");
     String[] list = Serial.list();
     for(int i = 0; i < list.length; i++)
     {
+        println(">>> " + list[i]);
         if(Objects.equals(list[i], serial_port))
         {
             serial_valid = true;
@@ -45,8 +50,8 @@ void setInfo()
     }
 }
 
-////////////////////////////
-/// Global variables
+
+/// Global objects
 KeyHandler keyHandler;
 LoadingScene loading;
 Scene scene;
@@ -65,7 +70,7 @@ void test()
 void setup()
 {
     application = this;
-    size(800, 600);
+    size(800, 600, P3D);
     noStroke();
     smooth();
     frameRate(fps);
@@ -92,11 +97,33 @@ void keyPressed()
 {
     keyHandler.setKey(key, true);
     // clear the "ESC" key
-    if(key == ESC)
+    // if(key == ESC)
+    // {
+    //     exit(); // for testing usage
+    //     // key = 0;
+    // }
+
+    // testing //////////////////////////////////
+    // TODO: Move the out (to game?)
+    // A key mus all handled by a keyHandler
+    if(key == ESC && globalState == GLOBAL_GAME)
     {
-        exit(); // for testing usage
-        // key = 0;
+        key = 0;
+        globalState = GLOBAL_PAUSE;
+        tint(38, 38, 38, 100);
+        scene.initgamebackground();
+        game.draw();
+        scene.printscore();
+        scene.printcombo(scene.getcombo());
+        tint(255, 255, 255, 255);
+        scene.pauseScrene();
     }
+    else if(key == ESC && globalState != GLOBAL_GAME)
+    {
+        key = 0;
+    }
+
+    // testing //////////////////////////////////
 }
 void keyReleased()
 {
@@ -121,7 +148,6 @@ void draw()
         {
             if(loading.fillx == 190)
             {
-
                 loadNoteImage();
                 game.loadResource();
                 scene.loadResource();
@@ -183,6 +209,7 @@ void draw()
             scene.printscore();
             scene.printcombo(scene.getcombo());
 
+            println("src.draw(): game.isEnd() = " + (game.isEnd()?"True":"False"));
             if(game.isEnd())
             {
                 globalState = GLOBAL_END;
@@ -197,8 +224,8 @@ void draw()
             if(mousePressed && mouseButton == LEFT)
                 click_type = scene.click();
 
-            if(click_type == CLICK_BACK){
-
+            if(click_type == CLICK_BACK)
+            {
                 if(scene.clickBack)
                 {
                     game.reloadCurrentFumen(); // for replay
@@ -208,5 +235,43 @@ void draw()
             }
         }
         break;
+        // testing //////////////////////////////////
+        case GLOBAL_PAUSE:
+        {
+            int click_type = -1;
+            if(mousePressed && mouseButton == LEFT)
+                click_type = scene.click();
+            game.pause();
+
+            switch(click_type)
+            {
+                case CLICK_PSTART:
+                    if(scene.clickPStart)
+                    {
+                        game.Pplay();
+                        scene.initgamebackground();
+                        //scene.initscoreboard();
+                        // scene.isStart = true;
+                        globalState = GLOBAL_GAME;
+                        //game.loadBGM();
+                        game.update();
+                        game.draw();
+                        scene.printscore();
+                        scene.printcombo(scene.getcombo());
+                    }
+                break;
+
+                case CLICK_BACK:
+                    if(scene.clickBack)
+                    {   
+                        game.stop();
+                        game.reloadCurrentFumen();
+                        scene.initmenu();
+                        globalState = GLOBAL_MENU;
+                    }
+                break;
+            }
+        }
+        // testing //////////////////////////////////
     }
 }

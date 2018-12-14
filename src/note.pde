@@ -1,5 +1,5 @@
 static final float speed = 1.f;
-static final float unit = 400.f; // pixel per sec
+static final float unit = 800.f; // pixel per sec
 static final float moveUnit = unit / (float)fps;
 
 static final float longBarW = 17;
@@ -305,9 +305,10 @@ class Note
         prevKey = keyHandler.getKey(noteCol);
     }
     //
-    void draw()
+    void draw(boolean static_print)
     {
-        if(on)
+        // static_print for GAME_WAITING
+        if(on || static_print)
         {
             // Long bar for NOTE_LONG
             if(noteType == NOTE_LONG)
