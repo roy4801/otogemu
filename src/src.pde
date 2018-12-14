@@ -25,7 +25,7 @@ void setInfo()
     if(OsUtils.isWindows())
     {
         proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
-        serial_port = "";
+        serial_port = "COM5";
     }
     else if(OsUtils.isMacos())
         proj_path = "/Users/roy4801/Desktop/Program/myProj/otogemu/src/";
@@ -35,9 +35,11 @@ void setInfo()
         serial_port = "/dev/ttyACM0";
     }
     // Check if a serial port is valid
+    println("Serial List:");
     String[] list = Serial.list();
     for(int i = 0; i < list.length; i++)
     {
+        println(">>> " + list[i]);
         if(Objects.equals(list[i], serial_port))
         {
             serial_valid = true;
