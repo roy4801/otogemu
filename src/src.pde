@@ -98,6 +98,12 @@ void keyPressed()
         tint(255, 255, 255, 255);
         scene.pauseScrene();
     }
+
+    else if(key == ESC && globalState != GLOBAL_GAME)
+    {
+        key = 0;
+    }
+
     // testing //////////////////////////////////
 }
 void keyReleased()

@@ -101,6 +101,7 @@ class SoundHandler
 	void stop(int idx)
 	{
 		SoundFile tar = fileList.get(idx);
+		tar.stop();
 		tar.jump(0.0);
 		tar.stop();
 	}
