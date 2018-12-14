@@ -8,10 +8,14 @@ static final int CLICK_NONE  = -1;
 static final int CLICK_INFO  = 0;
 static final int CLICK_START = 1;
 static final int CLICK_BACK  = 2;
+// testing /////////////////////////////////
+static final int CLICK_PSTART= 3;
+// testing /////////////////////////////////
 
 static final int MAX_SCORE = 1000000;
 
-class Scene{
+class Scene
+{
 	//
 	//store image
 	PImage backgroundImg; //background image
@@ -33,6 +37,7 @@ class Scene{
 	int highestCombo;
 	//
 	//
+	boolean clickPStart;
 	boolean clickStart;
 	boolean clickInfo;
 	boolean clickBack;
@@ -45,7 +50,8 @@ class Scene{
 	int [] hit = new int[HIT_TOTAL];
 	//
 	//
-	Scene(){
+	Scene()
+	{
 		//initial counters
 		nowScore     = 0;
 		combo 		 = 0;
@@ -55,6 +61,7 @@ class Scene{
 		numOfmiss 	 = 0;
 		highestCombo = 0;
 		//
+		clickPStart= false;
 		clickStart = true;
 		clickInfo  = true;
 		clickBack  = false;
@@ -78,8 +85,8 @@ class Scene{
 	//
 	// initial the frame
 	// reset the frame
-	void initmenu(){
-
+	void initmenu()
+	{
 		image(backgroundImg, 0, 0, 800, 600);
 		setStBn();
 		setInfoBn();
@@ -87,6 +94,7 @@ class Scene{
 		//menu 	   = true;
 		//isEnd 	   = false;
 		//isStart    = false;
+		clickPStart= false;
 		clickStart = true;
 		clickInfo  = true;
 		clickBack  = false;
@@ -101,11 +109,12 @@ class Scene{
 		highestCombo = 0;
 	}
 
-	void initgamebackground(){
-
+	void initgamebackground()
+	{
 		//frameRate(fps);
 		image(gamebackgroundImg, 0, 0, 800, 600);
 		//menu 	   = false;
+		clickPStart= false;
 		clickStart = false;
 		clickInfo  = false;
 		clickBack  = false;
@@ -121,22 +130,29 @@ class Scene{
 	//
 	//buttom set up
 	//set start buttom
-	void setStBn(){
 
+	// testing /////////////////////////////////////////
+	void setStBn(int x, int y)
+	{
+		image(startBnImg, x, y, 250, 55);
+	}
+	// testing /////////////////////////////////////////
+	void setStBn()
+	{
 		image(startBnImg, 50, 280, 250, 55);
 		//50 <= mouseX <= 300
 		//280 <= mouseY <= 335
 	}
 	//set info buttom
-	void setInfoBn(){
-
+	void setInfoBn()
+	{
 		image(infoBnImg, 50, 100, 250, 55);
 		//50 <= mouseX <= 300
 		//250 <= mouseY <= 155
 	}
 	//set back buttom
-	void setbackBn(){
-
+	void setbackBn()
+	{
 		image(backBnImg, 270, 545, 250, 55);
 		//270 <= mouseX <= 520
 		//545 <= mouseY <= 600
@@ -144,19 +160,21 @@ class Scene{
 	//
 	//build funtion
 	//build info page
-	void buildInfo(){
-
+	void buildInfo()
+	{
 		image(infoImg, 0, 0, 800, 600);
 		image(infotext, 320, 230, 400, 300);
 		image(illustration, 100, 20, 145, 500);
 		setbackBn();
+		clickPStart= false;
 		clickStart = false;
 		clickInfo  = false;
 		clickBack  = true;
 		//isLeft 	   = false;
 	}
   	//build Finish page
-	void FinishScene(){
+	void FinishScene()
+	{
 		// frameRate(fps);
 		String sscore = nf(nowScore, 7);
 		initgamebackground();
@@ -182,6 +200,18 @@ class Scene{
 		setbackBn();
 		clickBack = true;
 	}
+
+	//for testing "ESC" leave game /////////////////////////////////////////////////
+
+	void pauseScrene()
+	{
+		clickPStart= true;
+		clickBack = true;
+		setbackBn();
+		setStBn(270, 450);
+	}
+	//for testing "ESC" leave game /////////////////////////////////////////////////
+
 	// Calculating the total score after playing a fumen
 	void calcScore()
 	{
@@ -213,51 +243,39 @@ class Scene{
 	}
 	//
 	//get data
-	int getcombo(){
-
+	int getcombo()
+	{
 		return combo;
 	}
-	int gethighestCombo(){
-
+	int gethighestCombo()
+	{
 		return highestCombo;
 	}
-	int getnumOfperfect(){
-
+	int getnumOfperfect()
+	{
 		return numOfperfect;
 	}
-	int getnumOfgreat(){
-
+	int getnumOfgreat()
+	{
 		return numOfgreat;
 	}
-	int getnumOfgood(){
-
+	int getnumOfgood()
+	{
 		return numOfgood;
 	}
-	int getnumOfmiss(){
-
+	int getnumOfmiss()
+	{
 		return numOfmiss;
 	}
 	//
 	//reset counter
-	void resetCombo(){
-
+	void resetCombo()
+	{
 		combo = 0;
 	}
 	//
-	//
-	// void leavegame(){
-
-	// 	if(keyPressed){
-
-	// 		if(key == ESC){
-
-	// 			isLeft = true;
-	// 		}
-	// 	}
-	// }
-	//
-	//print
-	void printscore(){
+	void printscore()
+	{
 		calcScore();
 		fill(255, 255, 230);
 		rect(620, 5, 200, 40);
@@ -267,8 +285,8 @@ class Scene{
 		textAlign(LEFT);
 		text(sprintscore, 620, 40);
 	}
-	void printcombo(int combo){
-
+	void printcombo(int combo)
+	{
 		textSize(35);
 		fill(255, 255, 255);
 		textAlign(CENTER);
@@ -278,27 +296,34 @@ class Scene{
 		  highestCombo = combo;
 	}
 
-	int click(){
-
+	int click()
+	{
 		int click_type = CLICK_NONE;
-		if(mouseX >= 50 && mouseX <= 300 && mouseY >= 100 && mouseY <= 155){
-
+		if(mouseX >= 50 && mouseX <= 300 && mouseY >= 100 && mouseY <= 155)
+		{
 			if(clickInfo)
 				click_type = CLICK_INFO;
 		}
-		else if(mouseX >= 50 && mouseX <= 300 && mouseY >= 280 && mouseY <= 335){
-
-			if(clickStart){
-
+		else if(mouseX >= 50 && mouseX <= 300 && mouseY >= 280 && mouseY <= 335)
+		{
+			if(clickStart)
+			{
 				//isStart = true;
 				click_type = CLICK_START;
 			}
 		}
-		else if(mouseX >= 270 && mouseX <= 520 && mouseY >= 545 && mouseY <= 600){
-
+		else if(mouseX >= 270 && mouseX <= 520 && mouseY >= 545 && mouseY <= 600)
+		{
 			if(clickBack)
 				click_type = CLICK_BACK;
 		}
+		// testing //////////////////////////////////////
+		else if(mouseX >= 270 && mouseX <= 520 && mouseY >= 450 && mouseY <= 505)
+		{
+			if(clickPStart)
+				click_type = CLICK_PSTART;
+		}
+		// testing //////////////////////////////////////
 		return click_type;
 	}
 }

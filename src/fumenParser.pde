@@ -37,6 +37,25 @@ class Fumen
 		}
 	}
 
+	////////////////////////test////////////////////////////
+	void stop()
+	{
+		if(music != null)
+			music.stop(title);
+	}
+
+	void pause()
+	{
+		if(music != null)
+			music.pause(title);
+	}
+	void Pplay()
+	{
+		if(music != null)
+			music.Pplay(title);
+	}
+	////////////////////////test////////////////////////////
+
 	void resetFumen()
 	{
 		music.reset(title);

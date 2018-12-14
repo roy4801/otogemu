@@ -1,5 +1,5 @@
 static final float speed = 1.f;
-static final float unit = 400.f; // pixel per sec
+static final float unit = 800.f; // pixel per sec
 static final float moveUnit = unit / (float)fps;
 
 static final float longBarW = 17;

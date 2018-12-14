@@ -105,6 +105,23 @@ class Game
         println("Game.start(): gameState = " + gameState);
     }
 
+    ///////////////test////////////////////////////////
+    void stop()
+    {
+        nowFumen.stop();
+    }
+
+    void pause()
+    {
+        nowFumen.pause();
+    }
+
+    void Pplay()
+    {
+        nowFumen.Pplay();
+    }
+    ///////////////test////////////////////////////////
+
     // Need to refactoring
     void update()
     {

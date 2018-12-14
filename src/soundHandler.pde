@@ -92,6 +92,41 @@ class SoundHandler
 
 		played.set(idx, true);
 	}
+	///////////////test///////////////////////////////
+	void stop(String name)
+	{
+		stop(getIdx(name));
+	}
+
+	void stop(int idx)
+	{
+		SoundFile tar = fileList.get(idx);
+		tar.stop();
+		tar.jump(0.0);
+		tar.stop();
+	}
+
+	void Pplay(String name)
+	{
+		Pplay(getIdx(name));
+	}
+	void Pplay(int idx)
+	{
+		SoundFile tar = fileList.get(idx);
+		tar.play();
+	}
+
+	void pause(String name)
+	{	
+		pause(getIdx(name));
+	}
+
+	void pause(int idx)
+	{
+		SoundFile tar = fileList.get(idx);
+		tar.pause();
+	}
+	///////////////test///////////////////////////////
 
 	void reset(String name)
 	{
