@@ -2,11 +2,11 @@ class Clock
 {
 	int origin;
 	boolean paused;
-	int offset;
+	// int offset;
 
 	Clock()
 	{
-		origin = offset = 0;
+		origin = 0;
 		paused = false;
 	}
 	//
@@ -22,13 +22,13 @@ class Clock
 	{
 		if(paused)
 		{
+			origin = millis();
 			paused = false;
-			offset = getNow() - origin;
 		}
 	}
 	int getPassed()
 	{
-		return millis() - origin + offset;
+		return millis() - origin;
 	}
 	int getNow()
 	{
