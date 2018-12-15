@@ -239,31 +239,26 @@ void draw()
         case GLOBAL_PAUSE:
         {
             int click_type = -1;
+            game.pause();
+            // Check if one clicked btns
             if(mousePressed && mouseButton == LEFT)
                 click_type = scene.click();
-            game.pause();
-
             switch(click_type)
             {
+                // Resume the gameplay
                 case CLICK_PSTART:
                     if(scene.clickPStart)
                     {
-                        game.Pplay();
+                        game.resume();
                         scene.initgamebackground();
-                        //scene.initscoreboard();
-                        // scene.isStart = true;
                         globalState = GLOBAL_GAME;
-                        //game.loadBGM();
-                        game.update();
-                        game.draw();
-                        scene.printscore();
-                        scene.printcombo(scene.getcombo());
                     }
                 break;
-
+                // Back to the main menu
                 case CLICK_BACK:
                     if(scene.clickBack)
                     {
+                        // Stop the game
                         game.stop();
                         game.reloadCurrentFumen();
                         scene.initmenu();

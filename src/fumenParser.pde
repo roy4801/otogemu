@@ -49,10 +49,10 @@ class Fumen
 		if(music != null)
 			music.pause(title);
 	}
-	void Pplay()
+	void resume()
 	{
 		if(music != null)
-			music.Pplay(title);
+			music.resume(title);
 	}
 	////////////////////////test////////////////////////////
 

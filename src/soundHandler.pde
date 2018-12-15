@@ -104,11 +104,11 @@ class SoundHandler
 	}
 
 //// WTF is this by roy4801 ///////////////////////
-	void Pplay(String name)
+	void resume(String name)
 	{
-		Pplay(getIdx(name));
+		resume(getIdx(name));
 	}
-	void Pplay(int idx)
+	void resume(int idx)
 	{
 		AudioPlayer tar = fileList.get(idx);
 		tar.play();

@@ -32,6 +32,7 @@ static final int GAME_NONE    = 0;
 static final int GAME_PLAYING = 1;
 static final int GAME_STOP    = 2;
 static final int GAME_WAITING = 3; // for waiting secs in the begining
+static final int GAME_PAUSE   = 4; // for pause the game during a gameplat
 
 static final int GAME_ENTRY = GAME_WAITING;
 
@@ -110,18 +111,21 @@ class Game
     void stop()
     {
         nowFumen.stop();
+        gameState = GAME_STOP;
     }
 
     void pause()
     {
         nowFumen.pause();
         clk.pause();
+        gameState = GAME_PAUSE;
     }
 
-    void Pplay()
+    void resume()
     {
-        nowFumen.Pplay();
+        nowFumen.resume();
         clk.resume();
+        gameState = GAME_PLAYING;
     }
     ///////////////test////////////////////////////////
 
