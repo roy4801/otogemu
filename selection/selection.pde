@@ -60,14 +60,14 @@ static final int CHOOSE     =  2;
 
 int global_wheel = WHEELSTOP;
 
-String [] testText = {"test11", "test1", "test2", "test3", "test4", "test5", "test6", "test7", "test8", "test9", "test10"};
-int textMidIdx = 3;
-boolean addFlag = false;
-boolean minFlag = false;
-int topStatus;
-int bottomStatus;
+// String [] songName = {"test11", "test1", "test2", "test3", "test4", "test5", "test6", "test7", "test8", "test9", "test10"};
+// int textMidIdx = 3;
+// boolean addFlag = false;
+// boolean minFlag = false;
+// int topStatus;
+// int bottomStatus;
 
-int RANGE = testText.length;
+// int RANGE = songName.length;
 
 class Bars
 {
@@ -118,7 +118,6 @@ class Bars
 
 	void update(int status, int idx)
 	{
-		//println("in: " + status);
 		switch(wheelStatus)
 		{	
 			case UPWARDS:
@@ -209,14 +208,12 @@ class Bars
 					break;
 					case SIXTH:
 						textSize(1);
-						//str = null;
 					break;
 				}
 			break;
 
 			//MouseWheel down picture up
 			case DOWNWARDS:
-				//println(status);
 				switch(status)
 				{
 					case FIRST:	
@@ -380,12 +377,10 @@ class Bars
 		fill(255);
 		rect(x_p, y_p, x_l, y_l);
 		writeString(str);
-		//textAlign(CENTER);
 	}
 
 	void writeString(String str)
 	{
-		// println(str + " " + textsize);
 		fill(70);
 		if(str != null)
 		{
@@ -477,36 +472,13 @@ class Selection
 		background(r, g, b);
 	}
 
-	void test()
-	{
-		rect(seven[X_PO]       , seven[Y_PO]       , seven[X_LE]       , seven[Y_PO]);
-		rect(before_last[X_PO] , before_last[Y_PO] , before_last[X_LE] , before_last[Y_LE]);
-		rect(last[X_PO]        , last[Y_PO]        , last[X_LE]        , last[Y_LE]);
-		rect(now[X_PO]         , now[Y_PO]         , now[X_LE]         , now[Y_LE]); //main
-		rect(next[X_PO]        , next[Y_PO]        , next[X_LE]        , next[Y_LE]);
-		rect(after_next[X_PO]  , after_next[Y_PO]  , after_next[X_LE]  , after_next[Y_LE]);
-		rect(six[X_PO]         , six[Y_PO]         , six[X_LE]         , six[X_PO]);
-		textSize(65);
-		fill(50);
-		text("test", now[X_PO]+20, (2*now[Y_PO] + now[Y_LE])/2);
-		textSize(50);
-		text("test", last[X_PO]+20, (2*last[Y_PO] + last[Y_LE])/2);
-		text("test", next[X_PO]+20, (2*next[Y_PO] + next[Y_LE])/2);
-		textSize(40.5);
-		text("test", before_last[X_PO]+20, (2*before_last[Y_PO] + before_last[Y_LE])/2);
-		text("test", after_next[X_PO]+20, (2*after_next[Y_PO] + after_next[Y_LE])/2);
-	}
-
 	void update()
 	{
 		for(int k = ZERO ; k <= SIXTH ; k++)
 		{	
-			//bars[k].giveString(testText[i++]);
 			bars[k].update(bars[k].getStatus(), k);
 			bars[k].draw();
 		}
-		// if(i == 5)
-		// 	println(bars[i].getStatus());
 	}
 
 	void insertString(int i, int j)
@@ -530,14 +502,8 @@ class Selection
 				{
 					if(bars[k].getinitStatus() != -1)
 					{
-						// println("left: " + left);
-						// println("right: " + right);
-						//println(bars[topStatus].getStr());
-						bars[k].insertString(testText[right]);
-						//if(isWheelMove())
-						//{
-						bars[topStatus].insertString(testText[tmp_l+1]);
-						//}
+						bars[k].insertString(songName[right]);
+						bars[topStatus].insertString(songName[tmp_l+1]);
 						println("topStatus " + topStatus + " " + bars[topStatus].getStr());
 						println("bottomStatus " + bottomStatus + " " + bars[bottomStatus].getStr());
 					}
@@ -548,23 +514,15 @@ class Selection
 				{
 					if(bars[k].getinitStatus() != -1)
 					{
-						// println("left: " + left);
-						// println("right: " + right);
-						//println(bars[bottomStatus].getStr());
-						bars[k].insertString(testText[left]);
-						//if(isWheelMove())
-						//{
-						bars[bottomStatus].insertString(testText[tmp_r-1]);
-						//}
+						bars[k].insertString(songName[left]);
+
+						bars[bottomStatus].insertString(songName[tmp_r-1]);
+
 						println("topStatus " + topStatus + " " + bars[topStatus].getStr());
 						println("bottomStatus " + bottomStatus + " " + bars[bottomStatus].getStr());
 					}
 				}
 			break;
-			// case WHEELSTOP:
-			// 	println("topStatus: " + topStatus + " " + bars[topStatus].getStr());
-			// 	println("bottomStatus: " + bottomStatus + " " + bars[bottomStatus].getStr());
-			// break;
 		}
 	}
 
@@ -584,6 +542,14 @@ class Selection
 		}
 	}
 
+	void checkBound()
+	{
+		if(right > RANGE)
+		{
+			right = right - RANGE;
+		}
+	}
+
 	void acTOchoose()
 	{
 		chooseSong = true;
@@ -591,18 +557,10 @@ class Selection
 
 	void draw(int k)
 	{
-		//if(k == bottomStatus)
-		//{
-		println(k);
-		//}
-
-		// println(bars[k].textsize);
 		if(k != bottomStatus)
 		{
 			bars[k].draw();
 		}
-		// if(i == 5)
-		// 	println(bars[i].getStatus());
 	}
 
 	void changeWheelstate(int i, int state)
@@ -655,7 +613,6 @@ class Selection
 				left--;
 				right--;
 				textMidIdx--;
-				//println("left: " + left);
 				if(left == -1)
 				{
 					left = RANGE-1;
@@ -680,12 +637,10 @@ class Selection
 			{
 				left = 0;
 			}
-			println(left);
-			println(testText[left]);
-			bars[k].giveString(testText[left++]);
-			//println()
+			bars[k].giveString(songName[left++]);
 		}
 		hasWheelMove = false;
+		checkBound();
 		update();
 		deal();
 	}
@@ -707,6 +662,8 @@ class Selection
 
 	void print()
 	{
+		println("Left: " + left + " " + songName[left]);
+		println("Right: " + right + " " + songName[right]);
 		for(int i = 0 ; i < 7 ; i++)
 		{
 			println(i + ": " + bars[i].getStr());
@@ -736,8 +693,6 @@ class Selection
 		selection.state = 1;
 		global_wheel    = DOWNWARDS;
 		println("-------------------------DOWNWARDS-------------------------------");
-		// println("left: " + selection.getLeft() + " " + testText[selection.getLeft()]);
-		// println("right: " + selection.getRight() + " " + testText[selection.getRight()]);
 		for(int i = 0 ; i < 7 ; i++)
 		{
 			selection.changeWheelstate(i, DOWNWARDS);
@@ -748,8 +703,6 @@ class Selection
 		selection.state = -1;
 		global_wheel    = UPWARDS;
 		println("--------------------------UPWARDS-------------------------------");
-		// println("left: " + selection.getLeft() + " " + testText[selection.getLeft()]);
-		// println("right: " + selection.getRight() + " " + testText[selection.getRight()]);
 		for(int i = 0 ; i < 7 ; i++)
 		{
 			selection.changeWheelstate(i, UPWARDS);
@@ -761,8 +714,6 @@ class Selection
 		global_wheel = WHEELSTOP;
 		selection.state = 0;
 		println("--------------------------WHEELSTOP-------------------------------");
-		// println("left: " + selection.getLeft() + " " + testText[selection.getLeft()]);
-		// println("right: " + selection.getRight() + " " + testText[selection.getRight()]);
 		for(int i = 0 ; i < 7 ; i++)
 		{
 			selection.changeWheelstate(i, WHEELSTOP);
@@ -785,7 +736,7 @@ class Selection
 					rect(chooseBar[X_PO], chooseBar[Y_PO], chooseBar[X_LE], chooseBar[Y_LE]);
 					fill(30);
 					textSize(chooseText[TEXT_SIZE]);
-					text(testText[textMidIdx], chooseText[X_PO], chooseText[Y_PO]);
+					text(songName[textMidIdx], chooseText[X_PO], chooseText[Y_PO]);
 					acTOchoose();
 					global_wheel = CHOOSE;
 				}
@@ -819,6 +770,15 @@ class Selection
 }
 
 Selection selection;
+GetbgmName getBgmName;
+String [] songName;
+int textMidIdx = 3;
+boolean addFlag = false;
+boolean minFlag = false;
+int topStatus;
+int bottomStatus;
+
+int RANGE;
 
 
 //////////for testing////////////
@@ -826,58 +786,21 @@ void setup()
 {
 	frameRate(120);
 	selection = new Selection();
+	getBgmName = new GetbgmName();
+
+	songName = getBgmName.listFileNames(getBgmName.getPath());
+	RANGE = songName.length;
+	getBgmName.rightShift(songName);
 
 	size(800, 600);
 	selection.backgroundColor();
 	selection.init(selection.getLeft(), selection.getRight());
-	//selection.print();
+	selection.print();
 }
 
 void mouseWheel(MouseEvent event)
 {
 	selection.wheelCheck(event);
-	// selection.state += event.getCount();
-
-	// if(selection.state >= 1)
-	// {
-	// 	selection.state = 1;
-	// 	global_wheel    = DOWNWARDS;
-	// 	println("-------------------------DOWNWARDS-------------------------------");
-	// 	// println("left: " + selection.getLeft() + " " + testText[selection.getLeft()]);
-	// 	// println("right: " + selection.getRight() + " " + testText[selection.getRight()]);
-	// 	for(int i = 0 ; i < 7 ; i++)
-	// 	{
-	// 		selection.changeWheelstate(i, DOWNWARDS);
-	// 	}
-	// }
-	// else if(selection.state <= -1)
-	// {
-	// 	selection.state = -1;
-	// 	global_wheel    = UPWARDS;
-	// 	println("--------------------------UPWARDS-------------------------------");
-	// 	// println("left: " + selection.getLeft() + " " + testText[selection.getLeft()]);
-	// 	// println("right: " + selection.getRight() + " " + testText[selection.getRight()]);
-	// 	for(int i = 0 ; i < 7 ; i++)
-	// 	{
-	// 		selection.changeWheelstate(i, UPWARDS);
-	// 	}
-	// }
-	// else if(selection.state == 0)
-	// {
-	// 	selection.wheelMove();
-	// 	global_wheel = WHEELSTOP;
-	// 	selection.state = 0;
-	// 	println("--------------------------WHEELSTOP-------------------------------");
-	// 	// println("left: " + selection.getLeft() + " " + testText[selection.getLeft()]);
-	// 	// println("right: " + selection.getRight() + " " + testText[selection.getRight()]);
-	// 	for(int i = 0 ; i < 7 ; i++)
-	// 	{
-	// 		selection.changeWheelstate(i, WHEELSTOP);
-	// 	}
-	// 	println("topStatus: " + topStatus + " " + selection.getStr(topStatus));
-	// 	println("bottomStatus: " + bottomStatus + " " + selection.getStr(bottomStatus));
-	// 	selection.print();
-	// }
 }
 
 void mousePressed()
@@ -891,13 +814,11 @@ void draw()
 	{
 		selection.backgroundColor();
 		selection.update();
-	//selection.print();
 
 		selection.deal();
 	}
 	else
 	{
-		//selection.click();
 	}
 }
 
