@@ -59,15 +59,7 @@ static final int UPWARDS    =  1; // mouse goes up pic goes down
 static final int CHOOSE     =  2;
 
 int global_wheel = WHEELSTOP;
-
-// String [] songName = {"test11", "test1", "test2", "test3", "test4", "test5", "test6", "test7", "test8", "test9", "test10"};
-// int textMidIdx = 3;
-// boolean addFlag = false;
-// boolean minFlag = false;
-// int topStatus;
-// int bottomStatus;
-
-// int RANGE = songName.length;
+int countMove = 0;
 
 class Bars
 {
@@ -98,7 +90,6 @@ class Bars
 	int nextIdx;
 
 	boolean allowTogetinitStatus;
-
 
 	Bars(float x_p, float y_p, float x_l, float y_l, int status, float textsize)
 	{
@@ -135,6 +126,9 @@ class Bars
 							this.status = FIRST;
 							textsize    = text1[TEXT_SIZE];
 							minFlag     = true;
+
+							changeWheelstate(WHEELSTOP);
+							countMove++;
 						}
 					break;
 					case FIRST:
@@ -148,6 +142,9 @@ class Bars
 						{
 							this.status = SECOND;
 							textsize    = text2[TEXT_SIZE];
+
+							changeWheelstate(WHEELSTOP);
+							countMove++;
 						}
 					break;
 					case SECOND:
@@ -161,6 +158,9 @@ class Bars
 						{
 							this.status = THIRD;
 							textsize    = text3[TEXT_SIZE];
+
+							changeWheelstate(WHEELSTOP);
+							countMove++;
 						}
 					break;
 					case THIRD:
@@ -174,6 +174,9 @@ class Bars
 						{
 							this.status = FOURTH;
 							textsize    = text4[TEXT_SIZE];
+
+							changeWheelstate(WHEELSTOP);
+							countMove++;
 						}
 					break;
 					case FOURTH:
@@ -187,6 +190,9 @@ class Bars
 						{
 							this.status = FIFTH;
 							textsize    = text5[TEXT_SIZE];
+
+							changeWheelstate(WHEELSTOP);
+							countMove++;
 						}
 					break;
 					case FIFTH:
@@ -204,6 +210,9 @@ class Bars
 							y_l = seven[Y_LE];
 							textsize    = text0[TEXT_SIZE];
 							allowTogetinitStatus = true;
+
+							changeWheelstate(WHEELSTOP);
+							countMove++;
 						}
 					break;
 					case SIXTH:
@@ -231,6 +240,10 @@ class Bars
 							y_l = six[Y_LE];
 							textsize = text6[TEXT_SIZE];
 							allowTogetinitStatus = true;
+
+
+							changeWheelstate(WHEELSTOP);
+							countMove++;
 						}
 
 					break;
@@ -245,6 +258,9 @@ class Bars
 						{
 							this.status = FIRST;
 							textsize    = text1[TEXT_SIZE];
+
+							changeWheelstate(WHEELSTOP);
+							countMove++;
 						}
 					break;
 					case THIRD:
@@ -258,6 +274,9 @@ class Bars
 						{
 							this.status = SECOND;
 							textsize    = text2[TEXT_SIZE];
+
+							changeWheelstate(WHEELSTOP);
+							countMove++;
 						}
 					break;
 					case FOURTH:
@@ -271,6 +290,9 @@ class Bars
 						{
 							this.status = THIRD;
 							textsize    = text3[TEXT_SIZE];
+
+							changeWheelstate(WHEELSTOP);
+							countMove++;
 						}
 					break;
 					case FIFTH:
@@ -284,6 +306,9 @@ class Bars
 						{
 							this.status = FOURTH;
 							textsize    = text4[TEXT_SIZE];
+
+							changeWheelstate(WHEELSTOP);
+							countMove++;
 						}
 					break;
 					case SIXTH:
@@ -301,6 +326,9 @@ class Bars
 							this.status = FIFTH;
 							textsize    = text5[TEXT_SIZE];
 							addFlag = true;
+
+							changeWheelstate(WHEELSTOP);
+							countMove++;
 						}
 					break;
 				}
@@ -412,7 +440,6 @@ class Bars
 		}
 		else
 		{
-			//println("permission " + status +  " deny!!");
 			return -1;		
 		}
 	}
@@ -426,7 +453,6 @@ class Bars
 	{
 		return str;
 	}
-
 }
 
 class Selection
@@ -540,11 +566,16 @@ class Selection
 		{
 			check();
 		}
+		if(countMove == SIXTH)
+		{
+			global_wheel = WHEELSTOP;
+			countMove = 0;
+		}
 	}
 
 	void checkBound()
 	{
-		if(right > RANGE)
+		if(right >= RANGE)
 		{
 			right = right - RANGE;
 		}
@@ -686,42 +717,42 @@ class Selection
 
 	void wheelCheck(MouseEvent event)
 	{
-		selection.state += event.getCount();
+		state += event.getCount();
 
-	if(selection.state >= 1)
-	{
-		selection.state = 1;
-		global_wheel    = DOWNWARDS;
-		println("-------------------------DOWNWARDS-------------------------------");
-		for(int i = 0 ; i < 7 ; i++)
+		if(state >= 1)
 		{
-			selection.changeWheelstate(i, DOWNWARDS);
+			state = 1;
+			global_wheel    = DOWNWARDS;
+			println("-------------------------DOWNWARDS-------------------------------");
+			for(int i = 0 ; i < 7 ; i++)
+			{
+				changeWheelstate(i, DOWNWARDS);
+			}
 		}
-	}
-	else if(selection.state <= -1)
-	{
-		selection.state = -1;
-		global_wheel    = UPWARDS;
-		println("--------------------------UPWARDS-------------------------------");
-		for(int i = 0 ; i < 7 ; i++)
+		else if(state <= -1)
 		{
-			selection.changeWheelstate(i, UPWARDS);
+			state = -1;
+			global_wheel    = UPWARDS;
+			println("--------------------------UPWARDS-------------------------------");
+			for(int i = 0 ; i < 7 ; i++)
+			{
+				changeWheelstate(i, UPWARDS);
+			}
 		}
-	}
-	else if(selection.state == 0)
-	{
-		selection.wheelMove();
-		global_wheel = WHEELSTOP;
-		selection.state = 0;
-		println("--------------------------WHEELSTOP-------------------------------");
-		for(int i = 0 ; i < 7 ; i++)
+		else if(state == 0)
 		{
-			selection.changeWheelstate(i, WHEELSTOP);
+			wheelMove();
+			global_wheel 	= WHEELSTOP;
+			state = 0;
+			println("--------------------------WHEELSTOP-------------------------------");
+			for(int i = 0 ; i < 7 ; i++)
+			{
+				changeWheelstate(i, WHEELSTOP);
+			}
+			println("topStatus: " + topStatus + " " + selection.getStr(topStatus));
+			println("bottomStatus: " + bottomStatus + " " + selection.getStr(bottomStatus));
+			print();
 		}
-		println("topStatus: " + topStatus + " " + selection.getStr(topStatus));
-		println("bottomStatus: " + bottomStatus + " " + selection.getStr(bottomStatus));
-		selection.print();
-	}
 	}
 
 	void click()
@@ -765,6 +796,10 @@ class Selection
 					global_wheel = WHEELSTOP;
 				}
 			}
+		}
+		else
+		{
+			println("global_wheel is: " + global_wheel);
 		}	
 	}
 }
