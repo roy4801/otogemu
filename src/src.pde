@@ -141,6 +141,11 @@ void keyPressed()
         key = 0;
     }
 
+    if(globalState == GLOBAL_SELECT_SONG)
+    {
+        println("AllowTOKEY? " + selection.isAllowTokey());
+        selection.keyClick();
+    }
     // testing //////////////////////////////////
 }
 void keyReleased()
@@ -182,7 +187,6 @@ void draw()
 
         case GLOBAL_MENU:
         {
-            scene.initmenu();
             int click_type = -1;
             if(mousePressed && mouseButton == LEFT)
                 click_type = scene.click();

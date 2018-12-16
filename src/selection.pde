@@ -172,6 +172,7 @@ class Bars
 
 						if(round(y_p) >= (int)next[Y_PO])
 						{
+							println(str);
 							this.status = FOURTH;
 							textsize    = text4[TEXT_SIZE];
 
@@ -225,6 +226,8 @@ class Bars
 			case DOWNWARDS:
 				switch(status)
 				{
+					case ZERO:
+					break;
 					case FIRST:	
 						x_p += beforeToseven[X_PO];
 						y_p -= beforeToseven[Y_PO];
@@ -474,6 +477,7 @@ class Selection
 	boolean chooseSong;
 	boolean initFlag;
 	boolean loadFlag;
+	boolean allowTokey;
 
 	Selection()
 	{
@@ -499,6 +503,7 @@ class Selection
 		chooseSong   = false;
 		initFlag  	 = false;
 		loadFlag 	 = false; 
+		allowTokey   = true;
 	}
 
 	void backgroundColor()
@@ -531,6 +536,16 @@ class Selection
 	void resetLoadFlag()
 	{
 		loadFlag = false;
+	}
+
+	void setAllowTokey()
+	{
+		allowTokey = true;
+	}
+
+	void resetAllowTokey()
+	{
+		allowTokey = false;
 	}
 
 	void update()
@@ -605,6 +620,7 @@ class Selection
 		{
 			global_wheel = WHEELSTOP;
 			countMove = 0;
+			setAllowTokey();
 		}
 	}
 
@@ -755,6 +771,11 @@ class Selection
 		return hasWheelMove;
 	}
 
+	boolean isAllowTokey()
+	{
+		return allowTokey;
+	}
+
 	void print()
 	{
 		println("Left: " + left + " " + songName[left]);
@@ -816,6 +837,91 @@ class Selection
 			println("topStatus: " + topStatus + " " + selection.getStr(topStatus));
 			println("bottomStatus: " + bottomStatus + " " + selection.getStr(bottomStatus));
 			print();
+		}
+	}
+	//d picup DOWNWARDS
+	//f picdoen UPWARDS
+	//k enter
+	void keyClick()
+	{
+		boolean stateDraw = true;
+		if(isAllowTokey())
+		{
+			resetAllowTokey();
+			if(key == 'd' || key == 'D')
+			{
+				state += 1;
+			}
+			else if(key == 'f' || key == 'F')
+			{
+				state -= 1;
+			}
+			else if(key == 'k' || key == 'K')
+			{
+				setAllowTokey();
+				if(global_wheel == WHEELSTOP)
+				{
+					fill(255);
+					rect(chooseBar[X_PO], chooseBar[Y_PO], chooseBar[X_LE], chooseBar[Y_LE]);
+					fill(30);
+					textSize(chooseText[TEXT_SIZE]);
+					text(songName[textMidIdx], chooseText[X_PO], chooseText[Y_PO]);
+					acTOchoose();
+					global_wheel = CHOOSE;
+				}
+				else if(global_wheel == CHOOSE)
+				{
+					if(isChoose())
+					{
+						println("Ready To load " + songName[textMidIdx] + "!!!");
+						setLoadFlag();
+					}
+					else
+					{
+						println("Pressed Bar First");
+					}
+				}
+				stateDraw = false;
+			}
+
+			if(stateDraw)
+			{
+				if(state >= 1)
+				{
+					state = 0;
+					global_wheel    = DOWNWARDS;
+					println("-------------------------DOWNWARDS-------------------------------");
+					for(int i = 0 ; i < 7 ; i++)
+					{
+						changeWheelstate(i, DOWNWARDS);
+					}
+				}
+				else if(state <= -1)
+				{
+					state = 0;
+					global_wheel    = UPWARDS;
+					println("--------------------------UPWARDS-------------------------------");
+					for(int i = 0 ; i < 7 ; i++)
+					{
+						changeWheelstate(i, UPWARDS);
+					}
+				}
+				else if(state == 0)
+				{
+					wheelMove();
+					global_wheel 	= WHEELSTOP;
+					state = 0;
+					println("--------------------------WHEELSTOP-------------------------------");
+					for(int i = 0 ; i < 7 ; i++)
+					{
+						changeWheelstate(i, WHEELSTOP);
+					}
+					println("topStatus: " + topStatus + " " + selection.getStr(topStatus));
+					println("bottomStatus: " + bottomStatus + " " + selection.getStr(bottomStatus));
+					print();
+					setAllowTokey();
+				}
+			}
 		}
 	}
 
