@@ -2,24 +2,24 @@ int [] loadingCase = {1, 2, 3};
 
 class LoadingScene
 {
-    PImage loadingbackground;
+    PImage loadingBG;
     //
     int count;
     int ldRate;
     int rtJudge;
     int choosCase;
     //
-    int fillx;
-    int filly;
+    int fillX;
+    int fillY;
     //
     boolean isLoad;
 
     LoadingScene()
     {
-        loadingbackground = LoadUI("loadingbackground.png");
+        loadingBG = LoadUI("loadingbackground.png");
         //
-        fillx = 0;
-        filly = 20;
+        fillX = 0;
+        fillY = 20;
         //
         count = 0;
         ldRate = 1;
@@ -29,39 +29,39 @@ class LoadingScene
         isLoad = true;
     }
 
-    void setbackgound()
+    void setBackground()
     {
-        image(loadingbackground, 0, 0, 800, 600);
+        image(loadingBG, 0, 0, 800, 600);
     }
 
     void loadScene()
     {
-        setbackgound();
+        setBackground();
 
         stroke(0, 0, 0);
         noFill();
         strokeWeight(2);
         rect(100, 500, 600, 20);
 
-        if(fillx <= 600)
+        if(fillX <= 600)
         {
             noStroke();
             fill(255, 255, 255);
-            rect(101, 501, fillx-1, filly-1);
+            rect(101, 501, fillX-1, fillY-1);
 
-            loadnumber(fillx);
+            loadNumber(fillX);
         }
         else
         {
             noStroke();
             fill(255, 255, 255);
-            rect(101, 501, 600-1, filly-1);
+            rect(101, 501, 600-1, fillY-1);
 
-            loadnumber(600);
+            loadNumber(600);
         }
     }
 
-    void loadnumber(int fillx)
+    void loadNumber(int fillX)
     {
         textSize(30);
 
@@ -73,15 +73,15 @@ class LoadingScene
         if(ldRate > rtJudge)
           ldRate = 1;
 
-        printcommon(ldRate);
+        printCommon(ldRate);
 
-        fillx = fillx / 6;
+        fillX = fillX / 6;
 
         textAlign(CENTER);
-        text(str(fillx) + "%", 285, 491);
+        text(str(fillX) + "%", 285, 491);
     }
 
-    void printcommon(int ldRate)
+    void printCommon(int ldRate)
     {
         if(ldRate % (rtJudge/10) == 0)
         {
@@ -111,27 +111,14 @@ class LoadingScene
         }
     }
 
-    void addfillx()
+    void addFillX()
     {
-        if(fillx == 190)
+        if(fillX == 190)
             choosCase++;
 
         if(choosCase == loadingCase[0])
-            fillx += 10;
+            fillX += 10;
         else if(choosCase == loadingCase[1])
-            fillx += 20;
+            fillX += 20;
     }
 }
-
-// void setup()
-// {
-//     size(800, 600);
-//     loading = new LoadingScene();
-//     loading.setbackgound();
-// }
-
-// void draw()
-// {
-//     loading.loadScene();
-//     loading.addfillx();
-// }

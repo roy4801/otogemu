@@ -1,7 +1,7 @@
-import processing.sound.*;
 import java.io.FilenameFilter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import ddf.minim.*;
 
 static PApplet application = null;
 
@@ -16,6 +16,7 @@ static final int GLOBAL_PAUSE = 6;
 
 // Constants
 static final int fps = 120;
+//
 static String proj_path = "";
 static String serial_port = "";
 static boolean serial_valid = false;
@@ -24,6 +25,7 @@ void setInfo()
 {
     if(OsUtils.isWindows())
     {
+        // proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
         proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
         serial_port = "COM5";
     }
@@ -48,13 +50,23 @@ void setInfo()
     }
 }
 
-////////////////////////////
-/// Global variables
+
+/// Global objects
 KeyHandler keyHandler;
 LoadingScene loading;
+Selection selection;
+GetbgmName getBgmName;
 Scene scene;
 Game game;
-
+//////////////////// for select songs
+String [] songName;
+int textMidIdx = 3;
+boolean addFlag = false;
+boolean minFlag = false;
+int topStatus;
+int bottomStatus;
+int SONGRANGE;
+////////////////////
 int globalState = GLOBAL_LOADING;
 
 ////////////////////////////////////////
@@ -68,7 +80,7 @@ void test()
 void setup()
 {
     application = this;
-    size(800, 600);
+    size(800, 600, P3D);
     noStroke();
     smooth();
     frameRate(fps);
@@ -85,6 +97,14 @@ void setup()
     loading = new LoadingScene();
     scene = new Scene();
     game = new Game();
+    selection = new Selection();
+    getBgmName = new GetbgmName();
+
+    songName = getBgmName.listFileNames(getBgmName.getPath());
+    SONGRANGE = songName.length;
+    getBgmName.rightShift(songName);
+    selection.setInitPointer();
+    selection.setInitFlag();
 
     loading.loadScene();
 }
@@ -102,7 +122,8 @@ void keyPressed()
     // }
 
     // testing //////////////////////////////////
-
+    // TODO: Move the out (to game?)
+    // A key mus all handled by a keyHandler
     if(key == ESC && globalState == GLOBAL_GAME)
     {
         key = 0;
@@ -115,7 +136,6 @@ void keyPressed()
         tint(255, 255, 255, 255);
         scene.pauseScrene();
     }
-
     else if(key == ESC && globalState != GLOBAL_GAME)
     {
         key = 0;
@@ -144,16 +164,15 @@ void draw()
     {
         case GLOBAL_LOADING:
         {
-            if(loading.fillx == 190)
+            if(loading.fillX == 190)
             {
-
                 loadNoteImage();
                 game.loadResource();
                 scene.loadResource();
             }
             loading.loadScene();
-            loading.addfillx();
-            if(loading.fillx == 710)
+            loading.addFillX();
+            if(loading.fillX == 710)
             {
                 scene.initmenu();
                 globalState = GLOBAL_MENU;
@@ -163,6 +182,7 @@ void draw()
 
         case GLOBAL_MENU:
         {
+            scene.initmenu();
             int click_type = -1;
             if(mousePressed && mouseButton == LEFT)
                 click_type = scene.click();
@@ -177,12 +197,17 @@ void draw()
                 case CLICK_START:
                     if(scene.clickStart)
                     {
-                        scene.initgamebackground();
+                        //scene.initgamebackground();
                         //scene.initscoreboard();
                         // scene.isStart = true;
-                        globalState = GLOBAL_GAME;
+                        //selection.initPointer();
+                        println("textMidIdx: " + textMidIdx);
+                        println("Left: " + selection.getLeft());
+                        println("Right: " + selection.getRight());
+                        globalState = GLOBAL_SELECT_SONG;
+                        global_wheel = WHEELSTOP;
                         //game.loadBGM();
-                        game.start();
+                        //game.start();
                     }
                 break;
 
@@ -193,21 +218,59 @@ void draw()
             }
         }
         break;
+        // selection Song
+        case GLOBAL_SELECT_SONG:
+        {
+            //setup
+            if(selection.getInitFlag())
+            {
+                selection.backgroundColor();
+                selection.init(selection.getLeft(), selection.getRight());
+                selection.resetInitFlag();
+            }
+            //
+            //draw
+            else
+            {
+                if(global_wheel != CHOOSE)
+                {
+                    selection.backgroundColor();
+                    selection.update();
+
+                    selection.deal();
+                }
+            }
+            if(selection.getLoadFlag())
+            {
+                selection.resetLoadFlag();
+                println(textMidIdx);
+                game.loadFumenResource(songName[textMidIdx]);
+                globalState = GLOBAL_GAME;
+                scene.initgamebackground();
+                game.start();
+                println("textMidIdx: " + textMidIdx + " " + songName[textMidIdx]);
+                println("Left: " + selection.getLeft() + " " + songName[selection.getLeft()]);
+                println("Right: " + selection.getRight() + " " + songName[selection.getRight()]);
+            }
+        }
+        break;
+            //
         // Game playing
         case GLOBAL_GAME:
         {
             // Update
             game.update();
 
-            println("src.draw(): gameState = " + game.gameState);
+            // println("src.draw(): gameState = " + game.gameState);
 
             // Draw
-            //scene.initgamebackground();
+            scene.initgamebackground();
 
             game.draw();
             scene.printscore();
             scene.printcombo(scene.getcombo());
 
+            // println("src.draw(): game.isEnd() = " + (game.isEnd()?"True":"False"));
             if(game.isEnd())
             {
                 globalState = GLOBAL_END;
@@ -261,7 +324,7 @@ void draw()
 
                 case CLICK_BACK:
                     if(scene.clickBack)
-                    {   
+                    {
                         game.stop();
                         game.reloadCurrentFumen();
                         scene.initmenu();

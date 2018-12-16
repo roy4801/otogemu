@@ -409,6 +409,7 @@ class Bars
 
 	void writeString(String str)
 	{
+		textAlign(LEFT);
 		fill(70);
 		if(str != null)
 		{
@@ -465,8 +466,14 @@ class Selection
 	int left;
 	int right;
 
+	int initLeft;
+	int initRight;
+	int initTextMid;
+
 	boolean hasWheelMove;
 	boolean chooseSong;
+	boolean initFlag;
+	boolean loadFlag;
 
 	Selection()
 	{
@@ -474,7 +481,7 @@ class Selection
 		g = 0;
 		b = 0;
 
-		left = 0;
+		left  = 0;
 		right = 7;
 
 		state = 0;
@@ -489,13 +496,41 @@ class Selection
 		bars[6] = new Bars(six[X_PO]         , six[Y_PO]         , six[X_LE]         , six[X_PO]         , SIXTH  , text6[TEXT_SIZE]);
 
 		hasWheelMove = false;
-		chooseSong = false;
-
+		chooseSong   = false;
+		initFlag  	 = false;
+		loadFlag 	 = false; 
 	}
 
 	void backgroundColor()
 	{
 		background(r, g, b);
+	}
+
+	void setInitPointer()
+	{
+		checkBound();
+		initLeft    = left;
+		initRight   = right;
+		initTextMid = textMidIdx;
+	}
+
+	void setInitFlag()
+	{
+		initFlag = true;
+	}
+
+	void resetInitFlag()
+	{
+		initFlag = false;
+	}
+
+	void setLoadFlag()
+	{
+		loadFlag = true;
+	}
+	void resetLoadFlag()
+	{
+		loadFlag = false;
 	}
 
 	void update()
@@ -511,7 +546,7 @@ class Selection
 	{
 		int tmp_l = selection.getLeft();
 
-		if(tmp_l + 1 == RANGE)
+		if(tmp_l + 1 == SONGRANGE)
 		{
 			tmp_l = -1;
 		}
@@ -519,7 +554,7 @@ class Selection
 		int tmp_r = selection.getRight();
 		if(tmp_r - 1 == -1)
 		{
-			tmp_r = RANGE;
+			tmp_r = SONGRANGE;
 		}
 		switch(global_wheel)
 		{	
@@ -575,10 +610,30 @@ class Selection
 
 	void checkBound()
 	{
-		if(right >= RANGE)
+		while(right >= SONGRANGE)
 		{
-			right = right - RANGE;
+			right = right - SONGRANGE;
 		}
+
+		if(SONGRANGE == 1)
+		{
+			textMidIdx = 0;
+		}
+		else if(SONGRANGE == 2)
+		{
+			textMidIdx = 1;
+		}
+		else if(SONGRANGE == 3)
+		{
+			textMidIdx = 2;
+		}
+	}
+
+	void initPointer()
+	{
+		left  = initLeft;
+		right = initRight;
+		textMidIdx = initTextMid;
 	}
 
 	void acTOchoose()
@@ -618,6 +673,16 @@ class Selection
 	{
 		return chooseSong;
 	}
+	
+	boolean  getInitFlag()
+	{
+		return initFlag;
+	}
+
+	boolean getLoadFlag()
+	{
+		return loadFlag;
+	}
 
 	void add()
 	{
@@ -627,15 +692,15 @@ class Selection
 				left++;
 				right++;
 				textMidIdx++;
-				if(left == RANGE)
+				if(left == SONGRANGE)
 				{
 					left = 0;
 				}
-				if(right == RANGE)
+				if(right == SONGRANGE)
 				{
 					right = 0;
 				}
-				if(textMidIdx == RANGE)
+				if(textMidIdx == SONGRANGE)
 				{
 					textMidIdx = 0;
 				}
@@ -646,15 +711,15 @@ class Selection
 				textMidIdx--;
 				if(left == -1)
 				{
-					left = RANGE-1;
+					left = SONGRANGE-1;
 				}
 				if(right == -1)
 				{
-					right = RANGE-1;
+					right = SONGRANGE-1;
 				}
 				if(textMidIdx == -1)
 				{
-					textMidIdx = RANGE-1;
+					textMidIdx = SONGRANGE-1;
 				}
 			break;
 		}
@@ -664,14 +729,13 @@ class Selection
 	{
 		for(int k = ZERO ; k <= SIXTH ; k++)
 		{
-			if(left == RANGE)
+			if(left == SONGRANGE)
 			{
 				left = 0;
 			}
 			bars[k].giveString(songName[left++]);
 		}
 		hasWheelMove = false;
-		checkBound();
 		update();
 		deal();
 	}
@@ -781,7 +845,8 @@ class Selection
 				{
 					if(isChoose())
 					{
-						println("Success To Choose!!!");
+						println("Ready To load " + songName[textMidIdx] + "!!!");
+						setLoadFlag();
 					}
 					else
 					{
@@ -804,58 +869,64 @@ class Selection
 	}
 }
 
-Selection selection;
-GetbgmName getBgmName;
-String [] songName;
-int textMidIdx = 3;
-boolean addFlag = false;
-boolean minFlag = false;
-int topStatus;
-int bottomStatus;
+// Selection selection;
+// GetbgmName getBgmName;
+// String [] songName;
+// int textMidIdx = 3;
+// boolean addFlag = false;
+// boolean minFlag = false;
+// int topStatus;
+// int bottomStatus;
 
-int RANGE;
+// int SONGRANGE;
 
 
 //////////for testing////////////
-void setup()
-{
-	frameRate(120);
-	selection = new Selection();
-	getBgmName = new GetbgmName();
+// void setup()
+// {
+// 	frameRate(120);
+// 	selection = new Selection();
+// 	getBgmName = new GetbgmName();
 
-	songName = getBgmName.listFileNames(getBgmName.getPath());
-	RANGE = songName.length;
-	getBgmName.rightShift(songName);
+// 	songName = getBgmName.listFileNames(getBgmName.getPath());
+// 	SONGRANGE = songName.length;
+// 	getBgmName.rightShift(songName);
 
-	size(800, 600);
-	selection.backgroundColor();
-	selection.init(selection.getLeft(), selection.getRight());
-	selection.print();
-}
+// 	size(800, 600);
+// 	selection.backgroundColor();
+// 	selection.init(selection.getLeft(), selection.getRight());
+// 	selection.print();
+// }
 
 void mouseWheel(MouseEvent event)
 {
-	selection.wheelCheck(event);
+	if(globalState == GLOBAL_SELECT_SONG)
+	{
+		selection.wheelCheck(event);
+	}
 }
 
 void mousePressed()
 {
-	selection.click();
-}
-
-void draw()
-{
-	if(global_wheel != CHOOSE)
+	if(globalState == GLOBAL_SELECT_SONG)
 	{
-		selection.backgroundColor();
-		selection.update();
-
-		selection.deal();
-	}
-	else
-	{
+		selection.click();
 	}
 }
+
+// void draw()
+// {
+// 	if(global_wheel != CHOOSE)
+// 	{
+// 		selection.backgroundColor();
+// 		selection.update();
+
+// 		selection.deal();
+// 	}
+// 	else
+// 	{
+// 	}
+// }
 
 
 

@@ -1,4 +1,3 @@
-import processing.sound.*;
 import java.util.*;
 
 static final int [] trackPos = {100, 0};
@@ -18,7 +17,7 @@ static final int [][] endPoint =
     {trackPos[0] + 118, trackPos[1] + 503}  // KEY_K
 };
 
-static final String [] hitSEList = {"soft-hitclap.wav", "normal-hitclap.wav"};
+static final String [] hitSEList = {"soft-hitclap.wav", "normal-hitclap.mp3"};
 
 static final int POS_X = 0;
 static final int POS_Y = 1;
@@ -43,9 +42,8 @@ class Game
     PImage []btnImg;
 
     // sound effect
-    SoundFile hitSE;
+    ddf.minim.AudioSample hitSE; // TODO(roy4801): fix this
     int hitse_type = 0;
-    // SoundHandler se = new SoundHandler();
 
     // fumen
     FumenParser fumenParser = new FumenParser();
@@ -81,11 +79,16 @@ class Game
         btnImg[KEY_K] = LoadImage("4k_k.png");
 
         // Loading sound effect
-        // hitSE = LoadSoundEffect(hitSEList[hitse_type]);
-        // se.addSoundFile(hitSEList[hitse_type], hitSE);
+        hitSE = LoadSoundEffect(hitSEList[hitse_type]);
 
         // Loading fumen
-        nowFumen = fumenParser.getFumen("bg1");
+        // nowFumen = fumenParser.getFumen("heavenly_moon");
+        // noteList = nowFumen.getNoteList();
+    }
+
+    void loadFumenResource(String str)
+    {
+        nowFumen = fumenParser.getFumen(str);
         noteList = nowFumen.getNoteList();
     }
 
@@ -99,10 +102,10 @@ class Game
     /// main function
     void start()
     {
-        println("Game.start()");
+        // println("Game.start()");
         wait.start();
         gameState = GAME_ENTRY;
-        println("Game.start(): gameState = " + gameState);
+        // println("Game.start(): gameState = " + gameState);
     }
 
     ///////////////test////////////////////////////////
@@ -135,7 +138,7 @@ class Game
                 noteList.get(i).judge();
             }
 
-            println("nowFumen.isMusicEnd() = "+(nowFumen.isMusicEnd() ? "True" : "False"));
+            // println("Game.update(): nowFumen.isMusicEnd() = "+(nowFumen.isMusicEnd() ? "True" : "False"));
             // Possibily bugged out
             if(nowFumen.isMusicEnd())
             {
@@ -146,10 +149,10 @@ class Game
         {
             if(wait.isEnd())
             {
-                println("Game.update(): Game died");
+                // println("Game.update(): wait ended");
                 gameState = GAME_PLAYING;
                 clk.start();
-                println("Game.update(): Start the clk");
+                // println("Game.update(): Start the clk");
             }
         }
     }
@@ -165,10 +168,10 @@ class Game
 
                 // Note
                 for(int i = 0; i < noteList.size(); i++)
-                    noteList.get(i).draw();
+                    noteList.get(i).draw(true);
                 /////
 
-                println("GAME_WAITING");
+                // println("GAME_WAITING");
                 float s = waitSeconds - wait.getPassedSec();
                 final int[] textReg = {trackPos[0] + 80, trackPos[1] + 100};
 
@@ -190,29 +193,29 @@ class Game
                 {
                     rect(endPoint[KEY_D][POS_X], endPoint[KEY_D][POS_Y], pressedBlockW-1, pressedBlockH);
 
-                    // if(!prev[KEY_D])
-                    //     se.play(hitSEList[hitse_type]);
+                    if(!prev[KEY_D])
+                        hitSE.trigger();
                 }
                 if(keyHandler.getKey(KEY_F))
                 {
                     rect(endPoint[KEY_F][POS_X], endPoint[KEY_F][POS_Y], pressedBlockW, pressedBlockH);
 
-                    // if(!prev[KEY_F])
-                    //     se.play(hitSEList[hitse_type]);
+                    if(!prev[KEY_F])
+                        hitSE.trigger();
                 }
                 if(keyHandler.getKey(KEY_J))
                 {
                     rect(endPoint[KEY_J][POS_X], endPoint[KEY_J][POS_Y], pressedBlockW-1, pressedBlockH);
 
-                    // if(!prev[KEY_J])
-                    //     se.play(hitSEList[hitse_type]);
+                    if(!prev[KEY_J])
+                        hitSE.trigger();
                 }
                 if(keyHandler.getKey(KEY_K))
                 {
                     rect(endPoint[KEY_K][POS_X], endPoint[KEY_K][POS_Y], pressedBlockW-1, pressedBlockH);
 
-                    // if(!prev[KEY_K])
-                    //     se.play(hitSEList[hitse_type]);
+                    if(!prev[KEY_K])
+                        hitSE.trigger();
                 }
 
                 // Save now key state to prev for next loop
@@ -221,7 +224,7 @@ class Game
 
                 // Note
                 for(int i = 0; i < noteList.size(); i++)
-                    noteList.get(i).draw();
+                    noteList.get(i).draw(false);
 
 
                 // d f j k buttons overlay
@@ -235,8 +238,6 @@ class Game
             }
             break;
         }
-
-        
     }
     /////////////////////////////////////
     /// Get/Set function

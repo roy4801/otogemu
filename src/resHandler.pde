@@ -1,3 +1,5 @@
+import ddf.minim.*;
+
 static final int RES_IMG   = 0;
 static final int RES_SE    = 1;
 static final int RES_SONG  = 2;
@@ -60,10 +62,12 @@ PImage LoadImage(String file)
 {
 	return loadImage(getPath(RES_IMG, file));
 }
-
-SoundFile LoadSoundEffect(String file)
+// TODO(roy4801): fix this
+ddf.minim.AudioSample LoadSoundEffect(String file)
 {
-	return new SoundFile(this, getPath(RES_SE, file));
+	println("LoadSoundEffect(): file = " + file);
+	println("LoadSoundEffect(): path = " + getPath(RES_SE, file));
+	return minim.loadSample(getPath(RES_SE, file));
 }
 
 File LoadFumenFile(String dir)
@@ -71,7 +75,9 @@ File LoadFumenFile(String dir)
 	return new File(proj_path + getPath(RES_FUMEN, String.format("%s/%s.txt", dir, dir)));
 }
 
-SoundFile LoadFumenSong(String dir)
+AudioPlayer LoadFumenSong(String dir)
 {
-	return new SoundFile(this, getPath(RES_SONG, String.format("%s/%s.mp3", dir, dir)));
+	println("LoadFumenSong(): dir = " + dir);
+	println("LoadFumenSong():     " + getPath(RES_SONG, String.format("%s/%s.mp3", dir, dir)));
+	return minim.loadFile(getPath(RES_SONG, String.format("%s/%s.mp3", dir, dir)));
 }

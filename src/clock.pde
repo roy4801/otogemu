@@ -51,7 +51,7 @@ class CountDownClock
 	{
 		if(clk.getPassed() >= lim)
 		{
-			println(">> End");
+			// println(">> End");
 			return true;
 		}
 		else

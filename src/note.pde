@@ -305,9 +305,10 @@ class Note
         prevKey = keyHandler.getKey(noteCol);
     }
     //
-    void draw()
+    void draw(boolean static_print)
     {
-        if(on)
+        // static_print for GAME_WAITING
+        if(on || static_print)
         {
             // Long bar for NOTE_LONG
             if(noteType == NOTE_LONG)

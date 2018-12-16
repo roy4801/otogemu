@@ -16,18 +16,16 @@ static final int MAX_SCORE = 1000000;
 
 class Scene
 {
-	//
-	//store image
-	PImage backgroundImg; //background image
-	PImage infoImg; // Info image
-	PImage startBnImg; //start button image
-	PImage infoBnImg; //info button image
-	PImage backBnImg; //back button image
-	PImage gamebackgroundImg;// game back ground image
-	PImage infotext;//info text
-	PImage illustration;// example image
-	//
-	//counters
+	// store image
+	PImage backgroundImg;     // Background image
+	PImage infoImg;           // Info image
+	PImage startBnImg;        // Start button image
+	PImage infoBnImg;         // Info button image
+	PImage backBnImg;         // Back button image
+	PImage gamebackgroundImg; // Game back ground image
+	PImage infotext;          // Info text
+	PImage illustration;      // Example image
+	// Counters
 	int nowScore;
 	int combo;
 	int numOfperfect;
@@ -35,7 +33,6 @@ class Scene
 	int numOfgood;
 	int numOfmiss;
 	int highestCombo;
-	//
 	//
 	boolean clickPStart;
 	boolean clickStart;
@@ -52,7 +49,7 @@ class Scene
 	//
 	Scene()
 	{
-		//initial counters
+		// initial counters
 		nowScore     = 0;
 		combo 		 = 0;
 		numOfperfect = 0;
@@ -221,24 +218,24 @@ class Scene
 	}
 	//
 	//counter add
-	void addCombo(){
-
+	void addCombo()
+	{
 		combo++;
 	}
-	void addPerfect(){
-
+	void addPerfect()
+	{
 		numOfperfect++;
 	}
-	void addGreat(){
-
+	void addGreat()
+	{
 		numOfgreat++;
 	}
-	void addGood(){
-
+	void addGood()
+	{
 		numOfgood++;
 	}
-	void addMiss(){
-
+	void addMiss()
+	{
 		numOfmiss++;
 	}
 	//
@@ -277,8 +274,8 @@ class Scene
 	void printscore()
 	{
 		calcScore();
-		fill(255, 255, 230);
-		rect(620, 5, 200, 40);
+		// fill(255, 255, 230);
+		// rect(620, 5, 200, 40);
 		String sprintscore = nf(nowScore, 7);
 		textSize(40);
 		fill(0, 0, 0);
