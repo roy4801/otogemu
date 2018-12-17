@@ -9,7 +9,7 @@ class GetbgmName
 	{
 		if(OsUtils.isWindows())
 			path = sketchPath() + "\\song";
-		else if(OsUtils.isMacos())
+		else
 		{
 			path = sketchPath() + "/song";
 			println("GetbgmName: " + path);
