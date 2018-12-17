@@ -30,7 +30,10 @@ void setInfo()
         serial_port = "COM5";
     }
     else if(OsUtils.isMacos())
+    {
         proj_path = "/Users/roy4801/Desktop/Program/myProj/otogemu/src/";
+        serial_port = "/dev/cu.usbmodem7";
+    }
     else
     {
         proj_path = "/home/roy4801/Desktop/project/otogemu/src/";
@@ -69,6 +72,9 @@ int SONGRANGE;
 ////////////////////
 int globalState = GLOBAL_LOADING;
 
+// TODO(roy4801): This is a hotfix
+boolean hotfix = true;
+
 ////////////////////////////////////////
 // TESTING
 void test()
@@ -101,6 +107,10 @@ void setup()
     getBgmName = new GetbgmName();
 
     songName = getBgmName.listFileNames(getBgmName.getPath());
+    if(songName == null)
+    {
+        println("[ERROR] songName is null");
+    }
     SONGRANGE = songName.length;
     getBgmName.rightShift(songName);
     selection.setInitPointer();
@@ -179,7 +189,6 @@ void draw()
             loading.addFillX();
             if(loading.fillX == 710)
             {
-                scene.initmenu();
                 globalState = GLOBAL_MENU;
             }
         }
@@ -190,6 +199,13 @@ void draw()
             int click_type = -1;
             if(mousePressed && mouseButton == LEFT)
                 click_type = scene.click();
+            // TODO(roy4801): this is a hotfix
+            if(hotfix)
+            {
+                scene.initgamebackground();
+                scene.initmenu();
+                hotfix = false;
+            }
 
             switch(click_type)
             {
