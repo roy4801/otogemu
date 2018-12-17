@@ -33,6 +33,8 @@ class Scene
 	int numOfgood;
 	int numOfmiss;
 	int highestCombo;
+	int lastPress = -1;            // Judgement of sast pressed note
+	String [] lastPress_str = {"Perfect", "Great", "Good", "MISS"};
 	//
 	boolean clickPStart;
 	boolean clickStart;
@@ -118,8 +120,8 @@ class Scene
 		//isLeft 	   = false;
 	}
 
-	void initscoreboard(){
-
+	void initscoreboard()
+	{
 		textSize(40);
 		fill(255, 255, 255);
 		text("0000000", 620, 40);
@@ -225,18 +227,26 @@ class Scene
 	void addPerfect()
 	{
 		numOfperfect++;
+		// TODO(roy4801) temporary
+		lastPress = 0;
 	}
 	void addGreat()
 	{
 		numOfgreat++;
+		// TODO(roy4801) temporary
+		lastPress = 1;
 	}
 	void addGood()
 	{
 		numOfgood++;
+		// TODO(roy4801) temporary
+		lastPress = 2;
 	}
 	void addMiss()
 	{
 		numOfmiss++;
+		// TODO(roy4801) temporary
+		lastPress = 3;
 	}
 	//
 	//get data
@@ -291,6 +301,10 @@ class Scene
 		text(str(combo), 180, 180);
 		if(highestCombo < combo)
 		  highestCombo = combo;
+
+		//TODO(roy4801): temporary. Need to move
+		if(lastPress != -1)
+			text(lastPress_str[lastPress], 180, 250);
 	}
 
 	int click()

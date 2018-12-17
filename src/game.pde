@@ -62,7 +62,8 @@ class Game
     int gameState = GAME_NONE;
 
     // Flags
-    boolean seEnable = false;
+    boolean b_seEnable = false;
+    boolean b_drawJudgingArea = true;
 
     Game()
     {
@@ -83,7 +84,7 @@ class Game
         btnImg[KEY_K] = LoadImage("4k_k.png");
 
         // Loading sound effect
-        if(seEnable)
+        if(b_seEnable)
             hitSE = LoadSoundEffect(hitSEList[hitse_type]);
     }
 
@@ -197,28 +198,28 @@ class Game
                 {
                     rect(endPoint[KEY_D][POS_X], endPoint[KEY_D][POS_Y], pressedBlockW-1, pressedBlockH);
 
-                    if(seEnable && !prev[KEY_D])
+                    if(b_seEnable && !prev[KEY_D])
                         hitSE.trigger();
                 }
                 if(keyHandler.getKey(KEY_F))
                 {
                     rect(endPoint[KEY_F][POS_X], endPoint[KEY_F][POS_Y], pressedBlockW, pressedBlockH);
 
-                    if(seEnable && !prev[KEY_F])
+                    if(b_seEnable && !prev[KEY_F])
                         hitSE.trigger();
                 }
                 if(keyHandler.getKey(KEY_J))
                 {
                     rect(endPoint[KEY_J][POS_X], endPoint[KEY_J][POS_Y], pressedBlockW-1, pressedBlockH);
 
-                    if(seEnable && !prev[KEY_J])
+                    if(b_seEnable && !prev[KEY_J])
                         hitSE.trigger();
                 }
                 if(keyHandler.getKey(KEY_K))
                 {
                     rect(endPoint[KEY_K][POS_X], endPoint[KEY_K][POS_Y], pressedBlockW-1, pressedBlockH);
 
-                    if(seEnable && !prev[KEY_K])
+                    if(b_seEnable && !prev[KEY_K])
                         hitSE.trigger();
                 }
 
@@ -236,6 +237,10 @@ class Game
                 image(btnImg[KEY_F], btnPos[KEY_F][0], btnPos[KEY_F][1]);
                 image(btnImg[KEY_J], btnPos[KEY_J][0], btnPos[KEY_J][1]);
                 image(btnImg[KEY_K], btnPos[KEY_K][0], btnPos[KEY_K][1]);
+
+                // For adjustment use
+                if(b_drawJudgingArea)
+                    game.drawJudgingArea();
 
                 // Start play fumen music
                 nowFumen.playMusic();
@@ -257,8 +262,24 @@ class Game
     /////////////////////////////////////
     void drawJudgingArea()
     {
-        fill(0, 255, 0, 100);
-        rect(endPoint[0][POS_X], endPoint[0][POS_Y], 4*pressedBlockW, perfect[1]);
+        int x = endPoint[0][POS_X], y = endPoint[0][POS_Y];
+        int wid = 4*pressedBlockW + 1;
+        // Perfect
+        fill(0, 255, 0, 128);   // green
+        rect(x, y, wid, perfect[1]);
+        rect(x, y - perfect[1] + 1, wid, perfect[1]);
+
+        // Great
+        int gw = great[1][1] - great[1][0];
+        fill(255, 255, 0, 128); // yellow
+        rect(x, y + perfect[1], wid, gw);
+        rect(x, y - great[1][1] + 1, wid, gw);
+
+        // Good
+        int gdw = good[1][1] - good[1][0];
+        fill(0, 0, 255, 128);   // blue
+        rect(x, y + great[1][1], wid, gdw);
+        rect(x, y - good[1][1] + 1, wid, gdw);
     }
 }
 

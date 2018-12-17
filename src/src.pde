@@ -79,6 +79,11 @@ boolean hotfix = true;
 // TESTING
 void test()
 {
+    // DBG(roy4801): print
+    println("test(): perfect[] = ", perfect[0], perfect[1]);
+    println("test(): great[] = {" + great[0][0], great[0][1] + "}, {" + great[1][0], great[1][1] + "}");
+    println("test(): good[] = {" + good[0][0], good[0][1] + "}, {" + good[1][0], good[1][1] + "}");
+    println("test(): miss[] = {" + miss[0][0], miss[0][1] + "}, {" + miss[1][0], miss[1][1] + "}");
 }
 ////////////////////////////////////////
 
@@ -286,7 +291,6 @@ void draw()
             scene.initgamebackground();
             // draw the game
             game.draw();
-            game.drawJudgingArea();
             // draw the scene
             scene.printscore();
             scene.printcombo(scene.getcombo());

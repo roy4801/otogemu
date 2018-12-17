@@ -1,5 +1,5 @@
 static final float speed = 1.f;
-static final float unit = 300.f; // pixel per sec
+static final float unit = 500.f; // pixel per sec
 static final float moveUnit = unit / (float)fps;
 
 static final float longBarW = 17;
@@ -27,19 +27,27 @@ static final int JUDGE_MISS = 5;
 static final int JUDGE_LONG_START = 0;
 static final int JUDGE_LONG_PRESS = 1;
 
-static final int [] perfect = {-5, 5};
+// Notice: Adjust judgement should only touch diff[]
+// Each value in diff[] means height of each judge category
+static final int [] diff = {9, 7, 7, 5};
+
+// Do not edit the arrays below
+static final int [] perfect = {-diff[0], diff[0]};
 static final int [][] great =
 {
-    {-10, -6},
-    {6, 10}
+    {-(perfect[1]+diff[1]), -(perfect[1]+1)},
+    {(perfect[1]+1), (perfect[1]+diff[1])}
 };
 static final int [][] good =
 {
-    {-15, -11},
-    {11, 15}
+    {-(great[1][1]+diff[2]), -(great[1][1]+1)},
+    {(great[1][1]+1), (great[1][1]+diff[2])}
 };
-
-static final int miss = 16;
+static final int [][] miss =
+{
+    {-(good[1][1] + diff[3]), -(good[1][1]+1)},
+    {(good[1][1]+1), (good[1][1] + diff[3])}
+};
 
 PImage [] noteImg = new PImage[2];
 
@@ -161,8 +169,8 @@ class Note
     boolean judgePress(int nowY)
     {
         boolean pass = false;
-        // Adjust the judge point to bottom of a note
-        int judgeY = nowY - (endPoint[noteCol][POS_Y] + pressedBlockH);
+        // Adjust the judge point to mid of a note
+        int judgeY = endPoint[noteCol][POS_Y] - (nowY + pressedBlockH / 2);
         // the column of the noteCol is pressed
         if(!prevKey && keyHandler.getKey(noteCol))
         {
@@ -183,7 +191,8 @@ class Note
                 scene.addGood();
                 pass = true;
             }
-            else if(judgeY >= miss)
+            else if(judgeY >= miss[0][0] && judgeY <= miss[0][1]
+                || judgeY >= miss[1][0] && judgeY <= miss[1][1])
             {
                 scene.addMiss();
                 scene.resetCombo();
@@ -193,15 +202,13 @@ class Note
 
         if(pass)
             scene.addCombo();
-        else
-            scene.resetCombo();
 
         return pass;
     }
     boolean judgeRelease(int nowY)
     {
         boolean pass = false;
-        int judgeY = nowY - (endPoint[noteCol][POS_Y] + pressedBlockH);
+        int judgeY = endPoint[noteCol][POS_Y] - (nowY + pressedBlockH / 2);
         // the column of the noteCol is pressed
         if(prevKey && !keyHandler.getKey(noteCol))
         {
@@ -210,29 +217,29 @@ class Note
                 scene.addPerfect();
                 pass = true;
             }
-            else if((judgeY >= great[0][0] && judgeY < great[0][1])
-                 || (judgeY > great[1][0] && judgeY <= great[1][1]))
+            else if((judgeY >= great[0][0] && judgeY <= great[0][1])
+                 || (judgeY >= great[1][0] && judgeY <= great[1][1]))
             {
                 scene.addGreat();
                 pass = true;
             }
             else if(judgeY >= good[0][0] && judgeY <= good[0][1]
-                || judgeY >= good[1][1] && judgeY <= good[1][1])
+                 || judgeY >= good[1][1] && judgeY <= good[1][1])
             {
                 scene.addGood();
                 pass = true;
             }
-            else if(judgeY >= miss)
+            else if(judgeY >= miss[0][0] && judgeY <= miss[0][1]
+                 || judgeY >= miss[1][0] && judgeY <= miss[1][1])
             {
                 scene.addMiss();
+                scene.resetCombo();
                 pass = false;
             }
         }
 
         if(pass)
             scene.addCombo();
-        else
-            scene.resetCombo();
 
         return pass;
     }
