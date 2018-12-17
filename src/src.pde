@@ -280,13 +280,14 @@ void draw()
         {
             // Update
             game.update();
-
             // println("src.draw(): gameState = " + game.gameState);
 
             // Draw
             scene.initgamebackground();
-
+            // draw the game
             game.draw();
+            game.drawJudgingArea();
+            // draw the scene
             scene.printscore();
             scene.printcombo(scene.getcombo());
 

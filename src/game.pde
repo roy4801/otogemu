@@ -109,7 +109,6 @@ class Game
         // println("Game.start(): gameState = " + gameState);
     }
 
-    ///////////////test////////////////////////////////
     void stop()
     {
         nowFumen.stop();
@@ -129,7 +128,6 @@ class Game
         clk.resume();
         gameState = GAME_PLAYING;
     }
-    ///////////////test////////////////////////////////
 
     // Need to refactoring
     void update()
@@ -256,4 +254,24 @@ class Game
     {
         return nowFumen.getNoteListSize();
     }
+    /////////////////////////////////////
+    void drawJudgingArea()
+    {
+        fill(0, 255, 0, 100);
+        rect(endPoint[0][POS_X], endPoint[0][POS_Y], 4*pressedBlockW, perfect[1]);
+    }
 }
+
+// static final int [] perfect = {-5, 5};
+// static final int [][] great =
+// {
+//     {-10, -6},
+//     {6, 10}
+// };
+// static final int [][] good =
+// {
+//     {-15, -11},
+//     {11, 15}
+// };
+
+// static final int miss = 16;

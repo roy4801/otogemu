@@ -1,5 +1,5 @@
 static final float speed = 1.f;
-static final float unit = 400.f; // pixel per sec
+static final float unit = 300.f; // pixel per sec
 static final float moveUnit = unit / (float)fps;
 
 static final float longBarW = 17;
@@ -27,31 +27,25 @@ static final int JUDGE_MISS = 5;
 static final int JUDGE_LONG_START = 0;
 static final int JUDGE_LONG_PRESS = 1;
 
-static final int [] perfect = {-13, 13};//4, 9
+static final int [] perfect = {-5, 5};
 static final int [][] great =
 {
-    {-26, -13},//-1, 3
-    {13, 22}//10, 13
+    {-10, -6},
+    {6, 10}
 };
 static final int [][] good =
 {
-    {-39, -26},//-4, -1
-    {22, 29},//14, 17
+    {-15, -11},
+    {11, 15}
 };
 
-static final int [][] miss =
-{
-    {-45, -39},
-    {29, 31}
-};
+static final int miss = 16;
 
 PImage [] noteImg = new PImage[2];
 
 void loadNoteImage()
 {
-    // noteImg[NOTE_APP_WHITE] = new PImage();
     noteImg[NOTE_APP_WHITE] = LoadImage("note_white.png");
-    // noteImg[NOTE_APP_RED] = new PImage();
     noteImg[NOTE_APP_RED] = LoadImage("note_red.png");
 }
 
@@ -167,7 +161,8 @@ class Note
     boolean judgePress(int nowY)
     {
         boolean pass = false;
-        int judgeY = nowY - (endPoint[noteCol][1] + pressedBlockH);
+        // Adjust the judge point to bottom of a note
+        int judgeY = nowY - (endPoint[noteCol][POS_Y] + pressedBlockH);
         // the column of the noteCol is pressed
         if(!prevKey && keyHandler.getKey(noteCol))
         {
@@ -176,20 +171,19 @@ class Note
                 scene.addPerfect();
                 pass = true;
             }
-            else if((judgeY >= great[0][0] && judgeY < great[0][1])
-                 || (judgeY > great[1][0] && judgeY <= great[1][1]))
+            else if((judgeY >= great[0][0] && judgeY <= great[0][1])
+                 || (judgeY >= great[1][0] && judgeY <= great[1][1]))
             {
                 scene.addGreat();
                 pass = true;
             }
-            else if(judgeY >= good[0][0] && judgeY < good[0][1]
-                || judgeY > good[1][0] && judgeY <= good[1][1])
+            else if(judgeY >= good[0][0] && judgeY <= good[0][1]
+                || judgeY >= good[1][0] && judgeY <= good[1][1])
             {
                 scene.addGood();
                 pass = true;
             }
-            else if(judgeY >= miss[0][0] && judgeY < miss[0][1]
-                || judgeY > miss[1][0] && judgeY <= miss[1][1])
+            else if(judgeY >= miss)
             {
                 scene.addMiss();
                 scene.resetCombo();
@@ -199,13 +193,15 @@ class Note
 
         if(pass)
             scene.addCombo();
+        else
+            scene.resetCombo();
 
         return pass;
     }
     boolean judgeRelease(int nowY)
     {
         boolean pass = false;
-        int judgeY = nowY - (endPoint[noteCol][1] + pressedBlockH);
+        int judgeY = nowY - (endPoint[noteCol][POS_Y] + pressedBlockH);
         // the column of the noteCol is pressed
         if(prevKey && !keyHandler.getKey(noteCol))
         {
@@ -220,23 +216,23 @@ class Note
                 scene.addGreat();
                 pass = true;
             }
-            else if(judgeY >= good[0][0] && judgeY < good[0][1]
-                || judgeY > good[1][1] && judgeY <= good[1][1])
+            else if(judgeY >= good[0][0] && judgeY <= good[0][1]
+                || judgeY >= good[1][1] && judgeY <= good[1][1])
             {
                 scene.addGood();
                 pass = true;
             }
-            else if(judgeY >= miss[0][0] && judgeY < miss[0][1]
-                || judgeY > miss[1][0] && judgeY <= miss[1][1])
+            else if(judgeY >= miss)
             {
                 scene.addMiss();
-                scene.resetCombo();
                 pass = false;
             }
         }
 
         if(pass)
             scene.addCombo();
+        else
+            scene.resetCombo();
 
         return pass;
     }
