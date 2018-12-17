@@ -85,9 +85,11 @@ class Game
         // Loading sound effect
         if(seEnable)
             hitSE = LoadSoundEffect(hitSEList[hitse_type]);
+    }
 
-        // Loading fumen
-        nowFumen = fumenParser.getFumen("heavenly_moon");
+    void loadFumenResource(String str)
+    {
+        nowFumen = fumenParser.getFumen(str);
         noteList = nowFumen.getNoteList();
     }
 

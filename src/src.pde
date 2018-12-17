@@ -26,7 +26,7 @@ void setInfo()
     if(OsUtils.isWindows())
     {
         // proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
-        proj_path = "C:\\Users\\sf643\\Desktop\\otogemu\\src\\";
+        proj_path = "C:\\Users\\lpc05\\Desktop\\otogemu\\src\\";
         serial_port = "COM5";
     }
     else if(OsUtils.isMacos())
@@ -54,9 +54,19 @@ void setInfo()
 /// Global objects
 KeyHandler keyHandler;
 LoadingScene loading;
+Selection selection;
+GetbgmName getBgmName;
 Scene scene;
 Game game;
-
+//////////////////// for select songs
+String [] songName;
+int textMidIdx = 3;
+boolean addFlag = false;
+boolean minFlag = false;
+int topStatus;
+int bottomStatus;
+int SONGRANGE;
+////////////////////
 int globalState = GLOBAL_LOADING;
 
 ////////////////////////////////////////
@@ -87,6 +97,14 @@ void setup()
     loading = new LoadingScene();
     scene = new Scene();
     game = new Game();
+    selection = new Selection();
+    getBgmName = new GetbgmName();
+
+    songName = getBgmName.listFileNames(getBgmName.getPath());
+    SONGRANGE = songName.length;
+    getBgmName.rightShift(songName);
+    selection.setInitPointer();
+    selection.setInitFlag();
 
     loading.loadScene();
 }
@@ -123,6 +141,11 @@ void keyPressed()
         key = 0;
     }
 
+    if(globalState == GLOBAL_SELECT_SONG)
+    {
+        println("AllowTOKEY? " + selection.isAllowTokey());
+        selection.keyClick();
+    }
     // testing //////////////////////////////////
 }
 void keyReleased()
@@ -178,12 +201,17 @@ void draw()
                 case CLICK_START:
                     if(scene.clickStart)
                     {
-                        scene.initgamebackground();
+                        //scene.initgamebackground();
                         //scene.initscoreboard();
                         // scene.isStart = true;
-                        globalState = GLOBAL_GAME;
+                        //selection.initPointer();
+                        println("textMidIdx: " + textMidIdx);
+                        println("Left: " + selection.getLeft());
+                        println("Right: " + selection.getRight());
+                        globalState = GLOBAL_SELECT_SONG;
+                        global_wheel = WHEELSTOP;
                         //game.loadBGM();
-                        game.start();
+                        //game.start();
                     }
                 break;
 
@@ -194,6 +222,43 @@ void draw()
             }
         }
         break;
+        // selection Song
+        case GLOBAL_SELECT_SONG:
+        {
+            //setup
+            if(selection.getInitFlag())
+            {
+                selection.backgroundColor();
+                selection.init(selection.getLeft(), selection.getRight());
+                selection.resetInitFlag();
+            }
+            //
+            //draw
+            else
+            {
+                if(global_wheel != CHOOSE)
+                {
+                    selection.backgroundColor();
+                    selection.update();
+
+                    selection.deal();
+                }
+            }
+            if(selection.getLoadFlag())
+            {
+                selection.resetLoadFlag();
+                println(textMidIdx);
+                game.loadFumenResource(songName[textMidIdx]);
+                globalState = GLOBAL_GAME;
+                scene.initgamebackground();
+                game.start();
+                println("textMidIdx: " + textMidIdx + " " + songName[textMidIdx]);
+                println("Left: " + selection.getLeft() + " " + songName[selection.getLeft()]);
+                println("Right: " + selection.getRight() + " " + songName[selection.getRight()]);
+            }
+        }
+        break;
+            //
         // Game playing
         case GLOBAL_GAME:
         {
