@@ -1,5 +1,5 @@
 static final float speed = 1.f;
-static final float unit = 500.f; // pixel per sec
+static final float unit = 300.f; // pixel per sec
 static final float moveUnit = unit / (float)fps;
 
 static final float longBarW = 17;
@@ -28,10 +28,13 @@ static final int JUDGE_LONG_START = 0;
 static final int JUDGE_LONG_PRESS = 1;
 
 // Notice: Adjust judgement should only touch diff[]
-// Each value in diff[] means height of each judge category
-static final int [] diff = {9, 7, 7, 5};
+// diff[]: Each value in diff[] means height of each judge category
+static final int [] diff = {11, 14, 15, 5};
+// offset: Shift the judgeLine in y axis
+static final int offset = 0;
 
 // Do not edit the arrays below
+static final int judgeLineY = endPoint[0][POS_Y] + offset;
 static final int [] perfect = {-diff[0], diff[0]};
 static final int [][] great =
 {
@@ -48,6 +51,7 @@ static final int [][] miss =
     {-(good[1][1] + diff[3]), -(good[1][1]+1)},
     {(good[1][1]+1), (good[1][1] + diff[3])}
 };
+static final int endLineY = endPoint[0][POS_Y] + miss[1][1] + pressedBlockH;
 
 PImage [] noteImg = new PImage[2];
 
@@ -152,7 +156,7 @@ class Note
 
         // If the y of a note is excess of the judge line of its column
         if(noteType == NOTE_SHORT)
-            if(y > endPoint[noteCol][1] + 2*pressedBlockH)
+            if(y > endPoint[noteCol][1] + 3*pressedBlockH)
             {
                 // on = false;
                 end = true;
@@ -166,127 +170,135 @@ class Note
     }
     //
     // judgement
-    boolean judgePress(int nowY)
+    int judgePress(int nowY)
     {
-        boolean pass = false;
+        int rt = JUDGE_NONE;
         // Adjust the judge point to mid of a note
-        int judgeY = endPoint[noteCol][POS_Y] - (nowY + pressedBlockH / 2);
+        int judgeY = judgeLineY - (nowY + pressedBlockH / 2);
         // the column of the noteCol is pressed
         if(!prevKey && keyHandler.getKey(noteCol))
         {
             if(judgeY >= perfect[0] && judgeY <= perfect[1])
             {
                 scene.addPerfect();
-                pass = true;
+                rt = JUDGE_PERFECT;
             }
             else if((judgeY >= great[0][0] && judgeY <= great[0][1])
                  || (judgeY >= great[1][0] && judgeY <= great[1][1]))
             {
                 scene.addGreat();
-                pass = true;
+                rt = JUDGE_GREAT;
             }
             else if(judgeY >= good[0][0] && judgeY <= good[0][1]
                 || judgeY >= good[1][0] && judgeY <= good[1][1])
             {
                 scene.addGood();
-                pass = true;
+                rt = JUDGE_GOOD;
             }
             else if(judgeY >= miss[0][0] && judgeY <= miss[0][1]
                 || judgeY >= miss[1][0] && judgeY <= miss[1][1])
             {
                 scene.addMiss();
                 scene.resetCombo();
-                pass = false;
+                rt = JUDGE_MISS;
             }
         }
+        // Has benn judged
+        if(rt != JUDGE_NONE)
+        {
+            if(rt != JUDGE_MISS)
+                scene.addCombo();
+            scene.addDistance(judgeY);
+            println("judgePress(): judgeY = " + judgeY);
+        }
 
-        if(pass)
-            scene.addCombo();
-
-        return pass;
+        return rt;
     }
-    boolean judgeRelease(int nowY)
+    int judgeRelease(int nowY)
     {
-        boolean pass = false;
-        int judgeY = endPoint[noteCol][POS_Y] - (nowY + pressedBlockH / 2);
+        int rt = JUDGE_NONE;
+        int judgeY = judgeLineY - (nowY + pressedBlockH / 2);
         // the column of the noteCol is pressed
         if(prevKey && !keyHandler.getKey(noteCol))
         {
             if(judgeY >= perfect[0] && judgeY <= perfect[1])
             {
                 scene.addPerfect();
-                pass = true;
+                rt = JUDGE_PERFECT;
             }
             else if((judgeY >= great[0][0] && judgeY <= great[0][1])
                  || (judgeY >= great[1][0] && judgeY <= great[1][1]))
             {
                 scene.addGreat();
-                pass = true;
+                rt = JUDGE_GREAT;
             }
             else if(judgeY >= good[0][0] && judgeY <= good[0][1]
                  || judgeY >= good[1][1] && judgeY <= good[1][1])
             {
                 scene.addGood();
-                pass = true;
+                rt = JUDGE_GOOD;
             }
             else if(judgeY >= miss[0][0] && judgeY <= miss[0][1]
                  || judgeY >= miss[1][0] && judgeY <= miss[1][1])
             {
                 scene.addMiss();
                 scene.resetCombo();
-                pass = false;
+                rt = JUDGE_MISS;
             }
         }
 
-        if(pass)
-            scene.addCombo();
+        if(rt != JUDGE_NONE)
+        {
+            if(rt != JUDGE_MISS)
+                scene.addCombo();
+            scene.addDistance(judgeY);
+        }
 
-        return pass;
+        return rt;
     }
+
     void judge()
     {
         if(!on)
             return;
 
-        boolean pass = false;
+        int judge = JUDGE_NONE;
 
         if(noteType == NOTE_SHORT)
         {
-            if(judgePress(y))
-            {
-                pass = true;
-            }
+            judge = judgePress(y);
         }
-        else if(noteType == NOTE_LONG)
-        {
-            switch(judgeStat)
-            {
-                case JUDGE_LONG_START:
-                    if(judgePress(y))
-                    {
-                        judgeStat = JUDGE_LONG_PRESS;
-                    }
-                    else
-                    {
-                        pass = false;
-                    }
-                break;
+        // else if(noteType == NOTE_LONG)
+        // {
+        //     switch(judgeStat)
+        //     {
+        //         case JUDGE_LONG_START:
+        //             if(judgePress(y))
+        //             {
+        //                 judgeStat = JUDGE_LONG_PRESS;
+        //             }
+        //             else
+        //             {
+        //                 judge = false;
+        //             }
+        //         break;
 
-                case JUDGE_LONG_PRESS:
-                    if(prevKey)
-                    {
-                        if(judgeRelease((int)(y + pressedBlockH - longBarH)))
-                            pass = true;
-                        else
-                            pass = false;
-                    }
-                    else
-                        pass = true;
-                break;
-            }
-        }
-        // if pass then turn off, however it's not end (touch the end)
-        if(pass)
+        //         case JUDGE_LONG_PRESS:
+        //             if(prevKey)
+        //             {
+        //                 if(judgeRelease((int)(y + pressedBlockH - longBarH)))
+        //                     judge = true;
+        //                 else
+        //                     judge = false;
+        //             }
+        //             else
+        //                 judge = true;
+        //         break;
+        //     }
+        // }
+
+        // if judge then turn off, however it's not end (touch the end)
+        if(judge != JUDGE_NONE)
         {
             on = false;
             end = true;

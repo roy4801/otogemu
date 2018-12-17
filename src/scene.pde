@@ -25,6 +25,7 @@ class Scene
 	PImage gamebackgroundImg; // Game back ground image
 	PImage infotext;          // Info text
 	PImage illustration;      // Example image
+	////
 	// Counters
 	int nowScore;
 	int combo;
@@ -33,8 +34,12 @@ class Scene
 	int numOfgood;
 	int numOfmiss;
 	int highestCombo;
+	// last pressed msg
 	int lastPress = -1;            // Judgement of sast pressed note
 	String [] lastPress_str = {"Perfect", "Great", "Good", "MISS"};
+	//
+	// TODO(roy4801): implement
+	ArrayList<Integer> distance = new ArrayList<Integer>();
 	//
 	boolean clickPStart;
 	boolean clickStart;
@@ -68,6 +73,7 @@ class Scene
 		// isEnd 	   = false;
 		// menu 	   = true;
 		// isLeft 	   = true;
+		//
 	}
 	void loadResource()
 	{
@@ -273,6 +279,11 @@ class Scene
 	int getnumOfmiss()
 	{
 		return numOfmiss;
+	}
+	// set
+	void addDistance(int dis)
+	{
+		distance.add(dis);
 	}
 	//
 	//reset counter

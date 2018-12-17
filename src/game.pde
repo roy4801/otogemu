@@ -222,7 +222,6 @@ class Game
                     if(b_seEnable && !prev[KEY_K])
                         hitSE.trigger();
                 }
-
                 // Save now key state to prev for next loop
                 for(int i = 0; i < TotalKeys; i++)
                     prev[i] = keyHandler.getKey(i);
@@ -231,12 +230,14 @@ class Game
                 for(int i = 0; i < noteList.size(); i++)
                     noteList.get(i).draw(false);
 
-
                 // d f j k buttons overlay
-                image(btnImg[KEY_D], btnPos[KEY_D][0], btnPos[KEY_D][1]);
-                image(btnImg[KEY_F], btnPos[KEY_F][0], btnPos[KEY_F][1]);
-                image(btnImg[KEY_J], btnPos[KEY_J][0], btnPos[KEY_J][1]);
-                image(btnImg[KEY_K], btnPos[KEY_K][0], btnPos[KEY_K][1]);
+                if(!b_drawJudgingArea)
+                {
+                    image(btnImg[KEY_D], btnPos[KEY_D][0], btnPos[KEY_D][1]);
+                    image(btnImg[KEY_F], btnPos[KEY_F][0], btnPos[KEY_F][1]);
+                    image(btnImg[KEY_J], btnPos[KEY_J][0], btnPos[KEY_J][1]);
+                    image(btnImg[KEY_K], btnPos[KEY_K][0], btnPos[KEY_K][1]);
+                }
 
                 // For adjustment use
                 if(b_drawJudgingArea)
@@ -262,24 +263,36 @@ class Game
     /////////////////////////////////////
     void drawJudgingArea()
     {
-        int x = endPoint[0][POS_X], y = endPoint[0][POS_Y];
+        int x = endPoint[0][POS_X], y = judgeLineY;
         int wid = 4*pressedBlockW + 1;
+        int fade = 150;
+
         // Perfect
-        fill(0, 255, 0, 128);   // green
+        fill(0, 255, 0, fade);   // green
         rect(x, y, wid, perfect[1]);
         rect(x, y - perfect[1] + 1, wid, perfect[1]);
 
         // Great
         int gw = great[1][1] - great[1][0];
-        fill(255, 255, 0, 128); // yellow
+        fill(255, 255, 0, fade); // yellow
         rect(x, y + perfect[1], wid, gw);
         rect(x, y - great[1][1] + 1, wid, gw);
 
         // Good
         int gdw = good[1][1] - good[1][0];
-        fill(0, 0, 255, 128);   // blue
+        fill(0, 0, 255, fade);   // blue
         rect(x, y + great[1][1], wid, gdw);
         rect(x, y - good[1][1] + 1, wid, gdw);
+
+        // Miss
+        int msw = miss[1][1] - miss[1][0];
+        fill(255, 255, 255, fade); // white
+        rect(x, y + good[1][1], wid, msw);
+        rect(x, y - miss[1][1] + 1, wid, msw);
+
+        // Centural
+        fill(255, 0, 0);
+        rect(x, y - 1 , wid, 3);
     }
 }
 
