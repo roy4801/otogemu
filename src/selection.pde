@@ -17,7 +17,7 @@ static final int SIXTH   = 6;
 
 static final int NOW_CHOOSE =   0;
 static final int X_LENGTH   = 650;
-static final int MOVE       =   1;
+static final int MOVE       =  12;
 static final int BARSCORNER =  10;
 
 static final float [] seven       = {480, -60, X_LENGTH, 60, ZERO};
@@ -37,13 +37,13 @@ static final float [] nextTonow     = {MOVE, map(MOVE, 0, next[X_PO]-now[X_PO], 
 static final float [] afterTonext   = {MOVE, map(MOVE, 0, after_next[X_PO]-next[X_PO], 0, after_next[Y_PO]-next[Y_PO]), 0, map(MOVE, 0, after_next[X_PO]-next[X_PO], 0, next[Y_LE]-after_next[Y_LE])};
 static final float [] sixToafter    = {MOVE, map(MOVE, 0, six[X_PO]-after_next[X_PO], 0, six[Y_PO]-after_next[Y_PO]), 0, map(MOVE, 0, six[X_PO]-after_next[X_PO], 0, after_next[Y_LE]-six[Y_LE])};
 
-static final float [] text0 	 = {seven[X_PO]+20       , (2*seven[Y_PO] + seven[Y_LE])/2             , 35};
-static final float [] text1 	 = {before_last[X_PO]+20 , (2*before_last[Y_PO] + before_last[Y_LE])/2 , 40};
-static final float [] text2 	 = {last[X_PO]+20        , (2*last[Y_PO] + last[Y_LE])/2               , 50};
-static final float [] text3 	 = {now[X_PO]+20         , (2*now[Y_PO] + now[Y_LE])/2                 , 65};
-static final float [] text4 	 = {next[X_PO]+20        , (2*next[Y_PO] + next[Y_LE])/2               , 50};
-static final float [] text5  	 = {after_next[X_PO]+20  , (2*after_next[Y_PO] + after_next[Y_LE])/2   , 40};
-static final float [] text6  	 = {six[X_PO]+20         , (2*six[Y_PO] + six[Y_LE])/2                 , 35};
+static final float [] text0 	 = {seven[X_PO]+20       , (2*seven[Y_PO] + seven[Y_LE])/2             , 20};
+static final float [] text1 	 = {before_last[X_PO]+20 , (2*before_last[Y_PO] + before_last[Y_LE])/2 , 35};
+static final float [] text2 	 = {last[X_PO]+20        , (2*last[Y_PO] + last[Y_LE])/2               , 40};
+static final float [] text3 	 = {now[X_PO]+20         , (2*now[Y_PO] + now[Y_LE])/2                 , 50};
+static final float [] text4 	 = {next[X_PO]+20        , (2*next[Y_PO] + next[Y_LE])/2               , 40};
+static final float [] text5  	 = {after_next[X_PO]+20  , (2*after_next[Y_PO] + after_next[Y_LE])/2   , 35};
+static final float [] text6  	 = {six[X_PO]+20         , (2*six[Y_PO] + six[Y_LE])/2                 , 20};
 
 static final float [] chooseText = {chooseBar[X_PO]+20   , (2*chooseBar[Y_PO] + chooseBar[Y_LE])/2     , 70};
 
@@ -507,13 +507,12 @@ class Selection
 		initFlag  	 = false;
 		loadFlag 	 = false; 
 		allowTokey   = true;
-
-		bgmPicture   = LoadUI("gameBackGround_resize.jpg");
 	}
 
 	void backgroundColor()
 	{
-
+		String tmp = proj_path + "song\\" + songName[textMidIdx] + "\\" + songName[textMidIdx] + ".jpg";
+		bgmPicture = loadImage(tmp);
 		image(bgmPicture, 0, 0, 800, 600);
 	}
 
