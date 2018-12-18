@@ -18,6 +18,7 @@ static final int SIXTH   = 6;
 static final int NOW_CHOOSE =   0;
 static final int X_LENGTH   = 650;
 static final int MOVE       =   1;
+static final int BARSCORNER =  10;
 
 static final float [] seven       = {480, -60, X_LENGTH, 60, ZERO};
 static final float [] before_last = {420, 40, X_LENGTH, 70, FIRST};
@@ -406,7 +407,7 @@ class Bars
 	void draw()
 	{
 		fill(255);
-		rect(x_p, y_p, x_l, y_l);
+		rect(x_p, y_p, x_l, y_l, BARSCORNER);
 		writeString(str);
 	}
 
@@ -479,6 +480,8 @@ class Selection
 	boolean loadFlag;
 	boolean allowTokey;
 
+	PImage bgmPicture;
+
 	Selection()
 	{
 		r = 0;
@@ -504,11 +507,14 @@ class Selection
 		initFlag  	 = false;
 		loadFlag 	 = false; 
 		allowTokey   = true;
+
+		bgmPicture   = LoadUI("gameBackGround_resize.jpg");
 	}
 
 	void backgroundColor()
 	{
-		background(r, g, b);
+
+		image(bgmPicture, 0, 0, 800, 600);
 	}
 
 	void setInitPointer()
@@ -862,7 +868,7 @@ class Selection
 				if(global_wheel == WHEELSTOP)
 				{
 					fill(255);
-					rect(chooseBar[X_PO], chooseBar[Y_PO], chooseBar[X_LE], chooseBar[Y_LE]);
+					rect(chooseBar[X_PO], chooseBar[Y_PO], chooseBar[X_LE], chooseBar[Y_LE], BARSCORNER);
 					fill(30);
 					textSize(chooseText[TEXT_SIZE]);
 					text(songName[textMidIdx], chooseText[X_PO], chooseText[Y_PO]);
@@ -934,7 +940,7 @@ class Selection
 				if(mouseX >= now[X_PO] && mouseX <= 800 && mouseY >= now[Y_PO] && mouseY <= (now[Y_PO] + now[Y_LE]))
 				{
 					fill(255);
-					rect(chooseBar[X_PO], chooseBar[Y_PO], chooseBar[X_LE], chooseBar[Y_LE]);
+					rect(chooseBar[X_PO], chooseBar[Y_PO], chooseBar[X_LE], chooseBar[Y_LE], BARSCORNER);
 					fill(30);
 					textSize(chooseText[TEXT_SIZE]);
 					text(songName[textMidIdx], chooseText[X_PO], chooseText[Y_PO]);

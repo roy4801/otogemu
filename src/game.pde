@@ -26,7 +26,7 @@ static final int pressedBlockW = 37;
 static final int pressedBlockH = 13;
 
 // For GAME_WAITING
-static final float waitSeconds = 0.0f;
+static final float waitSeconds = 3.0f;
 
 static final int GAME_NONE    = 0;
 static final int GAME_PLAYING = 1;
