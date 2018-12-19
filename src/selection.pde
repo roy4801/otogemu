@@ -111,7 +111,7 @@ class Bars
 	void update(int status, int idx)
 	{
 		switch(wheelStatus)
-		{	
+		{
 			case UPWARDS:
 				switch(status)
 				{
@@ -229,7 +229,7 @@ class Bars
 				{
 					case ZERO:
 					break;
-					case FIRST:	
+					case FIRST:
 						x_p += beforeToseven[X_PO];
 						y_p -= beforeToseven[Y_PO];
 						y_l -= beforeToseven[Y_LE];
@@ -437,7 +437,7 @@ class Bars
 	}
 
 	int getinitStatus()
-	{	
+	{
 		if(allowTogetinitStatus)
 		{
 			allowTogetinitStatus = false;
@@ -445,7 +445,7 @@ class Bars
 		}
 		else
 		{
-			return -1;		
+			return -1;
 		}
 	}
 
@@ -505,14 +505,19 @@ class Selection
 		hasWheelMove = false;
 		chooseSong   = false;
 		initFlag  	 = false;
-		loadFlag 	 = false; 
+		loadFlag 	 = false;
 		allowTokey   = true;
 	}
 
 	void backgroundColor()
 	{
-		String tmp = proj_path + "song\\" + songName[textMidIdx] + "\\" + songName[textMidIdx] + ".jpg";
+		String tmp;
+		if(OsUtils.isWindows())
+			tmp = proj_path + "song\\" + songName[textMidIdx] + "\\" + songName[textMidIdx] + ".jpg";
+		else
+			tmp = proj_path + "song/" + songName[textMidIdx] + "/" + songName[textMidIdx] + ".jpg";
 		bgmPicture = loadImage(tmp);
+		println("backgroundColor(): " + tmp);
 		image(bgmPicture, 0, 0, 800, 600);
 	}
 
@@ -556,7 +561,7 @@ class Selection
 	void update()
 	{
 		for(int k = ZERO ; k <= SIXTH ; k++)
-		{	
+		{
 			bars[k].update(bars[k].getStatus(), k);
 			bars[k].draw();
 		}
@@ -577,7 +582,7 @@ class Selection
 			tmp_r = SONGRANGE;
 		}
 		switch(global_wheel)
-		{	
+		{
 			case DOWNWARDS:
 				for(int k = ZERO ; k <= SIXTH ; k++)
 				{
@@ -794,7 +799,7 @@ class Selection
 	void check()
 	{
 		if(addFlag)
-		{	
+		{
 			addFlag = false;
 			add();
 		}
@@ -976,7 +981,7 @@ class Selection
 		else
 		{
 			println("global_wheel is: " + global_wheel);
-		}	
+		}
 	}
 }
 

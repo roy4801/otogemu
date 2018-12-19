@@ -32,7 +32,7 @@ void setInfo()
     else if(OsUtils.isMacos())
     {
         proj_path = "/Users/roy4801/Desktop/Program/myProj/otogemu/src/";
-        serial_port = "/dev/cu.usbmodem7";
+        serial_port = "/dev/cu.usbmodem9";
     }
     else
     {

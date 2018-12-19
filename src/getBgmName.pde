@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.Date;
+import java.util.*;
 
 class GetbgmName
 {
@@ -27,6 +28,19 @@ class GetbgmName
 		if(file.isDirectory())
 		{
 			String names[] = file.list();
+			if(OsUtils.isMacos())
+			{
+				String deleteMe = ".DS_Store";
+				List<String> result = new ArrayList<String>();
+
+			    for(String item : names)
+			        if(!deleteMe.equals(item))
+			            result.add(item);
+
+			    names = new String[result.size()];
+
+			    result.toArray(names);
+			}
 			return names;
 		}
 		else
