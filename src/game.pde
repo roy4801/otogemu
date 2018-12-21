@@ -273,19 +273,19 @@ class Game
         rect(x, y - perfect[1] + 1, wid, perfect[1]);
 
         // Great
-        int gw = great[1][1] - great[1][0];
+        int gw = great[1][1] - great[1][0]+1;
         fill(255, 255, 0, fade); // yellow
         rect(x, y + perfect[1], wid, gw);
         rect(x, y - great[1][1] + 1, wid, gw);
 
         // Good
-        int gdw = good[1][1] - good[1][0];
+        int gdw = good[1][1] - good[1][0]+1;
         fill(0, 0, 255, fade);   // blue
         rect(x, y + great[1][1], wid, gdw);
         rect(x, y - good[1][1] + 1, wid, gdw);
 
         // Miss
-        int msw = miss[1][1] - miss[1][0];
+        int msw = miss[1][1] - miss[1][0]+1;
         fill(255, 255, 255, fade); // white
         rect(x, y + good[1][1], wid, msw);
         rect(x, y - miss[1][1] + 1, wid, msw);
