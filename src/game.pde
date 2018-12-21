@@ -293,6 +293,10 @@ class Game
         // Centural
         fill(255, 0, 0);
         rect(x, y - 1 , wid, 3);
+
+        // End line
+        fill(255, 0, 0);
+        rect(x, endLineY - 2, wid, 3);
     }
 }
 

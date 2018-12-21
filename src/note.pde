@@ -1,5 +1,5 @@
 static final float speed = 1.f;
-static final float unit = 800.f; // pixel per sec
+static final float unit = 400.f; // pixel per sec
 static final float moveUnit = unit / (float)fps;
 
 static final float longBarW = 17;
@@ -35,6 +35,7 @@ static final int offset = 0;
 
 // Do not edit the arrays below
 static final int judgeLineY = endPoint[0][POS_Y] + offset;
+
 static final int [] perfect = {-diff[0], diff[0]};
 static final int [][] great =
 {
@@ -51,8 +52,8 @@ static final int [][] miss =
     {-(good[1][1] + diff[3]), -(good[1][1]+1)},
     {(good[1][1]+1), (good[1][1] + diff[3])}
 };
-static final int endLineY = endPoint[0][POS_Y] + miss[1][1] + pressedBlockH;
 
+static final int endLineY = endPoint[0][POS_Y] + miss[1][1] + pressedBlockH;
 PImage [] noteImg = new PImage[2];
 
 void loadNoteImage()
@@ -156,7 +157,7 @@ class Note
 
         // If the y of a note is excess of the judge line of its column
         if(noteType == NOTE_SHORT)
-            if(y > endPoint[noteCol][1] + 3*pressedBlockH)
+            if(y > endLineY)
             {
                 // on = false;
                 end = true;
