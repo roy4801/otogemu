@@ -306,6 +306,7 @@ void draw()
         case GLOBAL_END:
         {
             scene.FinishScene();
+            tint(38, 38, 38, 5);
             int click_type = -1;
             if(mousePressed && mouseButton == LEFT)
                 click_type = scene.click();
@@ -317,6 +318,7 @@ void draw()
                     game.reloadCurrentFumen(); // for replay
                     scene.nowScore = 0;
                     globalState = GLOBAL_MENU;
+                    noTint();
                 }
             }
         }

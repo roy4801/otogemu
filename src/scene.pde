@@ -122,13 +122,25 @@ class Scene
 	void initgamebackground()
 	{
 		//frameRate(fps);
+		tint(38, 38, 38, 4);//temp fix
 		image(gamebackgroundImg, 0, 0, 800, 600);
+		noTint();// temp fix
 		//menu 	   = false;
 		clickPStart= false;
 		clickStart = false;
 		clickInfo  = false;
 		clickBack  = false;
 		//isLeft 	   = false;
+	}
+
+	void cleanGameBackGround()
+	{
+		image(backgroundImg, 0, 0, 800, 600);
+		//tint(255, 255, 255, 255);// temp fix
+		clickPStart= false;
+		clickStart = false;
+		clickInfo  = false;
+		clickBack  = false;
 	}
 
 	void initscoreboard()
@@ -187,7 +199,11 @@ class Scene
 	{
 		// frameRate(fps);
 		String sscore = nf(nowScore, 7);
-		initgamebackground();
+		//tint(255, 255, 255, 255);
+		//initgamebackground();
+		//tint(38, 38, 38, 100);
+		cleanGameBackGround();
+		//initgamebackground();
 		textAlign(CENTER);
 		textSize(80);
 		fill(255, 255, 0);
@@ -209,6 +225,7 @@ class Scene
 
 		setbackBn();
 		clickBack = true;
+		tint(255, 255, 255, 255);
 	}
 
 	//for testing "ESC" leave game /////////////////////////////////////////////////
@@ -304,7 +321,7 @@ class Scene
 		// rect(620, 5, 200, 40);
 		String sprintscore = nf(nowScore, 7);
 		textSize(40);
-		fill(0, 0, 0);
+		fill(255, 255, 255);
 		textAlign(LEFT);
 		text(sprintscore, 620, 40);
 	}

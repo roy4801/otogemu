@@ -29,7 +29,7 @@ static final int JUDGE_LONG_PRESS = 1;
 
 // Notice: Adjust judgement should only touch diff[]
 // diff[]: Each value in diff[] means height of each judge category
-static final int [] diff = {11, 14, 15, 5};
+static final int [] diff = {13, 16, 18, 10};// 11 14 15 5
 // offset: Shift the judgeLine in y axis
 static final int offset = 0;
 
@@ -156,7 +156,7 @@ class Note
 
         // If the y of a note is excess of the judge line of its column
         if(noteType == NOTE_SHORT)
-            if(y > endPoint[noteCol][1] + 3*pressedBlockH)
+            if(y > endPoint[noteCol][1] + 3.5*pressedBlockH)// 3
             {
                 // on = false;
                 end = true;
