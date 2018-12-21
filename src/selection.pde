@@ -517,6 +517,7 @@ class Selection
 		else
 			tmp = proj_path + "song/" + songName[textMidIdx] + "/" + songName[textMidIdx] + ".jpg";
 		bgmPicture = loadImage(tmp);
+		scene.getGameBackGroundImg(tmp);
 		println("backgroundColor(): " + tmp);
 		image(bgmPicture, 0, 0, 800, 600);
 	}

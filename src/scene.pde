@@ -78,7 +78,7 @@ class Scene
 	void loadResource()
 	{
 		// Load image
-		gamebackgroundImg   = LoadUI("gameBackGround_resize.jpg");
+		//gamebackgroundImg   = LoadUI("gameBackGround_resize.jpg");
 		backgroundImg 	    = LoadUI("backgroundImg.jpg");
 		startBnImg 		    = LoadUI("start.png");
 		infoBnImg 		    = LoadUI("info.png");
@@ -112,6 +112,11 @@ class Scene
 		numOfgood 	 = 0;
 		numOfmiss 	 = 0;
 		highestCombo = 0;
+	}
+
+	void getGameBackGroundImg(String dir)
+	{
+		gamebackgroundImg = loadImage(dir);
 	}
 
 	void initgamebackground()

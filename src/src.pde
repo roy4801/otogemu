@@ -207,7 +207,7 @@ void draw()
             // TODO(roy4801): this is a hotfix
             if(hotfix)
             {
-                scene.initgamebackground();
+                //scene.initgamebackground();
                 scene.initmenu();
                 hotfix = false;
             }
