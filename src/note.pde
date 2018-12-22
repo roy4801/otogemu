@@ -163,7 +163,7 @@ class Note
                 end = true;
             }
         else if(noteType == NOTE_LONG)
-            if(y + pressedBlockH - longBarH > endPoint[noteCol][1] + pressedBlockH)
+            if(y + pressedBlockH - longBarH > endLineY)
             {
                 // on = false;
                 end = true;
@@ -210,7 +210,8 @@ class Note
             if(rt != JUDGE_MISS)
                 scene.addCombo();
             scene.addDistance(judgeY);
-            println("judgePress(): judgeY = " + judgeY);
+            // DBG(roy4801)
+            // println("judgePress(): judgeY = " + judgeY);
         }
 
         return rt;
@@ -269,34 +270,28 @@ class Note
         {
             judge = judgePress(y);
         }
-        // else if(noteType == NOTE_LONG)
-        // {
-        //     switch(judgeStat)
-        //     {
-        //         case JUDGE_LONG_START:
-        //             if(judgePress(y))
-        //             {
-        //                 judgeStat = JUDGE_LONG_PRESS;
-        //             }
-        //             else
-        //             {
-        //                 judge = false;
-        //             }
-        //         break;
+        else if(noteType == NOTE_LONG)
+        {
+            switch(judgeStat)
+            {
+                case JUDGE_LONG_START:
+                {
+                    judge = judgePress(y);
+                    if(judge != JUDGE_MISS)
+                    {
+                        judgeStat = JUDGE_LONG_PRESS;
+                    }
+                }
+                break;
 
-        //         case JUDGE_LONG_PRESS:
-        //             if(prevKey)
-        //             {
-        //                 if(judgeRelease((int)(y + pressedBlockH - longBarH)))
-        //                     judge = true;
-        //                 else
-        //                     judge = false;
-        //             }
-        //             else
-        //                 judge = true;
-        //         break;
-        //     }
-        // }
+                case JUDGE_LONG_PRESS:
+                    if(prevKey)
+                    {
+                        judge = judgeRelease((int)(y + pressedBlockH - longBarH));
+                    }
+                break;
+            }
+        }
 
         // if judge then turn off, however it's not end (touch the end)
         if(judge != JUDGE_NONE)

@@ -265,7 +265,7 @@ class Game
     {
         int x = endPoint[0][POS_X], y = judgeLineY;
         int wid = 4*pressedBlockW + 1;
-        int fade = 150;
+        int fade = 100;
 
         // Perfect
         fill(0, 255, 0, fade);   // green

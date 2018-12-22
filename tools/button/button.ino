@@ -8,7 +8,7 @@ const int BTN_NUM = sizeof(btnPin)/sizeof(int);
 bool btnState[BTN_NUM];
 bool prevState[BTN_NUM];
 
-#define DBG 1
+#define DBG 0
 
 #define BIT(x) (1<<x)
 bool need_zero = false;

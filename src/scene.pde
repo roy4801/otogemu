@@ -122,7 +122,7 @@ class Scene
 	void initgamebackground()
 	{
 		//frameRate(fps);
-		tint(38, 38, 38, 4);//temp fix
+		// tint(38, 38, 38, 4);//temp fix
 		image(gamebackgroundImg, 0, 0, 800, 600);
 		noTint();// temp fix
 		//menu 	   = false;
