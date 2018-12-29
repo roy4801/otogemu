@@ -512,6 +512,7 @@ class Selection
 	void backgroundColor()
 	{
 		String tmp;
+		// TODO: Refactor
 		if(OsUtils.isWindows())
 			tmp = proj_path + "song\\" + songName[textMidIdx] + "\\" + songName[textMidIdx] + ".jpg";
 		else

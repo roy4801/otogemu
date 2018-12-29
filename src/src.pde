@@ -86,6 +86,7 @@ void test()
     println("test(): good[] = {" + good[0][0], good[0][1] + "}, {" + good[1][0], good[1][1] + "}");
     println("test(): miss[] = {" + miss[0][0], miss[0][1] + "}, {" + miss[1][0], miss[1][1] + "}");
 }
+ColorLayer layer;
 ////////////////////////////////////////
 
 // Init
@@ -102,6 +103,7 @@ void setup()
     ////////////////////////////////////////
     // TESTING
     test();
+    layer = new ColorLayer(BLACK_LAYER, 128);
     ////////////////////////////////////////
 
     //----------------------------------------------
@@ -176,7 +178,9 @@ void draw()
     ////////////////////////////////////////
     // TESTING
     // test();
+    // layer.draw();
     ////////////////////////////////////////
+    background(128);
 
     switch(globalState)
     {
@@ -205,11 +209,11 @@ void draw()
                 click_type = scene.click();
 
             // TODO(roy4801): this is a hotfix
-            if(hotfix)
-            {
+            // if(hotfix)
+            // {
                 scene.initmenu();
-                hotfix = false;
-            }
+            //     hotfix = false;
+            // }
 
             switch(click_type)
             {
@@ -256,13 +260,14 @@ void draw()
             // draw
             else
             {
-                if(global_wheel != CHOOSE)
-                {
+                // BUG(roy4801): When selecting a bar, it will go back to unselected image immediately
+                // if(global_wheel != CHOOSE)
+                // {
                     selection.backgroundColor();
                     selection.update();
 
                     selection.deal();
-                }
+                // }
             }
             if(selection.getLoadFlag())
             {
@@ -278,7 +283,7 @@ void draw()
             }
         }
         break;
-            //
+        //
         // Game playing
         case GLOBAL_GAME:
         {

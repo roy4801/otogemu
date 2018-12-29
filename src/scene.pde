@@ -14,6 +14,113 @@ static final int CLICK_PSTART= 3;
 
 static final int MAX_SCORE = 1000000;
 
+class Layer
+{
+	PImage img = null;
+	float x, y, w, h;
+	// constants
+	static final float default_w = 128.f;
+	static final float default_h = 128.f;
+	// constructors
+	Layer()
+	{
+		w = default_w;
+		h = default_h;
+
+		x = y = 0;
+	}
+	Layer(float x_, float y_, float w_, float h_)
+	{
+		x = x_;
+		y = y_;
+		w = w_;
+		h = h_;
+	}
+	Layer(PImage image, float x_, float y_, float w_, float h_)
+	{
+		img = image;
+		x = x_;
+		y = y_;
+		w = w_;
+		h = h_;
+	}
+	// main
+	void draw()
+	{
+		if(img != null)
+			image(img, x, y);
+		else
+			println("Layer.draw(): img is null");
+	}
+
+	// Init the image of a layer
+	protected void initImage()
+	{
+		img = createImage((int)w, (int)h, ARGB);
+	}
+	// getters/setters
+	void setSize(float w_, float h_)
+	{
+		w = w_;
+		h = h_;
+	}
+	void setPos(float x_, float y_)
+	{
+		x = x_;
+		y = y_;
+	}
+	void setRect(float x_, float y_, float w_, float h_)
+	{
+		setSize(w_, h_);
+		setPos(x_, y_);
+	}
+}
+
+final color BLACK_LAYER = color(0, 0, 0, 255);
+final color WHITE_LAYER = color(255, 255, 255, 255);
+final color RED_LAYER   = color(255, 0, 0, 255);
+final color GREEN_LAYER = color(0, 255, 0, 255);
+final color BLUE_LAYER  = color(0, 0, 255, 255);
+class ColorLayer extends Layer
+{
+	color colour;
+
+	ColorLayer(color type)
+	{
+		colour = type;
+		initImage();
+	}
+	ColorLayer(color type, int alpha)
+	{
+		colour = type;
+		alpha <<= 24;
+		colour &= alpha;
+		initImage();
+	}
+	ColorLayer(int r, int g, int b, int a)
+	{
+		colour = color(r, g, b, a);
+		initImage();
+	}
+
+	// @override
+	protected void initImage()
+	{
+		img = createImage((int)w, (int)h, ARGB);
+		for(int i = 0; i < img.pixels.length; i++)
+		{
+			img.pixels[i] = colour;
+		}
+	}
+
+	void setColor(int r, int g, int b, int a)
+	{
+		colour = color(r, g, b, a);
+		initImage();
+	}
+}
+
+
 class Scene
 {
 	// store image
