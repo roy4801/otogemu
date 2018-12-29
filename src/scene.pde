@@ -35,8 +35,9 @@ class Scene
 	int numOfmiss;
 	int highestCombo;
 	// last pressed msg
-	int lastPress = -1;            // Judgement of sast pressed note
+	int lastPress = -1;              // Judgement of sast pressed note
 	String [] lastPress_str = {"Perfect", "Great", "Good", "MISS"};
+	boolean lastPress_valid = false; // Flag for last judgement msg
 	//
 	// TODO(roy4801): implement
 	ArrayList<Integer> distance = new ArrayList<Integer>();
@@ -119,10 +120,9 @@ class Scene
 		gamebackgroundImg = loadImage(dir);
 	}
 
-	void initgamebackground()
+	// Initialize the game background
+	void initGameBG()
 	{
-		//frameRate(fps);
-		// tint(38, 38, 38, 4);//temp fix
 		image(gamebackgroundImg, 0, 0, 800, 600);
 		noTint();// temp fix
 		//menu 	   = false;
@@ -141,6 +141,13 @@ class Scene
 		clickStart = false;
 		clickInfo  = false;
 		clickBack  = false;
+	}
+	// main
+	void drawScene()
+	{
+		drawScore();
+		drawCombo();
+		drawLastPress();
 	}
 
 	void initscoreboard()
@@ -180,8 +187,8 @@ class Scene
 		//545 <= mouseY <= 600
 	}
 	//
-	//build funtion
-	//build info page
+	// build funtion
+	// build info page
 	void buildInfo()
 	{
 		image(infoImg, 0, 0, 800, 600);
@@ -197,13 +204,10 @@ class Scene
   	//build Finish page
 	void FinishScene()
 	{
-		// frameRate(fps);
 		String sscore = nf(nowScore, 7);
-		//tint(255, 255, 255, 255);
-		//initgamebackground();
-		//tint(38, 38, 38, 100);
+
 		cleanGameBackGround();
-		//initgamebackground();
+
 		textAlign(CENTER);
 		textSize(80);
 		fill(255, 255, 0);
@@ -227,7 +231,6 @@ class Scene
 		clickBack = true;
 		tint(255, 255, 255, 255);
 	}
-
 	//for testing "ESC" leave game /////////////////////////////////////////////////
 
 	void pauseScrene()
@@ -250,6 +253,7 @@ class Scene
 	//counter add
 	void addCombo()
 	{
+		lastPress_valid = true;
 		combo++;
 	}
 	void addPerfect()
@@ -308,13 +312,13 @@ class Scene
 		distance.add(dis);
 	}
 	//
-	//reset counter
+	// reset counter
 	void resetCombo()
 	{
 		combo = 0;
 	}
-	//
-	void printscore()
+	// draw the score on the scr
+	void drawScore()
 	{
 		calcScore();
 		// fill(255, 255, 230);
@@ -325,21 +329,26 @@ class Scene
 		textAlign(LEFT);
 		text(sprintscore, 620, 40);
 	}
-	void printcombo(int combo)
+	// draw the combo on the scr
+	void drawCombo()
 	{
 		textSize(35);
 		fill(255, 255, 255);
 		textAlign(CENTER);
-		//if(combo != 0)
+
 		text(str(combo), 180, 180);
 		if(highestCombo < combo)
 		  highestCombo = combo;
-
-		//TODO(roy4801): temporary. Need to move
-		if(lastPress != -1)
-			text(lastPress_str[lastPress], 180, 250);
 	}
-
+	// draw the lastPress_str[lastPress] on the scr
+	void drawLastPress()
+	{
+		if(lastPress_valid && lastPress != 1)
+		{
+			text(lastPress_str[lastPress], 180, 250);
+		}
+	}
+	//
 	int click()
 	{
 		int click_type = CLICK_NONE;
@@ -371,119 +380,3 @@ class Scene
 		return click_type;
 	}
 }
-
-// void keyPressed(){
-
-//   if(key == ESC){
-
-//     key = 0;
-//   }
-// }
-
-// void setup(){
-
-//   size(800, 600);
-//   tmp = new Scene();
-//   tmp.initmenu();
-// }
-
-// void draw(){
-	
-  //  if(tmp.menu){
-	
-  //     if(mousePressed){
-
-  //       if(mouseX >= 50 && mouseX <= 300 && mouseY >= 100 && mouseY <= 155){
-
-  //           if(tmp.clickInfo)
-  //             tmp.buildInfo();
-  //         }
-  //         else if(mouseX >= 50 && mouseX <= 300 && mouseY >= 280 && mouseY <= 335){
-
-  //           if(tmp.clickStart){
-
-  //             tmp.initgamebackground();
-  //             tmp.initscoreboard();
-  //             tmp.isStart = true;
-  //           }
-  //         }
-  //         else if(mouseX >= 270 && mouseX <= 520 && mouseY >= 545 && mouseY <= 600){
-
-  //           if(tmp.clickBack)
-  //             tmp.initmenu();
-  //         }
-  //     }
-  // }
-
-
-
-
-//   if(tmp.isStart){
-
-//     tmp.initgamebackground();
-
-//     int p = (int)random(0, 100);
-
-//     if(p >= 0 && p < 70){
-	  
-//       s = s + 500;
-//       tmp.addcombo();
-//       tmp.addperfect();
-//     }
-//     else if(p >= 70 && p < 90){
-	  
-//       s = s + 300;
-//       tmp.addcombo();
-//       tmp.addgreat();
-//     }
-//     else if(p >= 90 && p < 99){
-	  
-//       s = s + 150;
-//       tmp.addcombo();
-//       tmp.addgood();
-//     }
-//     else{
-
-//       tmp.resetcombo();
-//       tmp.addMiss();
-//     }
-//     count++;
-
-//     tmp.printscore(s);
-//     tmp.printcombo(tmp.getcombo());
-
-//     tmp.leavegame();
-//     if(tmp.isLeft){
-
-//       tmp.isEnd = false;
-//     }
-
-//     if(count == 100){
-
-//       tmp.isStart = false;
-//       tmp.isEnd = true;
-//       count = 0;
-//     }
-//   }
-
-
-
-//   if(tmp.isEnd){
-
-//     tmp.FinishScene(s);
-//     if(mousePressed && mouseButton == LEFT){
-  
-//       if(mouseX >= 270 && mouseX <= 520 && mouseY >= 545 && mouseY <= 600){
-
-//         if(tmp.clickBack)
-//           tmp.initmenu();
-//       }
-//     }
-//   }
-
-//   if(tmp.isLeft){
-
-//     tmp.initmenu();
-//     count = 0;
-//   }
-// }

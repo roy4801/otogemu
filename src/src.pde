@@ -32,7 +32,7 @@ void setInfo()
     else if(OsUtils.isMacos())
     {
         proj_path = "/Users/roy4801/Desktop/Program/myProj/otogemu/src/";
-        serial_port = "/dev/cu.usbmodem24";
+        serial_port = "/dev/cu.usbmodem1411";
     }
     else
     {
@@ -58,10 +58,11 @@ void setInfo()
 KeyHandler keyHandler;
 LoadingScene loading;
 Selection selection;
-GetbgmName getBgmName;
+GetbgmName getBgmName; // TODO: Need refactor
 Scene scene;
 Game game;
 //////////////////// for select songs
+// TODO: Need refactor
 String [] songName;
 int textMidIdx = 3;
 boolean addFlag = false;
@@ -143,12 +144,9 @@ void keyPressed()
     {
         key = 0;
         globalState = GLOBAL_PAUSE;
-        tint(38, 38, 38, 100);
-        scene.initgamebackground();
-        game.draw();
-        scene.printscore();
-        scene.printcombo(scene.getcombo());
-        tint(255, 255, 255, 255);
+        // scene.initGameBG();
+        // game.draw();
+        // scene.drawScene();
         scene.pauseScrene();
     }
     else if(key == ESC && globalState != GLOBAL_GAME)
@@ -184,6 +182,7 @@ void draw()
     {
         case GLOBAL_LOADING:
         {
+            // For loading the resources
             if(loading.fillX == 190)
             {
                 loadNoteImage();
@@ -204,10 +203,10 @@ void draw()
             int click_type = -1;
             if(mousePressed && mouseButton == LEFT)
                 click_type = scene.click();
+
             // TODO(roy4801): this is a hotfix
             if(hotfix)
             {
-                //scene.initgamebackground();
                 scene.initmenu();
                 hotfix = false;
             }
@@ -246,7 +245,7 @@ void draw()
         // selection Song
         case GLOBAL_SELECT_SONG:
         {
-            //setup
+            // setup
             if(selection.getInitFlag())
             {
                 selection.backgroundColor();
@@ -254,7 +253,7 @@ void draw()
                 selection.resetInitFlag();
             }
             //
-            //draw
+            // draw
             else
             {
                 if(global_wheel != CHOOSE)
@@ -271,7 +270,7 @@ void draw()
                 println(textMidIdx);
                 game.loadFumenResource(songName[textMidIdx]);
                 globalState = GLOBAL_GAME;
-                scene.initgamebackground();
+                scene.initGameBG();
                 game.start();
                 println("textMidIdx: " + textMidIdx + " " + songName[textMidIdx]);
                 println("Left: " + selection.getLeft() + " " + songName[selection.getLeft()]);
@@ -288,12 +287,11 @@ void draw()
             // println("src.draw(): gameState = " + game.gameState);
 
             // Draw
-            scene.initgamebackground();
+            scene.initGameBG();
             // draw the game
             game.draw();
             // draw the scene
-            scene.printscore();
-            scene.printcombo(scene.getcombo());
+            scene.drawScene();
 
             // println("src.draw(): game.isEnd() = " + (game.isEnd()?"True":"False"));
             if(game.isEnd())
@@ -306,7 +304,7 @@ void draw()
         case GLOBAL_END:
         {
             scene.FinishScene();
-            tint(38, 38, 38, 5);
+            // tint(38, 38, 38, 5);
             int click_type = -1;
             if(mousePressed && mouseButton == LEFT)
                 click_type = scene.click();
@@ -338,7 +336,7 @@ void draw()
                     if(scene.clickPStart)
                     {
                         game.resume();
-                        scene.initgamebackground();
+                        scene.initGameBG();
                         globalState = GLOBAL_GAME;
                     }
                 break;

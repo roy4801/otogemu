@@ -63,7 +63,7 @@ class Game
 
     // Flags
     boolean b_seEnable = false;
-    boolean b_drawJudgingArea = true;
+    boolean b_drawJudgingArea = false;
 
     Game()
     {
