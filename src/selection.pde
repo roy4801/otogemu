@@ -669,6 +669,11 @@ class Selection
 		chooseSong = true;
 	}
 
+	void resetAcTOchoose()
+	{
+		chooseSong = false;
+	}
+
 	void draw(int k)
 	{
 		if(k != bottomStatus)
@@ -695,6 +700,11 @@ class Selection
 	int getRight()
 	{
 		return right;
+	}
+
+	boolean isAcToChoose()
+	{
+		return chooseSong;
 	}
 
 	boolean isChoose()
@@ -862,10 +872,12 @@ class Selection
 			resetAllowTokey();
 			if(key == 'd' || key == 'D')
 			{
+				resetAcTOchoose();
 				state += 1;
 			}
 			else if(key == 'f' || key == 'F')
 			{
+				resetAcTOchoose();
 				state -= 1;
 			}
 			else if(key == 'k' || key == 'K')
@@ -873,11 +885,6 @@ class Selection
 				setAllowTokey();
 				if(global_wheel == WHEELSTOP)
 				{
-					fill(255);
-					rect(chooseBar[X_PO], chooseBar[Y_PO], chooseBar[X_LE], chooseBar[Y_LE], BARSCORNER);
-					fill(30);
-					textSize(chooseText[TEXT_SIZE]);
-					text(songName[textMidIdx], chooseText[X_PO], chooseText[Y_PO]);
 					acTOchoose();
 					global_wheel = CHOOSE;
 				}
@@ -937,6 +944,16 @@ class Selection
 		}
 	}
 
+	void selectBar()
+	{
+		fill(255);
+		rect(chooseBar[X_PO], chooseBar[Y_PO], chooseBar[X_LE], chooseBar[Y_LE], BARSCORNER);
+		fill(30);
+		textSize(chooseText[TEXT_SIZE]);
+		text(songName[textMidIdx], chooseText[X_PO], chooseText[Y_PO]);
+		//acTOchoose();
+	}
+
 	void click()
 	{
 		if(global_wheel == WHEELSTOP)
@@ -945,11 +962,6 @@ class Selection
 			{
 				if(mouseX >= now[X_PO] && mouseX <= 800 && mouseY >= now[Y_PO] && mouseY <= (now[Y_PO] + now[Y_LE]))
 				{
-					fill(255);
-					rect(chooseBar[X_PO], chooseBar[Y_PO], chooseBar[X_LE], chooseBar[Y_LE], BARSCORNER);
-					fill(30);
-					textSize(chooseText[TEXT_SIZE]);
-					text(songName[textMidIdx], chooseText[X_PO], chooseText[Y_PO]);
 					acTOchoose();
 					global_wheel = CHOOSE;
 				}

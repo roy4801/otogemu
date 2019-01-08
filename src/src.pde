@@ -267,6 +267,11 @@ void draw()
                     selection.update();
 
                     selection.deal();
+
+                    if(selection.isAcToChoose())
+                    {
+                        selection.selectBar();
+                    }
                 // }
             }
             if(selection.getLoadFlag())
