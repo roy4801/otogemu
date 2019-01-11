@@ -292,6 +292,7 @@ void draw()
             if(selection.getLoadFlag())
             {
                 selection.resetLoadFlag();
+                selection.resetAcTOchoose();
                 println(textMidIdx);
                 game.loadFumenResource(songName[textMidIdx]);
                 globalState = GLOBAL_GAME;
