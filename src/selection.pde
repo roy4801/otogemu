@@ -519,7 +519,7 @@ class Selection
 			tmp = proj_path + "song/" + songName[textMidIdx] + "/" + songName[textMidIdx] + ".jpg";
 		bgmPicture = loadImage(tmp);
 		scene.getGameBackGroundImg(tmp);
-		println("backgroundColor(): " + tmp);
+		//println("backgroundColor(): " + tmp);
 		image(bgmPicture, 0, 0, 800, 600);
 	}
 
@@ -592,8 +592,8 @@ class Selection
 					{
 						bars[k].insertString(songName[right]);
 						bars[topStatus].insertString(songName[tmp_l+1]);
-						println("topStatus " + topStatus + " " + bars[topStatus].getStr());
-						println("bottomStatus " + bottomStatus + " " + bars[bottomStatus].getStr());
+						//println("topStatus " + topStatus + " " + bars[topStatus].getStr());
+						//println("bottomStatus " + bottomStatus + " " + bars[bottomStatus].getStr());
 					}
 				}
 			break;
@@ -606,8 +606,8 @@ class Selection
 
 						bars[bottomStatus].insertString(songName[tmp_r-1]);
 
-						println("topStatus " + topStatus + " " + bars[topStatus].getStr());
-						println("bottomStatus " + bottomStatus + " " + bars[bottomStatus].getStr());
+						//println("topStatus " + topStatus + " " + bars[topStatus].getStr());
+						//println("bottomStatus " + bottomStatus + " " + bars[bottomStatus].getStr());
 					}
 				}
 			break;
@@ -856,8 +856,8 @@ class Selection
 			{
 				changeWheelstate(i, WHEELSTOP);
 			}
-			println("topStatus: " + topStatus + " " + selection.getStr(topStatus));
-			println("bottomStatus: " + bottomStatus + " " + selection.getStr(bottomStatus));
+			//println("topStatus: " + topStatus + " " + selection.getStr(topStatus));
+			//println("bottomStatus: " + bottomStatus + " " + selection.getStr(bottomStatus));
 			print();
 		}
 	}
@@ -935,8 +935,8 @@ class Selection
 					{
 						changeWheelstate(i, WHEELSTOP);
 					}
-					println("topStatus: " + topStatus + " " + selection.getStr(topStatus));
-					println("bottomStatus: " + bottomStatus + " " + selection.getStr(bottomStatus));
+					//println("topStatus: " + topStatus + " " + selection.getStr(topStatus));
+					//println("bottomStatus: " + bottomStatus + " " + selection.getStr(bottomStatus));
 					print();
 					setAllowTokey();
 				}
