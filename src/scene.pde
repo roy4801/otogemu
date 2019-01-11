@@ -14,7 +14,7 @@ static final int CLICK_PSTART= 3;
 
 static final int MAX_SCORE = 1000000;
 
-class Layer
+abstract class Layer
 {
 	PImage img = null;
 	float x, y, w, h;
@@ -48,16 +48,14 @@ class Layer
 	void draw()
 	{
 		if(img != null)
-			image(img, x, y);
+			image(img, x, y, w, h);
 		else
 			println("Layer.draw(): img is null");
 	}
 
 	// Init the image of a layer
-	protected void initImage()
-	{
-		img = createImage((int)w, (int)h, ARGB);
-	}
+	protected abstract void initImage();
+
 	// getters/setters
 	void setSize(float w_, float h_)
 	{
@@ -120,6 +118,46 @@ class ColorLayer extends Layer
 	}
 }
 
+class UILayer
+{
+	ArrayList<Layer> layers = new ArrayList<Layer>();
+    Map<String, Integer> layerIndex = new HashMap<String, Integer>();
+
+    UILayer()
+    {
+    }
+
+    void addLayer(String name, Layer l)
+    {
+    	if(!layerIndex.containsKey(name))
+    	{
+    		layerIndex.put(name, layers.size());
+    		layers.add(l);
+    		println(String.format("UILayer.addLayer(): %s -> %d", name, layerIndex.get(name)));
+    	}
+    	else
+    	{
+    		println(String.format("UILayer.addLayer(): Contains same layer name."));
+    	}
+    }
+
+    void draw(int idx)
+    {
+    	layers.get(idx).draw();
+    }
+
+    void draw(String name)
+    {
+    	// println(String.format("UILayer.draw(): %s -> %d", name, layerIndex.get(name)));
+    	draw(layerIndex.get(name));
+    }
+
+    void drawAllLayer()
+    {
+    	for(int i = 0; i < layers.size(); i++)
+    		draw(i);
+    }
+}
 
 class Scene
 {
@@ -153,14 +191,10 @@ class Scene
 	boolean clickStart;
 	boolean clickInfo;
 	boolean clickBack;
-	// boolean isStart;
-	// boolean isEnd;
-	// boolean menu;
-	// boolean isLeft;
-	//
 	//
 	int [] hit = new int[HIT_TOTAL];
 	//
+	UILayer ui = new UILayer();
 	//
 	Scene()
 	{
@@ -177,11 +211,13 @@ class Scene
 		clickStart = true;
 		clickInfo  = true;
 		clickBack  = false;
-		// isStart	   = false;
-		// isEnd 	   = false;
-		// menu 	   = true;
-		// isLeft 	   = true;
-		//
+
+		// Add score background layer
+		ColorLayer scoreLayer = new ColorLayer(WHITE_LAYER, 128);
+        scoreLayer.setPos(615, 0);
+        scoreLayer.setSize(190, 55);
+
+        ui.addLayer("score", scoreLayer);
 	}
 	void loadResource()
 	{
@@ -204,14 +240,10 @@ class Scene
 		setStBn();
 		setInfoBn();
 
-		//menu 	   = true;
-		//isEnd 	   = false;
-		//isStart    = false;
 		clickPStart= false;
 		clickStart = true;
 		clickInfo  = true;
 		clickBack  = false;
-		//isLeft 	   = true;
 
 		nowScore     = 0;
 		combo 		 = 0;
@@ -243,7 +275,6 @@ class Scene
 	void cleanGameBackGround()
 	{
 		image(backgroundImg, 0, 0, 800, 600);
-		//tint(255, 255, 255, 255);// temp fix
 		clickPStart= false;
 		clickStart = false;
 		clickInfo  = false;
@@ -262,6 +293,8 @@ class Scene
 		textSize(40);
 		fill(255, 255, 255);
 		text("0000000", 620, 40);
+
+		
 	}
 	//
 	//buttom set up
@@ -427,6 +460,9 @@ class Scene
 	// draw the score on the scr
 	void drawScore()
 	{
+		// Draw the score layer
+		ui.draw("score");
+
 		calcScore();
 		// fill(255, 255, 230);
 		// rect(620, 5, 200, 40);

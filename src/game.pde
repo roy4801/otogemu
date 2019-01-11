@@ -41,6 +41,10 @@ class Game
     // imgs
     PImage trackImg;
     PImage []btnImg;
+    
+    // UI layers
+    ArrayList<ColorLayer> layers = new ArrayList<ColorLayer>();
+    Map<String, Integer> layerIndex = new HashMap<String, Integer>();
 
     // sound effect
     ddf.minim.AudioSample hitSE; // TODO(roy4801): fix this
@@ -69,8 +73,10 @@ class Game
     {
         // init
         Arrays.fill(prev, false);
+        // test
+        setupUILayers();
     }
-    //
+    // Loading functions
     void loadResource()
     {
         // Loading resources
@@ -99,6 +105,16 @@ class Game
         nowFumen.resetFumen();
         noteList = nowFumen.getNoteList();
         gameState = GAME_NONE;
+    }
+
+    void setupUILayers()
+    {
+        // Score background layer
+        // layerIndex.put("score", layers.size());
+        
+        // layer.add(scoreLayer);
+        
+        // print(String.format("Game.setupUILayers(): %d\n", layers.size()));
     }
     /////////////////////////////////////
     /// main function
@@ -299,17 +315,3 @@ class Game
         rect(x, endLineY - 2, wid, 3);
     }
 }
-
-// static final int [] perfect = {-5, 5};
-// static final int [][] great =
-// {
-//     {-10, -6},
-//     {6, 10}
-// };
-// static final int [][] good =
-// {
-//     {-15, -11},
-//     {11, 15}
-// };
-
-// static final int miss = 16;

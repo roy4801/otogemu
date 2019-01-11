@@ -86,7 +86,14 @@ void test()
     println("test(): good[] = {" + good[0][0], good[0][1] + "}, {" + good[1][0], good[1][1] + "}");
     println("test(): miss[] = {" + miss[0][0], miss[0][1] + "}, {" + miss[1][0], miss[1][1] + "}");
 }
-ColorLayer layer;
+
+void testBefore()
+{
+
+}
+void testAfter()
+{
+}
 ////////////////////////////////////////
 
 // Init
@@ -103,7 +110,6 @@ void setup()
     ////////////////////////////////////////
     // TESTING
     test();
-    layer = new ColorLayer(BLACK_LAYER, 128);
     ////////////////////////////////////////
 
     //----------------------------------------------
@@ -175,12 +181,11 @@ void serialEvent(Serial p)
 // Draw frames
 void draw()
 {
+    background(128);
     ////////////////////////////////////////
     // TESTING
-    // test();
-    // layer.draw();
+    testBefore();
     ////////////////////////////////////////
-    background(128);
 
     switch(globalState)
     {
@@ -360,4 +365,5 @@ void draw()
         }
         // testing //////////////////////////////////
     }
+    testAfter();
 }
