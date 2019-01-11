@@ -355,15 +355,14 @@ void draw()
         // testing //////////////////////////////////
         case GLOBAL_PAUSE:
         {
-            //println("game.gameState: " + game.gameState);
-            //game.update();
             game.pause();
             scene.initGameBG();
             game.draw();
             scene.drawScene();
             scene.pauseScrene();
-            int click_type = -1;
+            
             // Check if one clicked btns
+            int click_type = -1;
             if(mousePressed && mouseButton == LEFT)
                 click_type = scene.click();
             switch(click_type)

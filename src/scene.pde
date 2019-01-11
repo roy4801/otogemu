@@ -134,6 +134,7 @@ class UILayer
     		layerIndex.put(name, layers.size());
     		layers.add(l);
     		println(String.format("UILayer.addLayer(): %s -> %d", name, layerIndex.get(name)));
+    		println(String.format("UILayer.addLayer(): layer.size() = "+ layers.size()));
     	}
     	else
     	{
@@ -150,12 +151,6 @@ class UILayer
     {
     	// println(String.format("UILayer.draw(): %s -> %d", name, layerIndex.get(name)));
     	draw(layerIndex.get(name));
-    }
-
-    void drawAllLayer()
-    {
-    	for(int i = 0; i < layers.size(); i++)
-    		draw(i);
     }
 }
 
@@ -216,8 +211,11 @@ class Scene
 		ColorLayer scoreLayer = new ColorLayer(WHITE_LAYER, 128);
         scoreLayer.setPos(615, 0);
         scoreLayer.setSize(190, 55);
-
         ui.addLayer("score", scoreLayer);
+
+        ColorLayer wholeSceneLayer = new ColorLayer(BLACK_LAYER, 128);
+        wholeSceneLayer.setRect(0, 0, 800, 600);
+        ui.addLayer("pause", wholeSceneLayer);
 	}
 	void loadResource()
 	{
@@ -288,14 +286,12 @@ class Scene
 		drawLastPress();
 	}
 
-	void initscoreboard()
-	{
-		textSize(40);
-		fill(255, 255, 255);
-		text("0000000", 620, 40);
-
-		
-	}
+	// void initscoreboard()
+	// {
+	// 	textSize(40);
+	// 	fill(255, 255, 255);
+	// 	text("0000000", 620, 40);
+	// }
 	//
 	//buttom set up
 	//set start buttom
@@ -375,6 +371,9 @@ class Scene
 
 	void pauseScrene()
 	{
+		// Draw the pause ui layer
+		ui.draw("pause");
+
 		clickPStart= true;
 		clickBack = true;
 		setbackBn();
