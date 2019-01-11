@@ -13,6 +13,7 @@ static final int GLOBAL_LOADING = 3;
 static final int GLOBAL_SELECT_SONG = 4;
 static final int GLOBAL_SETTING_SCR = 5;
 static final int GLOBAL_PAUSE = 6;
+static final int GLOBAL_INFO  = 7;
 
 // Constants
 static final int fps = 120;
@@ -152,10 +153,7 @@ void keyPressed()
     {
         key = 0;
         globalState = GLOBAL_PAUSE;
-        // scene.initGameBG();
-        // game.draw();
-        // scene.drawScene();
-        scene.pauseScrene();
+        // scene.pauseScrene();
     }
     else if(key == ESC && globalState != GLOBAL_GAME)
     {
@@ -216,7 +214,7 @@ void draw()
             // TODO(roy4801): this is a hotfix
             // if(hotfix)
             // {
-                scene.initmenu();
+            scene.initmenu();
             //     hotfix = false;
             // }
 
@@ -224,33 +222,50 @@ void draw()
             {
                 case CLICK_INFO:
                     if(scene.clickInfo)
-                        scene.buildInfo();
+                        globalState = GLOBAL_INFO;
                 break;
 
                 case CLICK_START:
                     if(scene.clickStart)
                     {
-                        //scene.initgamebackground();
-                        //scene.initscoreboard();
-                        // scene.isStart = true;
-                        //selection.initPointer();
                         println("textMidIdx: " + textMidIdx);
                         println("Left: " + selection.getLeft());
                         println("Right: " + selection.getRight());
                         globalState = GLOBAL_SELECT_SONG;
                         global_wheel = WHEELSTOP;
-                        //game.loadBGM();
-                        //game.start();
                     }
                 break;
 
+                // case CLICK_BACK:
+                //     if(scene.clickBack)
+                //         scene.initmenu();
+                // break;
+            }
+        }
+        break;
+
+        case GLOBAL_INFO:
+        {
+            scene.buildInfo();
+            int click_type = CLICK_NONE;
+            if(mousePressed && mouseButton == LEFT)
+                click_type = scene.click();
+
+            switch(click_type)
+            {
                 case CLICK_BACK:
+                {
                     if(scene.clickBack)
+                    {
                         scene.initmenu();
+                        globalState = GLOBAL_MENU;
+                    }
+                }
                 break;
             }
         }
         break;
+
         // selection Song
         case GLOBAL_SELECT_SONG:
         {
@@ -272,11 +287,17 @@ void draw()
                     selection.update();
 
                     selection.deal();
+
+                    if(selection.isAcToChoose())
+                    {
+                        selection.selectBar();
+                    }
                 // }
             }
             if(selection.getLoadFlag())
             {
                 selection.resetLoadFlag();
+                selection.resetAcTOchoose();
                 println(textMidIdx);
                 game.loadFumenResource(songName[textMidIdx]);
                 globalState = GLOBAL_GAME;
@@ -334,8 +355,14 @@ void draw()
         // testing //////////////////////////////////
         case GLOBAL_PAUSE:
         {
-            int click_type = -1;
+            //println("game.gameState: " + game.gameState);
+            //game.update();
             game.pause();
+            scene.initGameBG();
+            game.draw();
+            scene.drawScene();
+            scene.pauseScrene();
+            int click_type = -1;
             // Check if one clicked btns
             if(mousePressed && mouseButton == LEFT)
                 click_type = scene.click();

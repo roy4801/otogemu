@@ -263,6 +263,22 @@ class Game
                 nowFumen.playMusic();
             }
             break;
+
+            case GAME_PAUSE:
+            {
+                image(trackImg, trackPos[0], trackPos[1], trackImg.width, trackImg.height);
+
+                for(int i = 0; i < noteList.size(); i++)
+                    noteList.get(i).draw(false);
+                if(!b_drawJudgingArea)
+                {
+                    image(btnImg[KEY_D], btnPos[KEY_D][0], btnPos[KEY_D][1]);
+                    image(btnImg[KEY_F], btnPos[KEY_F][0], btnPos[KEY_F][1]);
+                    image(btnImg[KEY_J], btnPos[KEY_J][0], btnPos[KEY_J][1]);
+                    image(btnImg[KEY_K], btnPos[KEY_K][0], btnPos[KEY_K][1]);
+                }
+            }
+            break;
         }
     }
     /////////////////////////////////////

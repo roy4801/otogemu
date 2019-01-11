@@ -519,7 +519,7 @@ class Selection
 			tmp = proj_path + "song/" + songName[textMidIdx] + "/" + songName[textMidIdx] + ".jpg";
 		bgmPicture = loadImage(tmp);
 		scene.getGameBackGroundImg(tmp);
-		println("backgroundColor(): " + tmp);
+		//println("backgroundColor(): " + tmp);
 		image(bgmPicture, 0, 0, 800, 600);
 	}
 
@@ -592,8 +592,8 @@ class Selection
 					{
 						bars[k].insertString(songName[right]);
 						bars[topStatus].insertString(songName[tmp_l+1]);
-						println("topStatus " + topStatus + " " + bars[topStatus].getStr());
-						println("bottomStatus " + bottomStatus + " " + bars[bottomStatus].getStr());
+						//println("topStatus " + topStatus + " " + bars[topStatus].getStr());
+						//println("bottomStatus " + bottomStatus + " " + bars[bottomStatus].getStr());
 					}
 				}
 			break;
@@ -606,8 +606,8 @@ class Selection
 
 						bars[bottomStatus].insertString(songName[tmp_r-1]);
 
-						println("topStatus " + topStatus + " " + bars[topStatus].getStr());
-						println("bottomStatus " + bottomStatus + " " + bars[bottomStatus].getStr());
+						//println("topStatus " + topStatus + " " + bars[topStatus].getStr());
+						//println("bottomStatus " + bottomStatus + " " + bars[bottomStatus].getStr());
 					}
 				}
 			break;
@@ -669,6 +669,11 @@ class Selection
 		chooseSong = true;
 	}
 
+	void resetAcTOchoose()
+	{
+		chooseSong = false;
+	}
+
 	void draw(int k)
 	{
 		if(k != bottomStatus)
@@ -695,6 +700,11 @@ class Selection
 	int getRight()
 	{
 		return right;
+	}
+
+	boolean isAcToChoose()
+	{
+		return chooseSong;
 	}
 
 	boolean isChoose()
@@ -846,8 +856,8 @@ class Selection
 			{
 				changeWheelstate(i, WHEELSTOP);
 			}
-			println("topStatus: " + topStatus + " " + selection.getStr(topStatus));
-			println("bottomStatus: " + bottomStatus + " " + selection.getStr(bottomStatus));
+			//println("topStatus: " + topStatus + " " + selection.getStr(topStatus));
+			//println("bottomStatus: " + bottomStatus + " " + selection.getStr(bottomStatus));
 			print();
 		}
 	}
@@ -862,10 +872,12 @@ class Selection
 			resetAllowTokey();
 			if(key == 'd' || key == 'D')
 			{
+				resetAcTOchoose();
 				state += 1;
 			}
 			else if(key == 'f' || key == 'F')
 			{
+				resetAcTOchoose();
 				state -= 1;
 			}
 			else if(key == 'k' || key == 'K')
@@ -873,11 +885,6 @@ class Selection
 				setAllowTokey();
 				if(global_wheel == WHEELSTOP)
 				{
-					fill(255);
-					rect(chooseBar[X_PO], chooseBar[Y_PO], chooseBar[X_LE], chooseBar[Y_LE], BARSCORNER);
-					fill(30);
-					textSize(chooseText[TEXT_SIZE]);
-					text(songName[textMidIdx], chooseText[X_PO], chooseText[Y_PO]);
 					acTOchoose();
 					global_wheel = CHOOSE;
 				}
@@ -928,13 +935,23 @@ class Selection
 					{
 						changeWheelstate(i, WHEELSTOP);
 					}
-					println("topStatus: " + topStatus + " " + selection.getStr(topStatus));
-					println("bottomStatus: " + bottomStatus + " " + selection.getStr(bottomStatus));
+					//println("topStatus: " + topStatus + " " + selection.getStr(topStatus));
+					//println("bottomStatus: " + bottomStatus + " " + selection.getStr(bottomStatus));
 					print();
 					setAllowTokey();
 				}
 			}
 		}
+	}
+
+	void selectBar()
+	{
+		fill(255);
+		rect(chooseBar[X_PO], chooseBar[Y_PO], chooseBar[X_LE], chooseBar[Y_LE], BARSCORNER);
+		fill(30);
+		textSize(chooseText[TEXT_SIZE]);
+		text(songName[textMidIdx], chooseText[X_PO], chooseText[Y_PO]);
+		//acTOchoose();
 	}
 
 	void click()
@@ -945,11 +962,6 @@ class Selection
 			{
 				if(mouseX >= now[X_PO] && mouseX <= 800 && mouseY >= now[Y_PO] && mouseY <= (now[Y_PO] + now[Y_LE]))
 				{
-					fill(255);
-					rect(chooseBar[X_PO], chooseBar[Y_PO], chooseBar[X_LE], chooseBar[Y_LE], BARSCORNER);
-					fill(30);
-					textSize(chooseText[TEXT_SIZE]);
-					text(songName[textMidIdx], chooseText[X_PO], chooseText[Y_PO]);
 					acTOchoose();
 					global_wheel = CHOOSE;
 				}
